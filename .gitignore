@@ -19,3 +19,4 @@ vendor/
 # data
 /data/*
 !/data/history/
+!/data/db/
