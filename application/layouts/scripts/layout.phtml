@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <?= $this->headMeta(); ?>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <link rel="icon" href="<?= $this->baseUrl() ?>/img/favicon.ico">
+    
+    <?= $this->headTitle(); ?>
+    
+    <!--<link href="<?= $this->baseUrl() ?>/css/bootstrap.css" rel="stylesheet">-->    
+    <?= $this->headLink() ?>
+    <?= $this->headStyle() ?>
+        
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+  </head>
+  <body>
+    <header></header>
+    <div class="container">
+        <div class="row">
+            <?php
+                echo $this->layout()->content;                
+            ?>
+        </div>
+        <hr />
+    </div>    
+    <footer>
+        
+    </footer>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+    <?= $this->headScript() ?>
+  </body>
+</html>

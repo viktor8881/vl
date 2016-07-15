@@ -1,0 +1,17 @@
+<br />
+<p>Расчетный период - <?=$this->pluralDays($this->mess->getDay())?></p>
+<br />
+
+<?php
+    foreach ($this->mess->getCurrencies() as $currency) {
+        echo '<strong>'.$this->escape($currency->getName())
+                . '<span style="color: rgb(191, 0, 0);">'
+                . ' ▼ '
+                . $this->formatPercent($currency->getDiffPercent()).'%'
+                . '</span></strong><br />';
+        echo $currency->getStartDateFormatDMY().'<span style="margin-left:30px;">'.$this->formatMoney($currency->getStartMoneyValue()).'</span><br />';
+        echo $currency->getEndDateFormatDMY().'<span style="margin-left:30px;">'.$this->formatMoney($currency->getEndMoneyValue()).'</span><br />';
+        echo '<span style="color: rgb(5, 132, 11); margin-left:88px;">- '.$this->formatMoney($currency->getDiffMoneyValue(), true).'</span><br />';
+        echo '====================================<br /><br />';
+    }
+?>

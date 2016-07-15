@@ -1,0 +1,21 @@
+<project name="project" basedir="." default="build">
+    <property name="LOGS_DIR" value="data/" override="false" />
+    
+                        
+    <target name="build">
+        <echo msg="setting application.ini" />
+        <loadfile property="PARAMS" srcFile="application/configs/options.dat"/>
+        <copy file="application/configs/application.ini.tpl" tofile="application/configs/application.ini" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="params" value="${PARAMS}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+                
+        <echo>create data dir</echo>
+        <mkdir dir="${LOGS_DIR}" mode="750" />
+        <mkdir dir="${LOGS_DIR}log" mode="770" />
+    </target>
+    
+</project>
