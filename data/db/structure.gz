@@ -1,0 +1,76 @@
+-- phpMyAdmin SQL Dump
+-- version 3.5.8.1
+-- http://www.phpmyadmin.net
+--
+-- Host: mysql77.1gb.ru
+-- Generation Time: Jul 15, 2016 at 04:53 PM
+-- Server version: 5.5.35-rel33.0-log
+-- PHP Version: 5.3.28
+
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT=0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `gb_valuta`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE IF NOT EXISTS `course` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `nominal` decimal(20,6) NOT NULL,
+  `value` decimal(20,6) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4296 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currency`
+--
+
+DROP TABLE IF EXISTS `currency`;
+CREATE TABLE IF NOT EXISTS `currency` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=61 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `metal`
+--
+
+DROP TABLE IF EXISTS `metal`;
+CREATE TABLE IF NOT EXISTS `metal` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` tinyint(1) NOT NULL,
+  `buy` decimal(20,6) NOT NULL,
+  `sell` decimal(20,6) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=317 ;
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
