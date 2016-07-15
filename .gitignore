@@ -15,6 +15,7 @@ vendor/
 # library
 /library/*
 !/library/Core/
+!/library/ZFDebug/
 
 # data
 /data/*
