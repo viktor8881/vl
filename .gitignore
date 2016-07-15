@@ -9,9 +9,11 @@ nbproject/
 *.mo
 
 # Local configs
+application/configs/
 !application/configs/application.ini
 
 # library
+library/
 !library/Core/
 
 # data
