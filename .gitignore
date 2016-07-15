@@ -10,7 +10,7 @@ vendor/
 
 # Local configs
 /application/configs/*
-!/application/configs/application.ini
+!/application/configs/application.ini.tpl
 
 # library
 /library/*
