@@ -1,3 +1,18 @@
+# Composer files
+composer.phar
+vendor/
+
+# IDE
 nbproject/
+
+# Binary gettext files
+*.mo
+
+# Local configs
+!application/configs/application.ini
+
+# library
 !library/Core/
+
+# data
 data/
