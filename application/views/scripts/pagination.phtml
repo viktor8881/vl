@@ -1,0 +1,63 @@
+<?php
+    if($this->pageCount <= 1){
+        return ;
+    }
+
+    
+    $request = Zend_Controller_Front::getInstance()->getRequest();
+    $params = $request->getParams();
+
+    // убираем параметр format - если он есть
+    if (isset($params['format'])) {
+        unset($params['format']);
+        $request->clearParams();
+        $request->setParams($params);
+    }
+
+    echo '<ul class="pagination">';
+    //First page link
+    if (isset($this->previous)) {
+        $paramsPage = array_merge($params, array('page'=>$this->first));
+        echo '<li><a href="'.$this->url($paramsPage, null, true).'" title="'._('Первая страница').'" class="page-number">&lt;&lt;</a></li>';
+    }else{
+        echo '<li class="disabled"><a href="#" title="'._('Первая страница').'">&lt;&lt;</a></li>';
+    }
+
+    //Previous page link 
+    if (isset($this->previous)) {
+        $paramsPage = array_merge($params, array('page'=>$this->previous));
+        echo '<li><a href="'.$this->url($paramsPage, null, true).'" title="'._('Предыдущая страница').'" class="page-number">&lt;</a></li>';
+    }else{
+        echo '<li class="disabled"><a href="#" title="'._('Предыдущая страница').'">&lt;</a></li>';
+    }
+
+    //Numbered page links  
+    foreach ($this->pagesInRange as $page) {
+        if ($page == $this->current){
+            echo '<li class="active"><a href="#">'.$page.'</a></li>';
+        }else{
+            $paramsPage = array_merge($params, array('page'=>$page));
+            echo '<li><a href="'.$this->url($paramsPage, null, true).'" class="page-number">'.$page.'</a></li>';
+        }
+    }
+
+    //Next page link
+    if (isset($this->next)) {
+        $paramsPage = array_merge($params, array('page'=>$this->next));
+        echo '<li><a href="'.$this->url($paramsPage, null, true).'" class="page-number" title="'._('Следующая страница').'">&gt;</a></li>';
+    }else{
+        echo '<li class="disabled"><a href="#" title="'._('Следующая страница').'">&gt;</a></li>';
+    }
+
+    //Last page link
+    if (isset($this->next)) {
+        $paramsPage = array_merge($params, array('page'=>$this->last));
+        echo '<li><a href="'.$this->url($paramsPage, null, true).'" class="page-number" title="'._('Последняя страница').'">&gt;&gt;</a></li>';
+    }else{
+        echo '<li class="disabled"><a href="#" title="'._('Последняя страница').'">&gt;&gt;</a></li>';
+    }
+    echo '</ul>';
+?>
+
+
+

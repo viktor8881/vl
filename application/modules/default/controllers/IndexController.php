@@ -1,21 +1,14 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
+class IndexController extends Core_Controller_Action
 {
 
     const PERIOD = 5;
-    const PERCENT = 10;
+    const PERCENT = 1;
     
     const URL_COURCES = 'http://www.cbr.ru/scripts/XML_daily.asp?date_req=';
     
-    private $_codes = array(
-        'R01235'=>'Доллар США', 
-        'R01239'=>'Евро',        
-        'R01035'=>'Фунт стерлингов',
-        'R01820'=>'Японская иена',
-        'R01775'=>'Швейцарский франк',
-        'R01010'=>'Австралийский доллар',
-        'R01350'=>'Канадский доллар');
+    
     
     public function testAction() {
         die('testAction');
@@ -59,8 +52,11 @@ class IndexController extends Zend_Controller_Action
         $messageDown = new Mail_Model();
         $messageDown->setDay($period)
                 ->setPercent($percent);
-        foreach (Core_Container::getManager('currency')->listCurrencies() as $code=>$nameCurrency) {
-            $rows = Core_Container::getManager('course')->fetchAllByPeriodByCode($dateLater, $dateNow, $code);
+//        foreach ($this->getManager('currency')->listCurrencies() as $code=>$nameCurrency) {
+        foreach ($this->getManager('currency')->fetchAll() as $currency) {
+            $code = $currency->getCode();
+            $nameCurrency = $currency->getName();
+            $rows = $this->getManager('courseCurrency')->fetchAllByPeriodByCode($dateLater, $dateNow, $code);
             if ($rows->count() > 1) {
                 $minCourse = $rows->first();
                 $maxCourse = $rows->last();
@@ -99,22 +95,24 @@ class IndexController extends Zend_Controller_Action
     
 
     public function courseAction() {
-        $listCurrencies = Core_Container::getManager('currency')->listCurrencies();
+//        $listCurrencies = $this->getManager('currency')->listCurrencies();
+        $currencies = $this->getManager('currency')->fetchAll();
         $date = new Core_Date();
-        if (!Core_Container::getManager('course')->getByDate($date)) {
+        if (!$this->getManager('courseCurrency')->getByDate($date)) {
             $xmlstr = file_get_contents(self::URL_COURCES.$date->format('d/m/Y'));
 // 	$xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/cource.xml');
             $movies = new SimpleXMLElement($xmlstr);
             if (false !== strstr($xmlstr, $date->format('d.m.Y'))) {
                 foreach ($movies->Valute as $item) {
                     $code = (string)$item['ID'];
-                    if (array_key_exists($code, $listCurrencies)) {
-                        $course = Core_Container::getManager('course')->createModel();
+//                    if (array_key_exists($code, $listCurrencies)) {
+                    if ($currencies->hasCode($code)) {
+                        $course = $this->getManager('courseCurrency')->createModel();
                         $course->setCode($code)
                                         ->setNominal(str_replace(',','.',(string)$item->Nominal))
                                         ->setValue(str_replace(',','.',(string)$item->Value))
                                         ->setDate($date);
-                        Core_Container::getManager('course')->insert($course);
+                        $this->getManager('courseCurrency')->insert($course);
                         file_put_contents(APPLICATION_PATH.'/../data/log/current'.date('dmYHi').'.log', '');
                     }
                 }
@@ -124,36 +122,34 @@ class IndexController extends Zend_Controller_Action
         die('');
     }
 
-    public function valutaAction() {
-        die('');
-        $xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/valuta.xml');
-        $movies = new SimpleXMLElement($xmlstr);
-        foreach ($movies->Item as $item) {             
-            $currency = Core_Container::getManager('currency')->createModel();
-            $currency->setCode((string)$item['ID'])
-                    ->setName((string)$item->Name);
-//            pr($currency); exit;
-            Core_Container::getManager('currency')->insert($currency);
-        }
-        die('');
-    }
-    
-    public function recordAction()
-    {
-        die('');
-        $xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/test.xml');
-        $movies = new SimpleXMLElement($xmlstr);
-        foreach ($movies->Record as $record) {             
-            $course = Core_Container::getManager('course')->createModel();
-            $course->setCode((string)$record['Id'])
-                    ->setNominal(str_replace(',','.',(string)$record->Nominal))
-                    ->setValue(str_replace(',','.',(string)$record->Value))
-                    ->setDate((string)$record['Date']);
-            Core_Container::getManager('course')->insert($course);
-        }
-        die('');
-    }
-
+//    private function valutaAction() {
+//        die('');
+//        $xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/valuta.xml');
+//        $movies = new SimpleXMLElement($xmlstr);
+//        foreach ($movies->Item as $item) {             
+//            $currency = $this->getManager('currency')->createModel();
+//            $currency->setCode((string)$item['ID'])
+//                    ->setName((string)$item->Name);
+////            pr($currency); exit;
+//            $this->getManager('currency')->insert($currency);
+//        }
+//        die('');
+//    }
+//    
+//    private function recordAction()
+//    {
+//        die('');
+//        $xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/test.xml');
+//        $movies = new SimpleXMLElement($xmlstr);
+//        foreach ($movies->Record as $record) {             
+//            $course = $this->getManager('courseCurrency')->createModel();
+//            $course->setCode((string)$record['Id'])
+//                    ->setNominal(str_replace(',','.',(string)$record->Nominal))
+//                    ->setValue(str_replace(',','.',(string)$record->Value))
+//                    ->setDate((string)$record['Date']);
+//            $this->getManager('courseCurrency')->insert($course);
+//        }
+//        die('');
+//    }
 
 }
-

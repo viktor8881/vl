@@ -12,6 +12,7 @@
 class Core_Date extends DateTime {
 
     const DB = "Y-m-d H:i:s";
+    const DB_DATE = 'Y-m-d';
     const DMY = 'd.m.Y';
     const DMYHI = 'd.m.Y H:i';
 
@@ -174,12 +175,12 @@ class Core_Date extends DateTime {
 
     public function formatDb()
     {
-        return $this->format('Y-m-d H:i:s');
+        return $this->format(self::DB);
     }
     
     public function formatDbDate()
     {
-        return $this->format('Y-m-d');
+        return $this->format(self::DB_DATE);
     }
     
     /**

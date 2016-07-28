@@ -65,7 +65,7 @@ abstract class Core_Domen_Repository_Abstract implements Core_Domen_IRepository 
     public function get($id) {        
         $model=null;
         if (!$this->getCollection()->isExistsKey($id)){
-            $mapperValues = $this->getMapper()->find($id);
+            $mapperValues = $this->getMapper()->get($id);
             if (!$mapperValues){                
                 return null;
             }
@@ -86,7 +86,7 @@ abstract class Core_Domen_Repository_Abstract implements Core_Domen_IRepository 
     }
     
     public function fetchAll(Zend_Paginator $paginator=null, Core_Domen_Order_Collection $orders=null) {        
-        return $this->createCollection( $this->getMapper()->fetchAll(null, $paginator, $orders) );
+        return $this->createCollection( $this->getMapper()->fetchAll($paginator, $orders) );
     }
         
     public function count() {

@@ -21,8 +21,7 @@ abstract class Core_Domen_Manager_Abstract implements Core_Domen_IManager {
 
     public function __construct(Core_Domen_IRepository $repository) {
         $this->setRepository($repository);
-    }
-    
+    }    
     
     /**
      * установка репозитория
@@ -48,7 +47,7 @@ abstract class Core_Domen_Manager_Abstract implements Core_Domen_IManager {
         return $this->getRepository()->get($id);
     }
     
-    public function getByFilter(\Core_Domen_Filter_Collection $filters, \Core_Domen_Order_Collection $order = null) {
+    public function getByFilter(\Core_Domen_Filter_Collection $filters, \Core_Domen_Order_Collection $orders = null) {
         return $this->getRepository()->getByFilter($filters, $orders);
     }
     
@@ -94,6 +93,10 @@ abstract class Core_Domen_Manager_Abstract implements Core_Domen_IManager {
      */
     public function createCollection() {
         return $this->getRepository()->createCollection();
+    }
+    
+    public function getManager($managerName) {
+        return Core_Container::getManager($managerName);
     }
     
 }

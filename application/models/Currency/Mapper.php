@@ -21,15 +21,14 @@ class Currency_Mapper extends Core_Domen_Mapper_Abstract {
     }
 
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
-//        $values = $filter->getValue();
-//        switch (get_class($filter)) {
-//            case 'Currency_Filter_Period':
-//                $dateStart = $values[0];
-//                $select->where('date BETWEEN '.$this->getConnect()->quote($values[0]).' AND '.$this->getConnect()->quote($values[1]));
-//                break;
-//            default:
-//                break;
-//        }
+        $values = $filter->getValue();
+        switch (get_class($filter)) {
+            case 'Currency_Filter_Code':                
+                $select->where('code IN(?)', $values);
+                break;
+            default:
+                break;
+        }
         return null;
     }
 

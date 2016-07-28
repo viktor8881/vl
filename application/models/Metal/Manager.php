@@ -13,23 +13,18 @@
  */
 class Metal_Manager extends Core_Domen_Manager_Abstract {
     
-    public function fetchAllByPeriod(Core_Date $dateStart, Core_Date $dateEnd) {
-        $filters = new Core_Domen_Filter_Collection();
-        $filters->addFilter(new Metal_Filter_Period(array($dateStart, $dateEnd)));
-        return parent::fetchAllByFilter($filters);
+    public function fetchAllToArray() {
+        $result = array();
+        foreach (parent::fetchAll() as $metal) {
+            $result[$metal->getCode()] = $metal->getName();
+        }
+        return $result;
     }
     
-    public function fetchAllByPeriodByCode(Core_Date $dateStart, Core_Date $dateEnd, $code) {
+    public function getByCode($code) {
         $filters = new Core_Domen_Filter_Collection();
-        $filters->addFilter(new Metal_Filter_Period(array($dateStart, $dateEnd)))
-                ->addFilter(new Metal_Filter_Code($code));
-        return parent::fetchAllByFilter($filters);
+        $filters->addFilter(new Metal_Filter_Code($code));
+        return $this->getByFilter($filters);
     }
-
-    public function getByDate(Core_Date $date) {
-		$filters = new Core_Domen_Filter_Collection();
-        $filters->addFilter(new Metal_Filter_Date($date));
-        return parent::getByFilter($filters);
-	}
     
 }

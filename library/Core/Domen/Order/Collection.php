@@ -29,7 +29,7 @@ class Core_Domen_Order_Collection extends Core_Domen_CollectionAbstract {
     * @param Core_Domen_Order_Abstract $order
     * @return \Core_Domen_Order_Collection
     */
-    public function add(Core_Domen_Order_Abstract $order) {
+    public function addOrder(Core_Domen_Order_Abstract $order) {
         $key = get_class($order);        
         parent::add($key, $order);
         return $this;

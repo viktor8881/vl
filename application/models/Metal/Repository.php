@@ -12,5 +12,6 @@
  * @author Viktor
  */
 class Metal_Repository extends Core_Domen_Repository_Abstract {
-    //put your code here
+    
+   
 }

@@ -48,9 +48,9 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      */
     public function add($key, $value) {
         if (!is_null($key) or is_string($key)){
-            $this->_values[$key]=$value;
+            $this->_values[$key] = $value;
         }else{
-            $this->_values[]=$value;
+            $this->_values[] = $value;
         }
         return $this;
     }

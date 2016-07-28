@@ -13,5 +13,13 @@
  */
 class Currency_Collection extends Core_Domen_CollectionAbstract {
     
-   
+   public function hasCode($code) {
+        foreach ($this->getIterator() as $currency) {
+            if ($currency->getCode() == $code) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }

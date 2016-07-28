@@ -1,0 +1,5 @@
+<h3>Инвестиции в валюту</h3>
+<a href="/investments/currency/add" class="btn btn-default pull-right" role="button"><?=$this->iconAdd('pay')?> pay</a>
+<a href="/investments/currency/sub" class="btn btn-default pull-right" role="button"><?=$this->iconAdd('sell')?> sell</a>
+<?=$this->investmentCurrency_List($this->investments)?>
+<?=$this->pagination($this->paginator)?>

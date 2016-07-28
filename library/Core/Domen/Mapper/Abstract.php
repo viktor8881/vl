@@ -107,7 +107,7 @@ abstract class Core_Domen_Mapper_Abstract implements Core_Domen_IMapper {
         return null;
     }
     
-    public function fetchAll(Zend_Paginator $paginator, Core_Domen_Order_Collection $orders=null) {
+    public function fetchAll(Zend_Paginator $paginator=null, Core_Domen_Order_Collection $orders=null) {
         return $this->_fetchAll(null, $paginator, $orders);
     }
     

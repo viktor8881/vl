@@ -23,12 +23,6 @@ class Metal_Mapper extends Core_Domen_Mapper_Abstract {
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
-            case 'Metal_Filter_Period':
-                $select->where('date BETWEEN '.$this->getConnect()->quote($values[0]).' AND '.$this->getConnect()->quote($values[1]));
-                break;
-			case 'Metal_Filter_Date':
-                $select->where('date = ?',current($values));
-                break;
             case 'Metal_Filter_Code':                
                 $select->where('code IN(?)', $values);
                 break;

@@ -14,7 +14,7 @@ interface Core_Domen_IManager {
     
     public function get($id);
     
-    public function getByFilter(Core_Domen_Filter_Collection $filters, Core_Domen_Order_Collection $order=null);        
+    public function getByFilter(Core_Domen_Filter_Collection $filters, Core_Domen_Order_Collection $orders=null);        
     
     public function fetchAll(Zend_Paginator $paginator, Core_Domen_Order_Collection $orders=null);
     

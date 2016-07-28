@@ -14,6 +14,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->addHelperPath(APPLICATION_PATH.'/views/helpers', 'View_Helper');
     }
     
+    protected function _initViewActionHelpers()
+    {
+        Zend_Controller_Action_HelperBroker::addPath('Core/Controller/Action/Helper/', 'Core_Controller_Action_Helper');
+    }
+    
     protected function _initDbConnect()
     {
         $this->bootstrap('db');
@@ -71,6 +76,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
      protected function _initZFDebug()
     {
+         return ;
 //        if (APPLICATION_ENV == 'production'){ return ; }
         $autoloader = Zend_Loader_Autoloader::getInstance();
         $autoloader->registerNamespace('ZFDebug');

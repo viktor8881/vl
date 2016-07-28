@@ -26,5 +26,19 @@ class Currency_Manager extends Core_Domen_Manager_Abstract {
     public function listCurrencies() {
         return $this->_currencies;
     }
+    
+    public function fetchAllToArray() {
+        $result = array();
+        foreach (parent::fetchAll() as $model) {
+            $result[$model->getCode()] = $model->getName();
+        }
+        return $result;
+    }
+    
+    public function getByCode($code) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new Currency_Filter_Code($code));
+        return $this->getByFilter($filters);
+    }
 
 }

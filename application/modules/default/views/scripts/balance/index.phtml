@@ -1,0 +1,32 @@
+<div class="col-sm-6">
+    <?php
+    if (count($this->balances->getBalanceCurrencies())) {
+        foreach ($this->balances->getBalanceCurrencies() as $balance) {
+            echo '<div class="panel panel-default">';
+            echo '<div class="panel-body">';
+                echo '<p>'.$this->escape($balance->getCurrencyName()).' '.$this->cardCurrencyIconBalance($balance).'</p>';
+                echo '<p>Баланс: '.$this->formatMoney($balance->getValueBalance()).'</p>';
+                echo '<p>Сумма инвестиций: '.$this->formatMoney($balance->getSumInvest(), true).'</p>';
+                echo '<p>Текущий курс: '.$this->formatMoney($balance->getValueCurrentCourse(), true).'</p>';
+                echo '<p>Сумма текущей продажи: '.$this->formatMoney($balance->getSumPay(), true).'</p>';
+            echo '</div></div>';
+        }
+    }
+    ?>
+</div>
+<div class="col-sm-6">
+    <?php
+    if (count($this->balances->getBalanceMetals())) {
+        foreach ($this->balances->getBalanceMetals() as $balance) {
+            echo '<div class="panel panel-default">';
+            echo '<div class="panel-body">';
+                echo '<p>'.$this->escape($balance->getMetalName()).' '.$this->cardMetalIconBalance($balance).'</p>';
+                echo '<p>Баланс: '.$this->formatMoney($balance->getValueBalance()).'</p>';
+                echo '<p>Сумма инвестиций: '.$this->formatMoney($balance->getSumInvest(), true).'</p>';
+                echo '<p>Текущий курс: '.$this->formatMoney($balance->getValueMetalCourse(), true).'</p>';
+                echo '<p>Сумма текущей продажи: '.$this->formatMoney($balance->getSumPay(), true).'</p>';
+            echo '</div></div>';
+        }
+    }
+    ?>
+</div>

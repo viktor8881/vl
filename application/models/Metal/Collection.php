@@ -13,5 +13,13 @@
  */
 class Metal_Collection extends Core_Domen_CollectionAbstract {
     
+    public function hasCode($code) {
+        foreach ($this->getIterator() as $metal) {
+            if ($metal->getCode() == $code) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }

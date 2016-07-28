@@ -7,7 +7,7 @@
  */
 
 /**
- * Description of Metal_Filter_Code
+ * Description of CourseMetal_Filter_Code
  *
  * @author Viktor
  */
