@@ -20,15 +20,16 @@ class Core_Controller_Action extends Zend_Controller_Action
                 'basePath'  => APPLICATION_PATH.'/modules/'.$this->getRequest()->getModuleName()));
     }
     
-        
-    /**
-     * 
-     * @param type $serviceName
-     * @return Core_Layer_ServiceInterface
-     */
-    public function getManager($serviceName)
-    {
-        return Core_Container::getManager($serviceName);
+    
+    public function getManager($managerName) {
+        return Core_Container::getManager($managerName);
     }
+        
+    
+    public function getService($serviceName) {
+        return Core_Container::getService($serviceName);
+    }
+    
+    
            
 }

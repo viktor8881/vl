@@ -1,0 +1,37 @@
+<h3>Задания</h3>
+
+<div class="btn-group pull-right" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <?=$this->iconAdd()?> Add
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a href="/tasks/percent/add">Процент за период</a></li>
+      <li><a href="/tasks/overtime/add">Последовательный рост/падение</a></li>
+    </ul>
+</div>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>Название</th>
+        <th>Описание</th>
+        <th>Действия</th>
+    </tr>
+    <tbody>
+        <?php
+        if ($this->tasks->count()) {
+            foreach ($this->tasks as $task) {
+                echo '<tr>';
+                    echo '<td>'.$this->task_TypeName($task->getType()).'</td>';
+                    echo '<td>'.$this->task_DescriptionOptions($task).'</td>';
+                    echo '<td>'.$this->task_LinkEdit($task).' '
+                            .$this->task_LinkDelete($task).'</td>';
+                echo '</tr>';
+            }
+        }else{
+            echo '<tr><td colspan="3"><p class="text-center text-muted">Нет заданий</p></td></tr>';
+        }
+        ?>
+    </tbody>
+</table>

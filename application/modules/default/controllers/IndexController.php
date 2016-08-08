@@ -10,33 +10,28 @@ class IndexController extends Core_Controller_Action
     
     
     
-    public function testAction() {
-        die('testAction');
-    }
-    
-    private function sendAction() {
 //    public function sendAction() {
-        $mess = new Mail_Model();
-        $mess->setDay(3)
-            ->setPercent(8);
-            $curr = new Mail_CurrencyModel();
-            $curr->setName("Долларь")
-                    ->setStartDate(new Core_Date('2016-10-12'))
-                    ->setStartValue(12.548)
-                    ->setEndDate(new Core_Date)
-                    ->setEndValue(17.548);
-        $mess->addCurrency($curr);
-            $curr = new Mail_CurrencyModel();
-            $curr->setName("Манатта")
-                    ->setStartDate(new Core_Date('2016-04-14'))
-                    ->setStartValue(42.356048)
-                    ->setEndDate(new Core_Date)
-                    ->setEndValue(52.65824);
-        $mess->addCurrency($curr);        
-        $this->view->mess = $mess;        
-        Core_Mail::quotationsUpMail($mess);
-        Core_Mail::quotationsDownMail($mess);        
-    }
+//        $mess = new Mail_Model();
+//        $mess->setDay(3)
+//            ->setPercent(8);
+//            $curr = new Mail_CurrencyModel();
+//            $curr->setName("Долларь")
+//                    ->setStartDate(new Core_Date('2016-10-12'))
+//                    ->setStartValue(12.548)
+//                    ->setEndDate(new Core_Date)
+//                    ->setEndValue(17.548);
+//        $mess->addCurrency($curr);
+//            $curr = new Mail_CurrencyModel();
+//            $curr->setName("Манатта")
+//                    ->setStartDate(new Core_Date('2016-04-14'))
+//                    ->setStartValue(42.356048)
+//                    ->setEndDate(new Core_Date)
+//                    ->setEndValue(52.65824);
+//        $mess->addCurrency($curr);        
+//        $this->view->mess = $mess;        
+//        Core_Mail::quotationsUpMail($mess);
+//        Core_Mail::quotationsDownMail($mess);        
+//    }
 
     public function indexAction() {
         $period = (int)$this->_getParam('period', self::PERIOD);
@@ -52,7 +47,6 @@ class IndexController extends Core_Controller_Action
         $messageDown = new Mail_Model();
         $messageDown->setDay($period)
                 ->setPercent($percent);
-//        foreach ($this->getManager('currency')->listCurrencies() as $code=>$nameCurrency) {
         foreach ($this->getManager('currency')->fetchAll() as $currency) {
             $code = $currency->getCode();
             $nameCurrency = $currency->getName();
@@ -95,17 +89,14 @@ class IndexController extends Core_Controller_Action
     
 
     public function courseAction() {
-//        $listCurrencies = $this->getManager('currency')->listCurrencies();
         $currencies = $this->getManager('currency')->fetchAll();
         $date = new Core_Date();
         if (!$this->getManager('courseCurrency')->getByDate($date)) {
             $xmlstr = file_get_contents(self::URL_COURCES.$date->format('d/m/Y'));
-// 	$xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/cource.xml');
             $movies = new SimpleXMLElement($xmlstr);
             if (false !== strstr($xmlstr, $date->format('d.m.Y'))) {
                 foreach ($movies->Valute as $item) {
                     $code = (string)$item['ID'];
-//                    if (array_key_exists($code, $listCurrencies)) {
                     if ($currencies->hasCode($code)) {
                         $course = $this->getManager('courseCurrency')->createModel();
                         $course->setCode($code)
@@ -121,35 +112,5 @@ class IndexController extends Core_Controller_Action
         $this->_helper->viewRenderer->setNoRender(true);
         die('');
     }
-
-//    private function valutaAction() {
-//        die('');
-//        $xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/valuta.xml');
-//        $movies = new SimpleXMLElement($xmlstr);
-//        foreach ($movies->Item as $item) {             
-//            $currency = $this->getManager('currency')->createModel();
-//            $currency->setCode((string)$item['ID'])
-//                    ->setName((string)$item->Name);
-////            pr($currency); exit;
-//            $this->getManager('currency')->insert($currency);
-//        }
-//        die('');
-//    }
-//    
-//    private function recordAction()
-//    {
-//        die('');
-//        $xmlstr = file_get_contents(APPLICATION_PATH.'/../data/sources/test.xml');
-//        $movies = new SimpleXMLElement($xmlstr);
-//        foreach ($movies->Record as $record) {             
-//            $course = $this->getManager('courseCurrency')->createModel();
-//            $course->setCode((string)$record['Id'])
-//                    ->setNominal(str_replace(',','.',(string)$record->Nominal))
-//                    ->setValue(str_replace(',','.',(string)$record->Value))
-//                    ->setDate((string)$record['Date']);
-//            $this->getManager('courseCurrency')->insert($course);
-//        }
-//        die('');
-//    }
 
 }

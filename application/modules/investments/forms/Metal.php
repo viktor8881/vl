@@ -37,7 +37,7 @@ class Form_Metal extends Core_Form {
         
         $options = array(
             'cancel'=>array(
-                'returnUrl'=>'/investments/index/list'
+                'returnUrl'=>'/investments/'
                 )
             );
         $this->addButtonsAction($options);

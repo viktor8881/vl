@@ -27,4 +27,10 @@ class Metal_Manager extends Core_Domen_Manager_Abstract {
         return $this->getByFilter($filters);
     }
     
+    public function fetchAllByCodes($listCode) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new Metal_Filter_Code($listCode));
+        return $this->fetchAllByFilter($filters);
+    }
+    
 }

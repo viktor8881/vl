@@ -19,12 +19,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::addPath('Core/Controller/Action/Helper/', 'Core_Controller_Action_Helper');
     }
     
+    
     protected function _initDbConnect()
     {
         $this->bootstrap('db');
         $db = $this->getResource('db');
         return $db;
     }
+    
     
     protected function _initResources()
     {
@@ -33,7 +35,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'namespace'   => ''
             ));
         $dir = APPLICATION_PATH.'/models';        
-       if ($dh = opendir($dir)) {
+        if ($dh = opendir($dir)) {
            while (($file = readdir($dh)) !== false) {
                if ($file=='.' or $file=='..' or $file[0]=='_' or !is_dir($dir.'/'.$file)) {
                    continue;
@@ -42,20 +44,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                $resourceLoader->addResourceType($type, $file, $file);
            }
            closedir($dh);
-       }
-       
-       // СЂРµРіРёСЃС‚СЂР°С†РёСЏ СЃРµСЂРІРёСЃРѕРІ
-//       $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
-//            'basePath'        => APPLICATION_PATH.'/services',
-//            'namespace'   => ''
-//            ));
-//       $resourceLoader->addResourceType('service', '', 'Service');
+        }
+        // added service 
+        $resourceLoader = new Zend_Loader_Autoloader_Resource(array(
+             'basePath'        => APPLICATION_PATH.'/services',
+             'namespace'   => ''
+             ));
+        $resourceLoader->addResourceType('service', '', 'Service');
     }
     
-//    protected function _initViewActionHelpers()
-//    {
-//        Zend_Controller_Action_HelperBroker::addPath('Core/Controller/Action/Helper/', 'Core_Controller_Action_Helper');
-//    }
     
     protected function _initLog()
     {
@@ -63,6 +60,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $logger = new Core_Log(new Zend_Log_Writer_Stream($patch['log']['system'].'error.log'));        
         return $logger;
     }
+    
     
     protected function _initMail()
     {
@@ -74,7 +72,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
     
     
-     protected function _initZFDebug()
+    protected function _initZFDebug()
     {
          return ;
 //        if (APPLICATION_ENV == 'production'){ return ; }
@@ -88,7 +86,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         'plugins' => array(
           'Variables',
           'Database' => array('adapter' => $db),
-//          'File' => array('basePath' => 'E:\projects\www\zf1.11'),
           'Memory',
           'Time',
           'Registry',

@@ -41,10 +41,10 @@
     smtp.port = %smtp_port%
     smtp.auth = login
     smtp.username = %smtp_username%
-		smtp.password = %smtp_password%
+    smtp.password = %smtp_password%
 
     mail.siteEmail = %mail_domen%
-	  mail.adminEmail = %mail_admin%
+    mail.adminEmail = %mail_admin%
 
  - `mail.siteEmail` - email адрес от кого будут приходить письма.
  - `mail.adminEmail` - email адрес куда посылать нотификации при изменениях.

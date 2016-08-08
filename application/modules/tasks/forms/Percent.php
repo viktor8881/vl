@@ -24,12 +24,12 @@ class Form_Percent extends Core_Form {
                     'required'=>true));
         $this->addElement($el);
         
-        $el = new Core_Form_Element_MultiCheckbox('currencies', 
+        $el = new Core_Form_Element_MultiCheckbox('currenciesCode', 
                 array('label'=>'Валюты',
                     'required'=>true));
         $this->addElement($el);
         
-        $el = new Core_Form_Element_MultiCheckbox('metals', 
+        $el = new Core_Form_Element_MultiCheckbox('metalsCode', 
                 array('label'=>'Метал',
                     'required'=>true));
         $this->addElement($el);
@@ -43,28 +43,30 @@ class Form_Percent extends Core_Form {
     }
     
     public function setMetal(array $metals) {
-        $el = $this->getElement('metals')
+        $el = $this->getElement('metalsCode')
                 ->setMultiOptions($metals);
         return $this;
     }
 
-        public function setCurrency(array $currencies) {
-        $el = $this->getElement('investments')
+    public function setCurrency(array $currencies) {
+        $el = $this->getElement('currenciesCode')
                 ->setMultiOptions($currencies);
         return $this;
     }
     
     public function getValuesForModel() {
-        return $this->getValues();
+        $data = $this->getValues();
+        $data['type'] = Task_Model_Abstract::TYPE_PERCENT;
+        return $data;
     }
     
-    public function setValuesToModel(InvestmentCurrency_Model $model) {
+    public function setValuesToModel(Task_Model_Percent $model) {
         $data = array(
-            'count'=>$model->getCount(),
-            'currency_code'=>$model->getCurrencyCode(),
-            'course'=>$model->getCourse(),
-            'date'=>$model->getDateFormatDMY(),
-        );
+            'percent'=>$model->getPercent(),
+            'period'=>$model->getPeriod(),
+            'currenciesCode'=>$model->getCurrenciesCode(),
+            'metalsCode'=>$model->getMetalsCode()
+        );        
         return $this->populate($data);
     }
     

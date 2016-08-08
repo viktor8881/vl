@@ -17,7 +17,7 @@ class View_Helper_InvestmentCurrency_List extends Zend_View_Helper_Abstract
     {
         $html = '';
         $html .= 
-        '<table class="table">
+        '<table class="table table-bordered">
             <tr>
                 <th>Операция</th>
                 <th>Дата</th>
@@ -42,7 +42,7 @@ class View_Helper_InvestmentCurrency_List extends Zend_View_Helper_Abstract
                 $html .= '</tr>';
             }
         }else{
-            $html .= '<tr><td><span class="well">Нет инвестиций</span></td></tr>';
+            $html .= '<tr><td colspan="7"><p class="text-center text-muted">Нет инвестиций</p></td></tr>';
         }
         $html .= 
         '</tbody>
