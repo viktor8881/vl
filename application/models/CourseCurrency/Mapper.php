@@ -29,7 +29,7 @@ class CourseCurrency_Mapper extends Core_Domen_Mapper_Abstract {
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
-			case 'CourseCurrency_Filter_Date':
+            case 'CourseCurrency_Filter_Date':
                 $select->where('date = ?',current($values));
                 break;
             case 'CourseCurrency_Filter_Period':

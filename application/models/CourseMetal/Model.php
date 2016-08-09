@@ -41,6 +41,10 @@ class CourseMetal_Model extends Core_Domen_Model_Abstract {
         return $this->buy;
     }
 
+    public function getValue() {
+        return $this->getBuy();
+    }
+
     public function getSell() {
         return $this->sell;
     }

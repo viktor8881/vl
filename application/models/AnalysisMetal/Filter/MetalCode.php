@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of CourseMetal_Filter_Code
+ * Description of AnalysisMetal_Filter_MetalCode
  *
  * @author Viktor
  */
-class Currency_Filter_Code extends Core_Domen_Filter_Abstract {
+class AnalysisMetal_Filter_MetalCode extends Core_Domen_Filter_Abstract {
     
     
     public function filter($value) {

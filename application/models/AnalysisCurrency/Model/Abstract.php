@@ -7,20 +7,20 @@
  */
 
 /**
- * Description of AnalisisMetal_Model_Abstract
+ * Description of AnalysisCurrency_Model_Abstract
  *
  * @author Viktor
  */
-abstract class AnalisisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
+abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract {
     
     const TYPE_PERCENT = 1;
     const TYPE_OVER_TIME = 2;
     
     private $id;
-    private $metalCode;
+    private $currencyCode;
     private $created;
     
-    protected $_aliases = array('metal_code'=>'metalCode');
+    protected $_aliases = array('currency_code'=>'currencyCode');
 
     
     
@@ -28,9 +28,9 @@ abstract class AnalisisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
     public function getOptions() {
         return array('id'=>$this->getId(),
             'type'=>$this->getType(),
-            'metal_code'=>$this->getMetalCode(),
+            'currency_code'=>$this->getCurrencyCode(),
             'body'=>$this->getBody(),
-            'created'=>$this->getCreated());
+            'created'=>$this->getCreatedToDb());
     }
     
     public function getId() {
@@ -50,8 +50,8 @@ abstract class AnalisisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
         return $this->getType()==self::TYPE_OVER_TIME;
     }
     
-    public function getMetalCode() {
-        return $this->metalCode;
+    public function getCurrencyCode() {
+        return $this->currencyCode;
     }
 
     public function getCreated() {
@@ -66,8 +66,8 @@ abstract class AnalisisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
         return $this->getCreated()->format(Core_Date::DMY);
     }
 
-    public function setMetalCode($code) {
-        $this->metalCode = $code;
+    public function setCurrencyCode($code) {
+        $this->currencyCode = $code;
         return $this;
     }
 

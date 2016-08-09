@@ -7,13 +7,13 @@
  */
 
 /**
- * Description of Currency_Mapper
+ * Description of AnalysisCurrency_Mapper
  *
  * @author Viktor
  */
-class Currency_Mapper extends Core_Domen_Mapper_Abstract {
+class AnalysisCurrency_Mapper extends Core_Domen_Mapper_Abstract {
     
-    protected $_table='currency';
+    protected $_table='analysis_currency';
     protected $_primary='id';
     
     public function addOrder(\Core_Domen_Order_Abstract $order, \Zend_Db_Select $select) {
@@ -23,8 +23,11 @@ class Currency_Mapper extends Core_Domen_Mapper_Abstract {
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
-            case 'Currency_Filter_Code':                
-                $select->where('code IN(?)', $values);
+            case 'AnalysisCurrency_Filter_Date':
+                $select->where('created = ?',current($values));
+                break;
+            case 'AnalysisCurrency_Filter_CurrencyCode':                
+                $select->where('currency_code IN(?)', $values);
                 break;
             default:
                 break;

@@ -14,4 +14,14 @@
 class CourseMetal_Collection extends Core_Domen_CollectionAbstract {
     
     
+    public function listDateCourse() {
+        $result = array();
+        foreach ($this->getIterator() as $course) {
+            $result[$course->getDateFormatDMY()] = $course->getValue();
+        }
+        return $result;
+    }
+    
+    
+    
 }

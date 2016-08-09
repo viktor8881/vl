@@ -7,15 +7,10 @@
  */
 
 /**
- * Description of AnalisisMetal_Filter_MetalCode
+ * Description of AnalysisCurrency_Repository
  *
  * @author Viktor
  */
-class AnalisisMetal_Filter_MetalCode extends Core_Domen_Filter_Abstract {
-    
-    
-    public function filter($value) {
-        return (string)$value;
-    }
-    
+class AnalysisCurrency_Repository extends Core_Domen_Repository_Abstract {
+    //put your code here
 }

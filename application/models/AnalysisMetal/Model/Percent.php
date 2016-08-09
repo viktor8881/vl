@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of AnalisisMetal_Model_Percent
+ * Description of AnalysisMetal_Model_Percent
  *
  * @author Viktor
  */
-class AnalisisMetal_Model_Percent extends AnalisisMetal_Model_Abstract {
+class AnalysisMetal_Model_Percent extends AnalysisMetal_Model_Abstract {
     
     private $percent;
     private $period;
@@ -97,7 +97,7 @@ class AnalisisMetal_Model_Percent extends AnalisisMetal_Model_Abstract {
     // == abstract methods =
     
     public function getType() {
-        return AnalisisMetal_Model_Abstract::TYPE_PERCENT;
+        return AnalysisMetal_Model_Abstract::TYPE_PERCENT;
     }
     
     public function getBody() {

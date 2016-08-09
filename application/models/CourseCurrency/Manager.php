@@ -50,4 +50,48 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         return null;
     }
     
+    public function fetchAllForAnalysisByCode($code) {
+        $result = $this->createCollection();
+        
+        $paginator = Zend_Paginator::factory(20);
+        Zend_Paginator::setDefaultItemCountPerPage(20);
+        $paginator->setCurrentPageNumber(1);
+        $orders = new Core_Domen_Order_Collection();
+        $orders->addOrder(new CourseCurrency_Order_Id('DESC'));
+        
+        $rows = $this->fetchAllByCode($code, $paginator, $orders);
+        if ($rows->count() > 1) {
+            $sign = null;
+            $prev = $rows->first();
+            foreach ($rows as $row) {
+                if (is_null($sign)) {
+                    if ($prev->getValue() > $row->getValue()) {
+                        $sign = '>';
+                    }elseif($prev->getValue() < $row->getValue()){
+                        $sign = '<';
+                    }else{
+                        break;
+                    }
+                    $result->addModel($row);
+                    $prev = $row;
+                    continue;
+                }
+                if ($prev->getValue() .$sign. $row->getValue()) {
+                    $result->addModel($row);
+                    $prev = $row;
+                    continue;
+                }else{
+                    break;
+                }
+            }
+        }
+        return $result;
+    }
+    
+    public function fetchAllByCode($code, \Zend_Paginator $paginator = null, \Core_Domen_Order_Collection $orders = null) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseCurrency_Filter_Code($code));
+        return parent::fetchAllByFilter($filters, $paginator, $orders);
+    }
+    
 }

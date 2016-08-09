@@ -46,4 +46,16 @@ class Core_Queue extends Zend_Queue {
         return true;
     }
     
+    public function hasTaskEmail() {
+        return $this->getAdapter()->hasTasksMessage(self::TASK_SEND_MESSAGE);
+    }
+    
+    public function sendTaskEmail($checkExist=false) {
+        if ($checkExist && $this->hasTaskEmail()) {
+            return false;
+        }
+        parent::send(self::TASK_SEND_MESSAGE);
+        return true;
+    }
+    
 }

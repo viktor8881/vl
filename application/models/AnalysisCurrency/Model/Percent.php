@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of AnalisisCurrency_Model_Percent
+ * Description of AnalysisCurrency_Model_Percent
  *
  * @author Viktor
  */
-class AnalisisCurrency_Model_Percent extends AnalisisCurrency_Model_Abstract {
+class AnalysisCurrency_Model_Percent extends AnalysisCurrency_Model_Abstract {
     
     private $percent;
     private $period;
@@ -97,7 +97,7 @@ class AnalisisCurrency_Model_Percent extends AnalisisCurrency_Model_Abstract {
     // == abstract methods =
     
     public function getType() {
-        return AnalisisCurrency_Model_Abstract::TYPE_PERCENT;
+        return AnalysisCurrency_Model_Abstract::TYPE_PERCENT;
     }
     
     public function getBody() {

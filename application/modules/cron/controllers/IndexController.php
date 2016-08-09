@@ -5,14 +5,17 @@ class Cron_IndexController extends Core_Controller_Action
     
     public function indexAction()
     {
-        $queue = new Core_Queue();
-//        throw new RuntimeException('obrabotka очереди');
+        $queue = Core_Container::getQueue();
         $messages = $queue->receive();
         foreach ($messages as $i => $message) {
             $body = $message->body;
             switch ($body) {
                 case Core_Queue::TASK_ANALYSIS:
-                    $this->taskAnalisys();
+                    $countRec = $this->taskAnalisys();
+                    if ($countRec > 0) {
+                        // add task send email.
+                        $queue->sendTaskEmail(true);
+                    }
                     break;
                 case Core_Queue::TASK_SEND_MESSAGE:
                     $this->sendMessage();
@@ -29,7 +32,24 @@ class Cron_IndexController extends Core_Controller_Action
     
     
     private function sendMessage() {
-        
+        // readAll analysis currency for today
+        $analysis = $this->getManager('analysisCurrency')->fetchAllByToday();
+        if ($analysis->count()) {
+            foreach ($analysis->getCurrencies() as $currency) {
+                Core_Mail::sendAnalysisCurrency($currency, 
+                        $analysis->listAnalysisOvertimeByCurrencyCode($currency->getCode()),
+                        $analysis->listAnalysisPercentByCurrencyCode($currency->getCode()));
+            }
+        }
+        // readAll analysis metal for today
+        $analysis = $this->getManager('analysisMetal')->fetchAllByToday();
+        if ($analysis->count()) {
+            foreach ($analysis->getMetals() as $metal) {
+                Core_Mail::sendAnalysisMetal($metal, 
+                        $analysis->listAnalysisOvertimeByMetalCode($metal->getCode()),
+                        $analysis->listAnalysisPercentByMetalCode($metal->getCode()));
+            }
+        }
     }
 
     private function taskAnalisys() {

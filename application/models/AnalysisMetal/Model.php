@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of Currency_model
+ * Description of AnalysisMetal_model
  *
  * @author Viktor
  */
-class Currency_Model extends Core_Domen_Model_Abstract {
+class AnalysisMetal_Model extends Core_Domen_Model_Abstract {
     
     private $id;
     private $code;

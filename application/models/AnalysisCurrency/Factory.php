@@ -7,23 +7,23 @@
  */
 
 /**
- * Description of AnalisisCurrency_Factory
+ * Description of AnalysisCurrency_Factory
  *
  * @author Viktor
  */
-class AnalisisCurrency_Factory implements Core_Domen_IFactory {
+class AnalysisCurrency_Factory implements Core_Domen_IFactory {
     
     
     public function create(array $values = null) {
         if (!array_key_exists('type', $values)) {
-            throw new RuntimeException('Not found "type" of analisis.');
+            throw new RuntimeException('Not found "type" of analysis.');
         }
         switch ($values['type']) {
-            case AnalisisCurrency_Model_Abstract::TYPE_PERCENT:
-                return new AnalisisCurrency_Model_Percent($values);
+            case AnalysisCurrency_Model_Abstract::TYPE_PERCENT:
+                return new AnalysisCurrency_Model_Percent($values);
                 break;
-            case AnalisisCurrency_Model_Abstract::TYPE_OVER_TIME:
-                return new AnalisisCurrency_Model_OverTime($values);
+            case AnalysisCurrency_Model_Abstract::TYPE_OVER_TIME:
+                return new AnalysisCurrency_Model_OverTime($values);
                 break;
             default:
                 throw new RuntimeException('Unknown "type" of task.');

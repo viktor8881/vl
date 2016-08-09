@@ -7,10 +7,15 @@
  */
 
 /**
- * Description of AnalisisMetal_Repository
+ * Description of AnalysisMetal_Factory
  *
  * @author Viktor
  */
-class AnalisisMetal_Repository extends Core_Domen_Repository_Abstract {
-    //put your code here
+class AnalysisMetal_Factory implements Core_Domen_IFactory {
+    
+    
+    public function create(array $values = null) {
+        return new AnalysisMetal_Model($values);
+    }
+
 }

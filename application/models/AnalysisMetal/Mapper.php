@@ -7,13 +7,13 @@
  */
 
 /**
- * Description of AnalisisMetal_Mapper
+ * Description of AnalysisMetal_Mapper
  *
  * @author Viktor
  */
-class AnalisisMetal_Mapper extends Core_Domen_Mapper_Abstract {
+class AnalysisMetal_Mapper extends Core_Domen_Mapper_Abstract {
     
-    protected $_table='analisis_metal';
+    protected $_table='analysis_metal';
     protected $_primary='id';
     
     public function addOrder(\Core_Domen_Order_Abstract $order, \Zend_Db_Select $select) {
@@ -23,7 +23,10 @@ class AnalisisMetal_Mapper extends Core_Domen_Mapper_Abstract {
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
-            case 'AnalisisMetal_Filter_MetalCode':                
+            case 'AnalysisMetal_Filter_Date':
+                $select->where('created = ?',current($values));
+                break;
+            case 'AnalysisMetal_Filter_MetalCode':                
                 $select->where('metal_code IN(?)', $values);
                 break;
             default:

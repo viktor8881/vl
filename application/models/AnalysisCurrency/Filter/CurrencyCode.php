@@ -7,13 +7,15 @@
  */
 
 /**
- * Description of AnalisisCurrency_Manager
+ * Description of AnalysisCurrency_Filter_CurrencyCode
  *
  * @author Viktor
  */
-class AnalisisCurrency_Manager extends Core_Domen_Manager_Abstract {
-        
+class AnalysisCurrency_Filter_CurrencyCode extends Core_Domen_Filter_Abstract {
     
     
-
+    public function filter($value) {
+        return (string)$value;
+    }
+    
 }

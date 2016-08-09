@@ -13,28 +13,14 @@
  */
 class CourseCurrency_Collection extends Core_Domen_CollectionAbstract {
     
-    public function getByMinValue() {
-        $result = null;
-        $val = null;
+    
+    public function listDateCourse() {
+        $result = array();
         foreach ($this->getIterator() as $course) {
-            if (is_null($val) or $course->getValue() < $val) {
-                $val = $course->getValue();
-                $result = $course;
-            }
+            $result[$course->getDateFormatDMY()] = $course->getValue();
         }
         return $result;
     }
     
-    public function getByMaxValue() {
-        $result = null;
-        $val = null;
-        foreach ($this->getIterator() as $course) {
-            if (is_null($val) or $course->getValue() > $val) {
-                $val = $course->getValue();
-                $result = $course;
-            }
-        }
-        return $result;
-    }
     
 }
