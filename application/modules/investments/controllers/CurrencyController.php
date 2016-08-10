@@ -28,7 +28,6 @@ class Investments_CurrencyController extends Core_Controller_Action
                     $this->getManager('investmentCurrency')->insertPay($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
-                    pr($exc); exit;
                     throw new RuntimeException('Ошибка добавления инвестиции.');
                 }
             }
@@ -48,7 +47,6 @@ class Investments_CurrencyController extends Core_Controller_Action
                     $this->getManager('investmentCurrency')->insertSell($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
-                    pr($exc); exit;
                     throw new RuntimeException('Ошибка добавления инвестиции.');
                 }
             }

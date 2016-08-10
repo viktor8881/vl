@@ -39,6 +39,7 @@ class Service_Analysis implements Service_Interface {
             foreach ($task->getCurrencies() as $currency) {
                 $rows = $this->getManager('courseCurrency')->fetchAllByPeriodByCode($dateLater, $dateNow, $currency->getCode());
                 if ($rows->count() > 1) {
+                    $percent = $task->getPercent();
                     $courseToday = $rows->first();
                     $courseStartPeriod = $rows->last();
                     $upValue = $courseToday->getValueForOne()*(1+$percent/100);
@@ -47,15 +48,15 @@ class Service_Analysis implements Service_Interface {
                             $downValue >= $courseStartPeriod->getValueForOne()) {
                         $subData = array('percent'=>$task->getPercent(),
                                 'period'    =>$task->getPeriod(),
-                                'startDate' =>$courseToday->getDate(),
+                                'startDate' =>$courseToday->getDateFormatDMY(),
                                 'startValue'=>$courseToday->getValue(),
-                                'endDate'   =>$courseStartPeriod->getDate(),
-                                'endValue'  =>$courseStartPeriod->getValue());
-                        $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_PERCENT,
+                                'endDate'   =>$courseStartPeriod->getDateFormatDMY(),
+                                'endValue'  =>$courseStartPeriod->getValue()
+                            );
+                        $data = array('type'=>AnalysisCurrency_Model_Abstract::TYPE_PERCENT,
                             'currency_code'=>$currency->getCode(),
                             'body'=>  json_encode($subData),
                             'created'=>new Core_Date());
-                        
                         $analysis = $this->getManager('analysisCurrency')->createModel($data);
                         $this->getManager('analysisCurrency')->insert($analysis);
                         $countRec++;
@@ -67,6 +68,7 @@ class Service_Analysis implements Service_Interface {
             foreach ($task->getMetals() as $metal) {
                 $rows = $this->getManager('courseMetal')->fetchAllByPeriodByCode($dateLater, $dateNow, $metal->getCode());
                 if ($rows->count() > 1) {
+                    $percent = $task->getPercent();
                     $courseToday = $rows->first();
                     $courseStartPeriod = $rows->last();
                     $upValue = $courseToday->getValue()*(1+$percent/100);
@@ -75,15 +77,14 @@ class Service_Analysis implements Service_Interface {
                             $downValue >= $courseStartPeriod->getValue()) {
                         $subData = array('percent'=>$task->getPercent(),
                                 'period'    =>$task->getPeriod(),
-                                'startDate' =>$courseToday->getDate(),
+                                'startDate' =>$courseToday->getDateFormatDMY(),
                                 'startValue'=>$courseToday->getValue(),
-                                'endDate'   =>$courseStartPeriod->getDate(),
+                                'endDate'   =>$courseStartPeriod->getDateFormatDMY(),
                                 'endValue'  =>$courseStartPeriod->getValue());
                         $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_PERCENT,
                             'metal_code'=>$metal->getCode(),
                             'body'=>  json_encode($subData),
                             'created'=>new Core_Date());
-                        
                         $analysis = $this->getManager('analysisMetal')->createModel($data);
                         $this->getManager('analysisMetal')->insert($analysis);
                         $countRec++;

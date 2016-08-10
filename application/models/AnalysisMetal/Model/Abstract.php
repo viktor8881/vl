@@ -20,10 +20,16 @@ abstract class AnalysisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
     private $metalCode;
     private $created;
     
+    private $_metal;
+    
     protected $_aliases = array('metal_code'=>'metalCode');
 
     
     
+    public function __construct(array $options = null) {
+        $this->setCreated(new Core_Date());
+        parent::__construct($options);
+    }
 
     public function getOptions() {
         return array('id'=>$this->getId(),
@@ -70,7 +76,15 @@ abstract class AnalysisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
         $this->metalCode = $code;
         return $this;
     }
+    
+    public function getMetal() {
+        if (is_null($this->_metal)) {
+            $this->_metal = $this->getManager('metal')->getByCode($this->getMetalCode());
+        }
+        return $this->_metal;
+    }
 
+    
     public function setCreated($created) {
         if ($created instanceof DateTime ) {
             $this->created = $created;

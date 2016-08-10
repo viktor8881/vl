@@ -54,10 +54,14 @@ class AnalysisCurrency_Model_Percent extends AnalysisCurrency_Model_Abstract {
         return $this;
     }
 
-    public function setStartDate(DateTime $date) {
-        $this->startDate = $date;	
+    public function setStartDate($date) {
+        if ($date instanceof DateTime ) {
+            $this->startDate = $date;
+        }else{
+            $this->startDate = new Core_Date($date);
+        }
         return $this;
-    }   
+    }
     
     public function getStartDateFormatDMY() {
         return $this->getStartDate()->format(Core_Date::DMY);
@@ -68,10 +72,14 @@ class AnalysisCurrency_Model_Percent extends AnalysisCurrency_Model_Abstract {
         return $this;
     }
 
-    public function setEndDate(DateTime $date) {
-        $this->endDate = $date;	
+    public function setEndDate($date) {
+        if ($date instanceof DateTime ) {
+            $this->endDate = $date;
+        }else{
+            $this->endDate = new Core_Date($date);
+        }	
         return $this;
-    }   
+    }
     
     public function getEndDateFormatDMY() {
         return $this->getEndDate()->format(Core_Date::DMY);
@@ -83,7 +91,13 @@ class AnalysisCurrency_Model_Percent extends AnalysisCurrency_Model_Abstract {
         return $this;
     }
     
+    public function isQuotesGrowth() {
+        return $this->getStartValue() < $this->getEndValue();
+    }
     
+    public function isQuotesFall() {
+        return $this->getStartValue() > $this->getEndValue();
+    }
 
     public function getDiffMoneyValue() {
         return abs($this->getStartValue() - $this->getEndValue());
@@ -103,9 +117,9 @@ class AnalysisCurrency_Model_Percent extends AnalysisCurrency_Model_Abstract {
     public function getBody() {
         $body = array('percent'=>$this->getPercent(),
             'period'    =>$this->getPeriod(),
-            'startDate' =>$this->getStartDate(),
+            'startDate' =>$this->getStartDateFormatDMY(),
             'startValue'=>$this->getStartValue(),
-            'endDate'   =>$this->getEndDate(),
+            'endDate'   =>$this->getEndDateFormatDMY(),
             'endValue'  =>$this->getEndValue());
         return json_encode($body);
     }

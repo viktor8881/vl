@@ -41,7 +41,20 @@ class AnalysisMetal_Model_OverTime extends AnalysisMetal_Model_Abstract {
         $this->listData[$data] = $course;
         return $this;
     }
-
+    
+    public function isQuotesGrowth() {
+        $list = $this->getListData();
+        return current($list) > end($list);
+    }
+    
+    public function isQuotesFall() {
+        $list = $this->getListData();
+        return current($list) < end($list);
+    }
+    
+    public function countData() {
+        return count($this->listData);
+    }
         
     // == abstract methods =
     

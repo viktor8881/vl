@@ -63,12 +63,17 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         if ($rows->count() > 1) {
             $sign = null;
             $prev = $rows->first();
+            $i=0;
             foreach ($rows as $row) {
+                if (++$i == 1) {
+                    $result->addModel($row);
+                    continue;
+                }
                 if (is_null($sign)) {
                     if ($prev->getValue() > $row->getValue()) {
-                        $sign = '>';
+                        $sign = 'isGreater';
                     }elseif($prev->getValue() < $row->getValue()){
-                        $sign = '<';
+                        $sign = 'isLess';
                     }else{
                         break;
                     }
@@ -76,7 +81,7 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
                     $prev = $row;
                     continue;
                 }
-                if ($prev->getValue() .$sign. $row->getValue()) {
+                if ( $this->{$sign}($prev->getValue(), $row->getValue()) ) {
                     $result->addModel($row);
                     $prev = $row;
                     continue;
@@ -92,6 +97,14 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseCurrency_Filter_Code($code));
         return parent::fetchAllByFilter($filters, $paginator, $orders);
+    }
+    
+    private function isGreater($left, $right) {
+        return $left > $right;
+    }
+    
+    private function isLess($left, $right) {
+        return $left < $right;
     }
     
 }

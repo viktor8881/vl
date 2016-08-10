@@ -20,11 +20,18 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
     private $currencyCode;
     private $created;
     
+    private $_currency;
+
+
     protected $_aliases = array('currency_code'=>'currencyCode');
 
     
     
-
+    public function __construct(array $options = null) {
+        $this->setCreated(new Core_Date());
+        parent::__construct($options);
+    }
+    
     public function getOptions() {
         return array('id'=>$this->getId(),
             'type'=>$this->getType(),
@@ -52,6 +59,13 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
     
     public function getCurrencyCode() {
         return $this->currencyCode;
+    }
+    
+    public function getCurrency() {
+        if (is_null($this->_currency)) {
+            $this->_currency = $this->getManager('currency')->getByCode($this->getCurrencyCode());
+        }
+        return $this->_currency;
     }
 
     public function getCreated() {

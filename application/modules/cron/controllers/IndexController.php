@@ -37,8 +37,8 @@ class Cron_IndexController extends Core_Controller_Action
         if ($analysis->count()) {
             foreach ($analysis->getCurrencies() as $currency) {
                 Core_Mail::sendAnalysisCurrency($currency, 
-                        $analysis->listAnalysisOvertimeByCurrencyCode($currency->getCode()),
-                        $analysis->listAnalysisPercentByCurrencyCode($currency->getCode()));
+                        $analysis->getOvertimeByCurrencyCode($currency->getCode()),
+                        $analysis->listPercentByCurrencyCode($currency->getCode()));
             }
         }
         // readAll analysis metal for today
@@ -46,20 +46,21 @@ class Cron_IndexController extends Core_Controller_Action
         if ($analysis->count()) {
             foreach ($analysis->getMetals() as $metal) {
                 Core_Mail::sendAnalysisMetal($metal, 
-                        $analysis->listAnalysisOvertimeByMetalCode($metal->getCode()),
-                        $analysis->listAnalysisPercentByMetalCode($metal->getCode()));
+                        $analysis->getOvertimeByMetalCode($metal->getCode()),
+                        $analysis->listPercentByMetalCode($metal->getCode()));
             }
         }
     }
 
     private function taskAnalisys() {
+        $count = 0;
         // считываем настройки выполнения анализа
         $tasks = $this->getManager('task')->fetchAll();
         foreach ($tasks as $task) {
             $serviceAnalyses = $this->getService('analysis');
-            $serviceAnalyses->runByTask($task);            
+            $count += $serviceAnalyses->runByTask($task);            
         }
-        
+        return $count;
     }
     
 }

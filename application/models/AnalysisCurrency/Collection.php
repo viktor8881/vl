@@ -31,7 +31,7 @@ class AnalysisCurrency_Collection extends Core_Domen_CollectionAbstract {
     }
     
     
-    public function listAnalysisPercentByCurrencyCode($currencyCode) {
+    public function listPercentByCurrencyCode($currencyCode) {
         $list = array();
         foreach ($this->getIterator() as $analysis) {
             if ($analysis->isPercent() && $analysis->getCurrencyCode() == $currencyCode) {
@@ -41,7 +41,7 @@ class AnalysisCurrency_Collection extends Core_Domen_CollectionAbstract {
         return $list;
     }
     
-    public function getAnalysisOvertimeByCurrencyCode($currencyCode) {
+    public function getOvertimeByCurrencyCode($currencyCode) {
         foreach ($this->getIterator() as $analysis) {
             if ($analysis->isOvertime() && $analysis->getCurrencyCode() == $currencyCode) {
                 return $analysis;

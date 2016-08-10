@@ -1,23 +1,14 @@
 <?php
-    if ($this->overtime->isQuotesGrowth()) {
-        
-    }
-?>
-
-<br />
-<p>Расчетный период - <?=$this->pluralDays($this->mess->getDay())?></p>
-<br />
-
-<?php
-    foreach ($this->mess->getCurrencies() as $currency) {
-        echo '<strong>'.$this->escape($currency->getName())
-                . '<span style="color: rgb(5, 132, 11);">'
-                . ' ▲ '
-                . $this->formatPercent($currency->getDiffPercent()).'%'
-                . '</span></strong><br />';
-        echo $currency->getStartDateFormatDMY().'<span style="margin-left:30px;">'.$this->formatMoney($currency->getStartMoneyValue()).'</span><br />';
-        echo $currency->getEndDateFormatDMY().'<span style="margin-left:30px;">'.$this->formatMoney($currency->getEndMoneyValue()).'</span><br />';
-        echo '<span style="color: rgb(5, 132, 11); margin-left:88px;">+ '.$this->formatMoney($currency->getDiffMoneyValue(), true).'</span><br />';
-        echo '====================================<br /><br />';
+    if ($this->overtime) {
+        if ($this->overtime->isQuotesGrowth()) {
+            echo '<p>Повышение курса в течении '.$this->PluralDaysGenitive($this->overtime->countData(), true).'</p>';
+        }else{
+            echo '<p>Понижение курса в течении '.$this->PluralDaysGenitive($this->overtime->countData(), true).'</p>';
+        }
+        echo '<ul>';
+        foreach ($this->overtime->getListData() as $date=>$course) {
+            echo '<li><span class="small">'.$date.'</span> '.$course.'</li>';
+        }
+        echo '</ul>';
     }
 ?>

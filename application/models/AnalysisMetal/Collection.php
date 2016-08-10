@@ -16,7 +16,7 @@ class AnalysisMetal_Collection extends Core_Domen_CollectionAbstract {
     public function listCodeMetals() {
         $listCode = array();
         foreach ($this->getIterator() as $analysis) {
-            $listCode[] = $analysis->getCurrencyCode();
+            $listCode[] = $analysis->getMetalCode();
         }
         return array_unique($listCode);
     }
@@ -29,7 +29,7 @@ class AnalysisMetal_Collection extends Core_Domen_CollectionAbstract {
         return Core_Container::getManager('metal')->createCollection();
     }        
     
-    public function listAnalysisPercentByMetalCode($code) {
+    public function listPercentByMetalCode($code) {
         $list = array();
         foreach ($this->getIterator() as $analysis) {
             if ($analysis->isPercent() && $analysis->getMetalCode() == $code) {
@@ -39,7 +39,7 @@ class AnalysisMetal_Collection extends Core_Domen_CollectionAbstract {
         return $list;
     }
     
-    public function getAnalysisOvertimeByMetalCode($code) {
+    public function getOvertimeByMetalCode($code) {
         foreach ($this->getIterator() as $analysis) {
             if ($analysis->isOvertime() && $analysis->getMetalCode() == $code) {
                 return $analysis;

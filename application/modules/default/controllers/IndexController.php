@@ -34,6 +34,7 @@ class IndexController extends Core_Controller_Action
 //    }
 
     public function indexAction() {
+        die('index');
         $period = (int)$this->_getParam('period', self::PERIOD);
         $percent = (float)$this->_getParam('percent', self::PERCENT);
         

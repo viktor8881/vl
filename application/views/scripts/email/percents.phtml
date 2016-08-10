@@ -1,0 +1,21 @@
+<?php
+    foreach ($this->percents as $percent) {
+        if ($percent->isQuotesGrowth()) {
+            $sign = '+';
+            $iconSign = '▲';
+            $cssColor = 'color: rgb(5, 132, 11);';
+        }else{
+            $sign = '-';
+            $iconSign = '▼';
+            $cssColor = 'color: rgb(191, 0, 0);';
+        }
+        
+        echo '<strong><span style="'.$cssColor.'"> '
+                .$iconSign.' за '.$this->pluralDays($percent->getPeriod()).' '.$this->formatPercent($percent->getDiffPercent()).'%'
+                . '</span></strong><br />';
+        echo $percent->getStartDateFormatDMY().'<span style="margin-left:30px;">'.$this->formatMoney($percent->getStartValue()).'</span><br />';
+        echo $percent->getEndDateFormatDMY().'<span style="margin-left:30px;">'.$this->formatMoney($percent->getEndValue()).'</span><br />';
+        echo '<span style="'.$cssColor.'; margin-left:88px;">'.$sign.' '.$this->formatMoney($percent->getDiffMoneyValue(), true).'</span><br />';
+        echo '====================================<br /><br />';
+    }
+?>

@@ -35,7 +35,7 @@ class Core_Mail extends Zend_Mail
     }
     
     
-    public static function sendAnalysisCurrency($currency, AnalysisCurrency_Model_OverTime$overtime=null, array $percents) {
+    public static function sendAnalysisCurrency($currency, AnalysisCurrency_Model_OverTime $overtime=null, array $percents) {
         $mail = new Zend_Mail(self::$_defaultCharset);
         $mail->setFrom(self::getSiteEmail());
         $mail->addTo(self::getAdminEmail());
@@ -43,18 +43,18 @@ class Core_Mail extends Zend_Mail
         $layout = self::getLayout();
         $view = self::getView();
         $layoutСontent = '';
-        $layout->currency = $currency;
+        $layout->investmentName = $currency->getName();
         if ($overtime) {
             $view->assign('overtime', $overtime);
             $layoutСontent .= $view->render('overtime.phtml');
         }
         if (count($percents)) {
             $view->clearVars();
-            $view->assign('percents', $percent);
+            $view->assign('percents', $percents);
             $layoutСontent .= $view->render('percents.phtml');
         }
         if ($layoutСontent) {
-            $layout->content .= $layoutСontent;
+            $layout->content = $layoutСontent;
             $layout->footer = $view->render('footer.phtml');
             $mail->setBodyHtml($layout->render());
             $mail->send();
@@ -65,22 +65,22 @@ class Core_Mail extends Zend_Mail
         $mail = new Zend_Mail(self::$_defaultCharset);
         $mail->setFrom(self::getSiteEmail());
         $mail->addTo(self::getAdminEmail());
-        $mail->setSubject('Метал '.$currency->getName());
+        $mail->setSubject('Метал '.$metal->getName());
         $layout = self::getLayout();
         $view = self::getView();
         $layoutСontent = '';
-        $layout->metal = $metal;
+        $layout->investmentName = $metal->getName();
         if ($overtime) {
             $view->assign('overtime', $overtime);
             $layoutСontent .= $view->render('overtime.phtml');
         }
         if (count($percents)) {
             $view->clearVars();
-            $view->assign('percents', $percent);
+            $view->assign('percents', $percents);
             $layoutСontent .= $view->render('percents.phtml');
         }
         if ($layoutСontent) {
-            $layout->content .= $layoutСontent;
+            $layout->content = $layoutСontent;
             $layout->footer = $view->render('footer.phtml');
             $mail->setBodyHtml($layout->render());
             $mail->send();

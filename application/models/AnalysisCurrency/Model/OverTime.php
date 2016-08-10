@@ -42,12 +42,18 @@ class AnalysisCurrency_Model_OverTime extends AnalysisCurrency_Model_Abstract {
         return $this;
     }
     
-    public function isQuotesGrowth(){
-        
+    public function isQuotesGrowth() {
+        $list = $this->getListData();
+        return current($list) > end($list);
     }
     
-    public function isQuotesFall(){
-        
+    public function isQuotesFall() {
+        $list = $this->getListData();
+        return current($list) < end($list);
+    }
+    
+    public function countData() {
+        return count($this->listData);
     }
 
     

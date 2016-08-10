@@ -79,10 +79,10 @@ class CourseMetal_Model extends Core_Domen_Model_Abstract {
 
     public function setDate($date) {
         if ($date instanceof DateTime ) {
-			$this->date = $date;
-		}else{
-			$this->date = new Core_Date($date);
-		}
+                $this->date = $date;
+        }else{
+                $this->date = new Core_Date($date);
+        }
         return $this;
     }
 

@@ -74,7 +74,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
     protected function _initZFDebug()
     {
-         return ;
+//         return ;
 //        if (APPLICATION_ENV == 'production'){ return ; }
         $autoloader = Zend_Loader_Autoloader::getInstance();
         $autoloader->registerNamespace('ZFDebug');
