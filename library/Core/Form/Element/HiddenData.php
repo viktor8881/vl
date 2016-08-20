@@ -65,14 +65,5 @@ class Core_Form_Element_HiddenData extends Zend_Form_Element_Hidden
     }
     
     
-    public function isValid($value, $context = null) {
-        $res = ($value == $this->getValue());        
-        if ($res === true) {
-            $res = parent::isValid($value, $context);
-        }
-        return $res;
-    }
-    
-    
 }
 

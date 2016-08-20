@@ -16,9 +16,9 @@ class View_Helper_Task_TypeName extends Zend_View_Helper_Abstract
     public function task_TypeName($type) 
     {
         if ($type == Task_Model_Abstract::TYPE_PERCENT) {
-            return 'изменение на процент за период';
+            return _('изменение на процент за период');
         }elseif ($type == Task_Model_Abstract::TYPE_OVER_TIME) {
-            return 'рост/падение в течении времени';
+            return _('рост/падение в течении времени');
         }
         return '';
     }

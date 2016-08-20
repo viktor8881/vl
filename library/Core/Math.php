@@ -54,7 +54,11 @@ class Core_Math {
      * @return результат сравнения <br /> 1 - левое > правого <br /> -1 - правое > левое <br /> 0 - равны
      */
     public static function compareMoney($left, $right) {
-        return self::compare($left, $right, Core_Container::getService('setting')->fractMoney());
+        return self::compare($left, $right, Core_Container::getManager('setting')->fractMoney());
     }    
+    
+    public static function roundMoney($money) {
+        return self::round($money, Core_Container::getManager('setting')->fractMoney());
+    }
     
 }

@@ -18,8 +18,7 @@ class Task_Model_Percent extends Task_Model_Abstract {
     private $currenciesCode=array();
     private $metalsCode=array();
     
-    private $_currencies;
-    private $_metals;
+    
     
 
            
@@ -35,25 +34,13 @@ class Task_Model_Percent extends Task_Model_Abstract {
         return $this->currenciesCode;
     }
     
-    public function getCurrencies() {
-        $listCode = $this->getCurrenciesCode();
-        if (is_null($this->_currencies) && count($listCode)) {
-            $this->_currencies = $this->getManager('currency')->fetchAllByCodes($listCode);
-        }
-        return $this->_currencies;
-    }
+    
 
     public function getMetalsCode() {
         return $this->metalsCode;
     }
     
-    public function getMetals() {
-        $listCode = $this->getMetalsCode();
-        if (is_null($this->_metals) && count($listCode)) {
-            $this->_metals = $this->getManager('metal')->fetchAllByCodes($listCode);
-        }
-        return $this->_metals;
-    }
+    
 
     public function setPercent($percent) {
         $this->percent = $percent;

@@ -25,8 +25,8 @@ class Core_Helper_NumToString extends Zend_View_Helper_Abstract {
     public function numToString($number, $stripkop=false)
     {
         $number=(float)$number;
-        $formatKop = Core_Container::getService('setting')->getCurrency()->getPluralFractional();
-        $formatRb=Core_Container::getService('setting')->getCurrency()->getPlural();
+        $formatKop = Core_Container::getManager('setting')->getCurrency()->getPluralFractional();
+        $formatRb=Core_Container::getManager('setting')->getCurrency()->getPlural();
         $out = $tmp = array();
         // Поехали!
         $tmp = explode('.', str_replace(',','.', $number), 2);        

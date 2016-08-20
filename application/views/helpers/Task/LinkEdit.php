@@ -17,9 +17,9 @@ class View_Helper_Task_LinkEdit extends Zend_View_Helper_Abstract
     {
         $xhtml = '';
         if ($model->isPercent()) {
-            $xhtml .= '<a href="/tasks/percent/edit/id/'.$model->getId().'">'.$this->view->iconEdit($name).' '.$name.'</a>';
+            $xhtml .= '<a href="/tasks/percent/edit/id/'.$model->getId().'">'.$this->view->iconEdit($name).' '._($name).'</a>';
         }elseif ($model->isOvertime()) {
-            $xhtml .= '<a href="/tasks/overtime/edit/id/'.$model->getId().'">'.$this->view->iconEdit($name).' '.$name.'</a>';
+            $xhtml .= '<a href="/tasks/overtime/edit/id/'.$model->getId().'">'.$this->view->iconEdit($name).' '._($name).'</a>';
         }
         return $xhtml;
     }

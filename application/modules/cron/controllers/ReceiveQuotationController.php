@@ -8,12 +8,12 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
     
     
     public function currencyAction() {
-        $currencies = $this->getManager('currency')->fetchAll();
         $date = new Core_Date();
         if (!$this->getManager('courseCurrency')->getByDate($date)) {
             $xmlstr = file_get_contents(self::URL_CURRENCY_COURCES.$date->format('d/m/Y'));
             $movies = new SimpleXMLElement($xmlstr);
             if (false !== strstr($xmlstr, $date->format('d.m.Y'))) {
+                $currencies = $this->getManager('currency')->fetchAll();
                 foreach ($movies->Valute as $item) {
                     $code = (string)$item['ID'];
                     if ($currencies->hasCode($code)) {
@@ -25,8 +25,10 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                                         ->setDate($date);
                         $this->getManager('courseCurrency')->insert($course);
                         // tasks to queue
-                        $queue = Core_Container::getQueue();                        
-                        $queue->sendRunAnalysis(true);
+                        if ($this->getManager('courseMetal')->getByDate($date)) {
+                            $queue = Core_Container::getQueue();
+                            $queue->sendRunAnalysis(true);
+                        }
                     }
                 }
             }
@@ -38,10 +40,10 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
     
     public function metalAction() {
         $date = new Core_Date();
-        $metals = $this->getManager('metal')->fetchAll();
         if (!$this->getManager('courseMetal')->getByDate($date)) {
             $xmlstr = file_get_contents(str_replace('%date%', $date->format('d/m/Y'), self::URL_METAL_COURCES));
             $movies = new SimpleXMLElement($xmlstr);        
+            $metals = $this->getManager('metal')->fetchAll();
             foreach ($movies->Record as $item) {
                 $code = (string)$item['Code'];
                 if ($metals->hasCode($code)) {
@@ -52,8 +54,10 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                                     ->setDate($date);
                     $this->getManager('courseMetal')->insert($course);
                     // tasks to queue
-                    $queue = new Core_Queue();
-                    $queue->sendRunAnalysis(true);
+                    if ($this->getManager('courseCurrency')->getByDate($date)) {
+                        $queue = new Core_Queue();
+                        $queue->sendRunAnalysis(true);
+                    }
                 }
             }
         }

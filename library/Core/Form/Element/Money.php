@@ -22,7 +22,7 @@ class Core_Form_Element_Money extends Core_Form_Element_TextAppend {
             $options['validators'] = array(new Core_Validate_MoneyValue());
         }
         if (empty($options['text'])) {
-            $options['text'] = Core_Container::getService('setting')->getMoneyUnit();
+            $options['text'] = Core_Container::getManager('setting')->getMoneyUnit();
         }
         parent::__construct($spec, $options);
     }
@@ -37,7 +37,7 @@ class Core_Form_Element_Money extends Core_Form_Element_TextAppend {
         
         $id = $this->getId();
         $view->headScript()->captureStart();
-            echo "$('#".$id."').numberMask({decimalMark:['.',','],type:'float', afterPoint:'".Core_Container::getService('setting')->fractMoney()."'});";
+            echo "$('#".$id."').numberMask({decimalMark:['.',','],type:'float', afterPoint:'".Core_Container::getManager('setting')->fractMoney()."'});";
         $view->headScript()->captureEnd();
         return parent::render($view);
     }

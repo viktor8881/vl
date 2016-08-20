@@ -16,9 +16,9 @@ class View_Helper_InvestmentMetal_TypeName extends Zend_View_Helper_Abstract
     public function investmentMetal_TypeName($type) 
     {
         if ($type == InvestmentMetal_Model::TYPE_BUY) {
-            return 'покупка';
+            return _('покупка');
         }elseif ($type == InvestmentMetal_Model::TYPE_SELL) {
-            return 'продажа';
+            return _('продажа');
         }
         return '';
     }

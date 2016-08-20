@@ -13,7 +13,7 @@ class Investments_MetalController extends Core_Controller_Action
     }
     
     public function addAction() {
-        $this->view->headTitle('Купить метал');
+        $this->view->pageHeader('Купить метал');
         $form = new Form_Metal();
         $form->setMetal($this->getManager('metal')->fetchAllToArray());
         if ($this->getRequest()->isPost()) {
@@ -24,7 +24,7 @@ class Investments_MetalController extends Core_Controller_Action
                     $this->getManager('investmentMetal')->insertPay($invest);
                     $this->_redirect('/investments/metal/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException('Ошибка добавления инвестиции.');
+                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -32,7 +32,7 @@ class Investments_MetalController extends Core_Controller_Action
     }
     
     public function subAction() {
-        $this->view->headTitle('Продать метал');
+        $this->view->pageHeader('Продать метал');
         $form = new Form_Metal();
         $form->setMetal($this->getManager('metal')->fetchAllToArray());
         if ($this->getRequest()->isPost()) {
@@ -43,7 +43,7 @@ class Investments_MetalController extends Core_Controller_Action
                     $this->getManager('investmentMetal')->insertSell($invest);
                     $this->_redirect('/investments/metal/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException('Ошибка добавления инвестиции.');
+                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -51,10 +51,10 @@ class Investments_MetalController extends Core_Controller_Action
     }
     
     public function editAction() {
-        $this->view->headTitle('Редактировать');
+        $this->view->pageHeader('Редактировать');
         $invest = $this->getManager('investmentMetal')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException('Инвестиция не найдена.');
+            throw new RuntimeException(_('Инвестиция не найдена.'));
         }
         $form = new Form_Metal();
         $form->setMetal($this->getManager('metal')->fetchAllToArray());
@@ -73,7 +73,7 @@ class Investments_MetalController extends Core_Controller_Action
                     }
                     $this->_redirect('/investments/');
                 } catch (Exception $exc) {
-                    throw new RuntimeException('Ошибка редактирования инвестиции.');
+                    throw new RuntimeException(_('Ошибка редактирования инвестиции.'));
                 }
             }
         }else{
@@ -85,14 +85,14 @@ class Investments_MetalController extends Core_Controller_Action
     public function deleteAction() {
         $invest = $this->getManager('investmentMetal')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException('Инвестиция не найдена.');
+            throw new RuntimeException(_('Инвестиция не найдена.'));
         }
         try {
             $this->getManager('investmentMetal')->delete($invest);            
             $this->getManager('balanceMetal')->updateBalanceByInvest($invest);
             $this->_redirect('/investments/');
         } catch (Exception $exc) {
-            throw new RuntimeException('Ошибка удаления инвестиции.');
+            throw new RuntimeException(_('Ошибка удаления инвестиции.'));
         }
     }
     

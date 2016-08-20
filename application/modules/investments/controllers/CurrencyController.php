@@ -11,13 +11,9 @@ class Investments_CurrencyController extends Core_Controller_Action
         $this->view->paginator = $paginator;
         $this->view->investments = $this->getManager('investmentCurrency')->fetchAll($paginator, $orders);
     }
-
-    public function indexAction() {
-        die('stop');
-    }
     
     public function addAction() {
-        $this->view->headTitle('Купить валюту');
+        $this->view->pageHeader('Купить валюту');
         $form = new Form_Currency();
         $form->setCurrency($this->getManager('currency')->fetchAllToArray());
         if ($this->getRequest()->isPost()) {
@@ -28,7 +24,7 @@ class Investments_CurrencyController extends Core_Controller_Action
                     $this->getManager('investmentCurrency')->insertPay($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException('Ошибка добавления инвестиции.');
+                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -36,7 +32,7 @@ class Investments_CurrencyController extends Core_Controller_Action
     }
     
     public function subAction() {
-        $this->view->headTitle('Продать валюту');
+        $this->view->pageHeader('Продать валюту');
         $form = new Form_Currency();
         $form->setCurrency($this->getManager('currency')->fetchAllToArray());
         if ($this->getRequest()->isPost()) {
@@ -47,7 +43,7 @@ class Investments_CurrencyController extends Core_Controller_Action
                     $this->getManager('investmentCurrency')->insertSell($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException('Ошибка добавления инвестиции.');
+                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -55,10 +51,10 @@ class Investments_CurrencyController extends Core_Controller_Action
     }
     
     public function editAction() {
-        $this->view->headTitle('Редактировать');
+        $this->view->pageHeader('Редактировать');
         $invest = $this->getManager('investmentCurrency')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException('Инвестиция не найдена.');
+            throw new RuntimeException(_('Инвестиция не найдена.'));
         }
         $form = new Form_Currency();
         $form->setCurrency($this->getManager('currency')->fetchAllToArray());
@@ -77,7 +73,7 @@ class Investments_CurrencyController extends Core_Controller_Action
                     }
                     $this->_redirect('/investments/');
                 } catch (Exception $exc) {
-                    throw new RuntimeException('Ошибка редактирования инвестиции.');
+                    throw new RuntimeException(_('Ошибка редактирования инвестиции.'));
                 }
             }
         }else{
@@ -89,14 +85,14 @@ class Investments_CurrencyController extends Core_Controller_Action
     public function deleteAction() {
         $invest = $this->getManager('investmentCurrency')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException('Инвестиция не найдена.');
+            throw new RuntimeException(_('Инвестиция не найдена.'));
         }
         try {
             $this->getManager('investmentCurrency')->delete($invest);
             $this->getManager('balanceCurrency')->updateBalanceByInvest($invest);
             $this->_redirect('/investments/');
         } catch (Exception $exc) {
-            throw new RuntimeException('Ошибка удаления инвестиции.');
+            throw new RuntimeException(_('Ошибка удаления инвестиции.'));
         }
     }
 

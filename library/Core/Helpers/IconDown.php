@@ -13,10 +13,10 @@
 class Core_Helper_IconDown extends Zend_View_Helper_Abstract {
     
     
-    public function iconDown($title=null)
+    public function iconDown()
     {
         $title = ($title)?'title="'._($this->view->escape($title)).'"':null;
-        return '▼';
+        return '<span title="'._($title).'">▼</span>';
     }
     
 }

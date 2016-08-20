@@ -16,7 +16,7 @@ class Core_Helper_Message extends Zend_View_Helper_Abstract {
      * и порядок их вывода на экран
      * @var array
      */
-    private $_nameSpaceMessage = array('error'=>array(), 'success'=>array(), 'info'=>array());        
+    private $_nameSpaceMessage = array('error'=>array(), 'warning'=>array(), 'success'=>array(), 'info'=>array());        
     
     public function message() {
         $html='';
@@ -51,7 +51,13 @@ class Core_Helper_Message extends Zend_View_Helper_Abstract {
                 $this->view->successMessage = array($this->view->successMessage);
             }
             $this->_nameSpaceMessage['success'] += $this->view->successMessage;
-
+        }
+        
+        if(!empty($this->view->warningMessage)) {
+            if (is_string($this->view->warningMessage)) {
+                $this->view->warningMessage = array($this->view->warningMessage);
+            }
+            $this->_nameSpaceMessage['warning'] += $this->view->warningMessage;
         }
         // вывод сообщений        
         foreach ($this->_nameSpaceMessage as $nameSpace=>$listMess){

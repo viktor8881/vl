@@ -13,6 +13,15 @@
  */
 class Task_Collection extends Core_Domen_CollectionAbstract {
     
+    public function orderByOwerTime() {
+        usort($this->_values, array($this, "_orderByOwerTime"));
+        return $this;
+    }
+    
+    private function _orderByOwerTime($a, $b) {
+        return $a->isOvertime()?-1:1;
+    }
+    
     
     
 }

@@ -16,9 +16,8 @@ class Core_Helper_IconEdit extends Zend_View_Helper_Abstract {
     public function iconEdit($title=null)
     {
         $title = ($title)?'title="'._($this->view->escape($title)).'"':null;
-        return '<span class="glyphicon glyphicon-edit" '.$title.'></span>';
+        return '<span class="glyphicon glyphicon-edit" '._($title).'></span>';
     }
     
 }
 
-?>

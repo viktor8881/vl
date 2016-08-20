@@ -20,4 +20,19 @@ class Task_Manager extends Core_Domen_Manager_Abstract {
         return $this->fetchAllByFilter($filters);
     }
     
+    public function fetchAllCustomOrderByOwerTime() {
+        $coll = $this->fetchAllCustom();
+        return $coll->orderByOwerTime();
+    }
+
+//    public function orderByOwerTime(Task_Collection $coll) {
+//        
+//        usort($coll, array($this, "_orderByOwerTime"));
+//        return $coll;
+//    }
+//    
+//    private function _orderByOwerTime($a, $b) {
+//        return $a->isOvertime()?-1:1;
+//    }
+    
 }

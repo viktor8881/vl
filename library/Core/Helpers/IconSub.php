@@ -16,7 +16,7 @@ class Core_Helper_IconSub extends Zend_View_Helper_Abstract {
     public function iconSub($title=null)
     {
         $title = ($title)?'title="'._($this->view->escape($title)).'"':null;
-        return '<span class="glyphicon glyphicon-minus" '.$title.'></span>';
+        return '<span class="glyphicon glyphicon-minus" '._($title).'></span>';
     }
     
 }

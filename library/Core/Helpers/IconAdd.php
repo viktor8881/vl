@@ -16,7 +16,7 @@ class Core_Helper_IconAdd extends Zend_View_Helper_Abstract {
     public function iconAdd($title=null)
     {
         $title = ($title)?'title="'._($this->view->escape($title)).'"':null;
-        return '<span class="glyphicon glyphicon-plus" '.$title.'></span>';
+        return '<span class="glyphicon glyphicon-plus" '._($title).'></span>';
     }
     
 }

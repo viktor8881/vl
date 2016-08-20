@@ -22,4 +22,12 @@ class Metal_Collection extends Core_Domen_CollectionAbstract {
         return false;
     }
     
+    public function listName() {
+        $res = array();
+        foreach ($this->getIterator() as $model) {
+            $res[] = $model->getName();
+        }
+        return $res;
+    }
+    
 }

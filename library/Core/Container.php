@@ -79,9 +79,9 @@ class Core_Container {
 //    }
     
     
-    public static function getQueue() {
+    public static function getQueue($name='main') {
         if (is_null(self::$_queue)) {
-            self::$_queue = new Core_Queue();
+            self::$_queue = new Core_Queue($name);
         }
         return self::$_queue;
     }

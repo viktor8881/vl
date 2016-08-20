@@ -20,12 +20,30 @@
     
   </head>
   <body>
-    <header></header>
+    <nav class="navbar  navbar-inverse">
+      <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only"><?=_('Toggle navigation')?></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"><?=_('Brand')?></a>
+            </div>
+          <div id="navbar" class="collapse navbar-collapse">
+                <?=$this->mainMenu()?>
+          </div>
+      </div>
+    </nav>
+      
     <div class="container">
+        <?=$this->message()?>
+        <?= $this->pageHeader()->__toString()?>
         <div class="row">
-            <?php
-                echo $this->layout()->content;                
-            ?>
+            <div class="col-sm-12">
+                <?= $this->layout()->content ?>
+            </div>
         </div>
         <hr />
     </div>    
@@ -34,6 +52,7 @@
     </footer>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="/js/main.js"></script>
     <?= $this->headScript() ?>
   </body>
 </html>

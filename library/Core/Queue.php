@@ -12,7 +12,7 @@
  * @author Viktor
  */
 class Core_Queue extends Zend_Queue {
-    
+
     const TASK_ANALYSIS = 'task_analysis';
     const TASK_SEND_MESSAGE = 'task_send_message';
 
