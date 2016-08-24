@@ -55,7 +55,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                     $this->getManager('courseMetal')->insert($course);
                     // tasks to queue
                     if ($this->getManager('courseCurrency')->getByDate($date)) {
-                        $queue = new Core_Queue();
+                        $queue = Core_Container::getQueue();
                         $queue->sendRunAnalysis(true);
                     }
                 }
