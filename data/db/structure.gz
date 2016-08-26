@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: mysql90.1gb.ru
--- Время создания: Авг 21 2016 г., 02:17
+-- Время создания: Авг 27 2016 г., 01:04
 -- Версия сервера: 5.5.35-rel33.0-log
 -- Версия PHP: 5.3.28
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `analysis_currency` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `currency_code` (`currency_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=72 ;
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `analysis_metal` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `metal_code` (`metal_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=79 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102 ;
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `course_currency` (
   `value` decimal(20,6) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4499 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4534 ;
 
 -- --------------------------------------------------------
 
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `course_metal` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `code` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=441 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=465 ;
 
 -- --------------------------------------------------------
 
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   PRIMARY KEY (`message_id`),
   UNIQUE KEY `message_handle` (`handle`),
   KEY `message_queueid` (`queue_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60 ;
 
 -- --------------------------------------------------------
 
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `queue` (
   `queue_name` varchar(100) NOT NULL,
   `timeout` smallint(5) unsigned NOT NULL DEFAULT '30',
   PRIMARY KEY (`queue_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
