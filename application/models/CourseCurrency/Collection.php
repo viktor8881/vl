@@ -22,5 +22,17 @@ class CourseCurrency_Collection extends Core_Domen_CollectionAbstract {
         return $result;
     }
     
+    public function isQuotesGrowth() {
+        $first = $this->first();
+        $last = $this->last();
+        return $last->getValue() > $first->getValue();
+    }
+    
+    public function isQuotesFall() {
+        $first = $this->first();
+        $last = $this->last();
+        return $last->getValue() < $first->getValue();
+    }
+    
     
 }

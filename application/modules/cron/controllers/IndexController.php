@@ -63,4 +63,17 @@ class Cron_IndexController extends Core_Controller_Action
         return $count;
     }
     
+//    public function analisysAction() {
+//        $count = 0;
+//        // считываем настройки выполнения анализа
+//        $tasks = $this->getManager('task')->fetchAll();
+//        foreach ($tasks as $task) {
+//            $serviceAnalyses = $this->getService('analysis');
+//            $count += $serviceAnalyses->runByTask($task);            
+//        }
+//        echo $count;
+//        die('stop');
+//        return $count;
+//    }
+    
 }

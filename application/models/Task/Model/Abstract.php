@@ -16,7 +16,12 @@ abstract class Task_Model_Abstract extends Core_Domen_Model_Abstract {
     const TYPE_PERCENT = 1;
     const TYPE_OVER_TIME = 2;
     
+    const MODE_ONLY_UP  = 1;
+    const MODE_ONLY_DOWN= 2;
+    const MODE_UP_DOWN  = 3;
+    
     private $id;
+    private $mode;
     private $_currencies;
     private $_metals;
 
@@ -27,6 +32,7 @@ abstract class Task_Model_Abstract extends Core_Domen_Model_Abstract {
 
     public function getOptions() {
         return array('id'=>$this->getId(),
+            'mode'=>$this->getMode(),
             'type'=>$this->getType(),
             'body'=>$this->getBody());
     }
@@ -84,7 +90,29 @@ abstract class Task_Model_Abstract extends Core_Domen_Model_Abstract {
         return $currencies?$currencies->count():0;
     }
     
+    public function getMode() {
+        return $this->mode;
+    }
+
+    public function setMode($mode) {
+        $this->mode = $mode;
+        return $this;
+    }
+
+    public function isModeOnlyUp() {
+        return $this->getMode() == self::MODE_ONLY_UP;
+    }
     
+    public function isModeOnlyDown() {
+        return $this->getMode() == self::MODE_ONLY_DOWN;
+    }
+    
+    public function isModeUpDown() {
+        return $this->getMode() == self::MODE_UP_DOWN;
+    }
+
+    
+
     abstract public function getType();
     
     abstract public function getBody();

@@ -44,8 +44,14 @@ class Service_Analysis implements Service_Interface {
                     $courseStartPeriod = $rows->last();
                     $upValue = $courseToday->getValueForOne()*(1+$percent/100);
                     $downValue = $courseToday->getValueForOne()*(1-$percent/100);
-                    if ($upValue <= $courseStartPeriod->getValueForOne() or 
-                            $downValue >= $courseStartPeriod->getValueForOne()) {
+                    if ($task->isModeOnlyUp() && $upValue > $courseStartPeriod->getValueForOne()) {
+                        continue;
+                    }elseif ($task->isModeOnlyDown() && $downValue < $courseStartPeriod->getValueForOne()) {
+                        continue;
+                    }
+                    
+//                    if ($upValue <= $courseStartPeriod->getValueForOne() or 
+//                            $downValue >= $courseStartPeriod->getValueForOne()) {
                         $subData = array('percent'=>$task->getPercent(),
                                 'period'    =>$task->getPeriod(),
                                 'startDate' =>$courseToday->getDateFormatDMY(),
@@ -60,7 +66,7 @@ class Service_Analysis implements Service_Interface {
                         $analysis = $this->getManager('analysisCurrency')->createModel($data);
                         $this->getManager('analysisCurrency')->insert($analysis);
                         $countRec++;
-                    }
+//                    }
                 }
             }
         }
@@ -73,8 +79,15 @@ class Service_Analysis implements Service_Interface {
                     $courseStartPeriod = $rows->last();
                     $upValue = $courseToday->getValue()*(1+$percent/100);
                     $downValue = $courseToday->getValue()*(1-$percent/100);
-                    if ($upValue <= $courseStartPeriod->getValue() or 
-                            $downValue >= $courseStartPeriod->getValue()) {
+                    
+                    if ($task->isModeOnlyUp() && $upValue > $courseStartPeriod->getValue()) {
+                        continue;
+                    }elseif ($task->isModeOnlyDown() && $downValue < $courseStartPeriod->getValue()) {
+                        continue;
+                    }
+                    
+//                    if ($upValue <= $courseStartPeriod->getValue() or 
+//                            $downValue >= $courseStartPeriod->getValue()) {
                         $subData = array('percent'=>$task->getPercent(),
                                 'period'    =>$task->getPeriod(),
                                 'startDate' =>$courseToday->getDateFormatDMY(),
@@ -88,7 +101,7 @@ class Service_Analysis implements Service_Interface {
                         $analysis = $this->getManager('analysisMetal')->createModel($data);
                         $this->getManager('analysisMetal')->insert($analysis);
                         $countRec++;
-                    }
+//                    }
                 }
             }
         }
@@ -104,6 +117,12 @@ class Service_Analysis implements Service_Interface {
             foreach ($task->getCurrencies() as $currency) {
                 $rows = $this->getManager('courseCurrency')->fetchAllForAnalysisByCode($currency->getCode());
                 if ($rows->count() > $task->getPeriod()) {
+                    if ($task->isModeOnlyUp() && $rows->isQuotesGrowth()) {
+                        continue;
+                    }elseif ($task->isModeOnlyDown() && $rows->isQuotesFall()) {
+                        continue;
+                    }
+                    
                     $subData = array('period'=>$task->getPeriod(),
                             'listData' =>$rows->listDateCourse());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_OVER_TIME,
@@ -121,6 +140,11 @@ class Service_Analysis implements Service_Interface {
             foreach ($task->getMetals() as $metal) {
                 $rows = $this->getManager('courseMetal')->fetchAllForAnalysisByCode($metal->getCode());
                 if ($rows->count() > $task->getPeriod()) {
+                    if ($task->isModeOnlyUp() && $rows->isQuotesGrowth()) {
+                        continue;
+                    }elseif ($task->isModeOnlyDown() && $rows->isQuotesFall()) {
+                        continue;
+                    }
                     $subData = array('period'=>$task->getPeriod(),
                             'listData' =>$rows->listDateCourse());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_OVER_TIME,
