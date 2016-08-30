@@ -27,7 +27,7 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
     }
 
     public function getByDate(Core_Date $date) {
-		$filters = new Core_Domen_Filter_Collection();
+        $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseCurrency_Filter_Date($date));
         return parent::getByFilter($filters);
     }
@@ -50,7 +50,7 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         return null;
     }
     
-    public function fetchAllForAnalysisByCode($code) {
+    public function fetchAllForAnalysisByCodeToDate($code, Core_Date $date) {
         $result = $this->createCollection();
         
         $paginator = Zend_Paginator::factory(20);
@@ -59,7 +59,12 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         $orders = new Core_Domen_Order_Collection();
         $orders->addOrder(new CourseCurrency_Order_Id('DESC'));
         
-        $rows = $this->fetchAllByCode($code, $paginator, $orders);
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseCurrency_Filter_Code($code))
+                ->addFilter(new CourseCurrency_Filter_LsEqDate($date));
+        $rows = parent::fetchAllByFilter($filters, $paginator, $orders);
+        
+//        $rows = $this->fetchAllByCode($code, $paginator, $orders);
         if ($rows->count() > 1) {
             $sign = null;
             $prev = $rows->first();

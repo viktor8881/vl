@@ -7,16 +7,35 @@
  */
 
 /**
- * Description of Service_Analysis
+ * Description of Service_Autoinvestment
  *
  * @author Viktor
  */
-class Service_Analysis implements Service_Interface {
+class Service_Autoinvestment {
+    
+    // list positive analysis
+    private $listPositive = array();
+    // list negative analysis
+    private $listNegative = array();
     
     
     private function getManager($name) {
         return Core_Container::getManager($name);
     }
+    
+    public function run(Core_Date $date) {
+        foreach($this->getManager('analysisCurrency')->fetchAllByDate($date) as $analysis) {
+            if ($analysis->isQuotesFall()) {
+                $listNegative[] = $analysis->getCurrencyCode();
+            }else{
+                $listPositive[] = $analysis->getCurrencyCode();
+            }
+        }
+        
+        $analysis = $this->getManager('analysisMetal')->fetchAllByDate($date);
+    }
+    
+    // =========================================================================
     
     public function runByTask(Task_Model_Abstract $task, Core_Date $date) {
         $count = 0;

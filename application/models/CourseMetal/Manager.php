@@ -26,7 +26,7 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters);
     }
     
-    public function fetchAllForAnalysisByCode($code) {
+    public function fetchAllForAnalysisByCodeToDate($code, Core_Date $date) {
         $result = $this->createCollection();
         
         $paginator = Zend_Paginator::factory(20);
@@ -35,7 +35,11 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         $orders = new Core_Domen_Order_Collection();
         $orders->addOrder(new CourseMetal_Order_Id('DESC'));
         
-        $rows = $this->fetchAllByCode($code, $paginator, $orders);
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseMetal_Filter_Code($code))
+                ->addFilter(new CourseMetal_Filter_LsEqDate($date));
+        $rows = parent::fetchAllByFilter($filters, $paginator, $orders);
+//        $rows = $this->fetchAllByCode($code, $paginator, $orders);
         if ($rows->count() > 1) {
             $sign = null;
             $prev = $rows->first();

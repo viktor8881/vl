@@ -7,12 +7,10 @@
  */
 
 /**
- * Description of Service_Analysis
+ * Description of Model_wer
  *
- * @author Viktor
+ * @author Viktor Ivanov
  */
-interface Service_Interface {
-    
-    public function runByTask(Task_Model_Abstract $task, Core_Date $date);
-    
+class Model_Analysis {
+    //put your code here
 }
