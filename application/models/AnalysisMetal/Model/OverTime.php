@@ -55,6 +55,10 @@ class AnalysisMetal_Model_OverTime extends AnalysisMetal_Model_Abstract {
     public function countData() {
         return count($this->listData);
     }
+    
+    public function getDiffPercent() {
+        return 100 - (abs(reset($this->listData)*100/end($this->listData)));
+    }
         
     // == abstract methods =
     

@@ -9,7 +9,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
     
     public function currencyAction() {
         $date = new Core_Date();
-        if (!$this->getManager('courseCurrency')->getByDate($date)) {
+        if (!$this->getManager('courseCurrency')->hasByDate($date)) {
             $xmlstr = file_get_contents(self::URL_CURRENCY_COURCES.$date->format('d/m/Y'));
             $movies = new SimpleXMLElement($xmlstr);
             if (false !== strstr($xmlstr, $date->format('d.m.Y'))) {
@@ -25,7 +25,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                                         ->setDate($date);
                         $this->getManager('courseCurrency')->insert($course);
                         // tasks to queue
-                        if ($this->getManager('courseMetal')->getByDate($date)) {
+                        if ($this->getManager('courseMetal')->hasByDate($date)) {
                             $queue = Core_Container::getQueue();
                             $queue->sendRunAnalysis(true);
                         }
@@ -40,7 +40,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
     
     public function metalAction() {
         $date = new Core_Date();
-        if (!$this->getManager('courseMetal')->getByDate($date)) {
+        if (!$this->getManager('courseMetal')->hasByDate($date)) {
             $xmlstr = file_get_contents(str_replace('%date%', $date->format('d/m/Y'), self::URL_METAL_COURCES));
             $movies = new SimpleXMLElement($xmlstr);        
             $metals = $this->getManager('metal')->fetchAll();
@@ -54,7 +54,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                                     ->setDate($date);
                     $this->getManager('courseMetal')->insert($course);
                     // tasks to queue
-                    if ($this->getManager('courseCurrency')->getByDate($date)) {
+                    if ($this->getManager('courseCurrency')->hasByDate($date)) {
                         $queue = Core_Container::getQueue();
                         $queue->sendRunAnalysis(true);
                     }

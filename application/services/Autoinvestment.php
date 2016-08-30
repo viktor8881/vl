@@ -13,10 +13,22 @@
  */
 class Service_Autoinvestment {
     
+    const PERCENT_RATE    = 0.95;
+    const OVERTIME_RATE   = 1;
+    
+    // сколько едениц прибавить для расчета суммы списания
+    const ADD_DIFF = 10;
+    
     // list positive analysis
     private $listPositive = array();
     // list negative analysis
     private $listNegative = array();
+    
+    private $listMetalSub       = array();
+    private $listCurrencySub    = array();
+    private $listMetalAdd       = array();
+    private $listCurrencyAdd    = array();
+    
     
     
     private function getManager($name) {
@@ -25,15 +37,77 @@ class Service_Autoinvestment {
     
     public function run(Core_Date $date) {
         foreach($this->getManager('analysisCurrency')->fetchAllByDate($date) as $analysis) {
+            $weight = $this->getWeightAnalysis($analysis);
             if ($analysis->isQuotesFall()) {
-                $listNegative[] = $analysis->getCurrencyCode();
+                $this->listNegative[$weight] = $analysis;
             }else{
-                $listPositive[] = $analysis->getCurrencyCode();
+                $this->listPositive[$weight] = $analysis;
             }
         }
+        foreach($this->getManager('analysisMetal')->fetchAllByDate($date) as $analysis) {
+            if ($analysis->isQuotesFall()) {
+                $this->listNegative[$weight] = $analysis;
+            }else{
+                $this->listPositive[$weight] = $analysis;
+            }
+        }
+        // найдем сколько нужно списать
+        if (count($this->listNegative)) {
+            ksort($this->listNegative);
+            $sumNeg = abs(array_sum(array_keys($this->listNegative)))+self::ADD_DIFF;
+            foreach ($this->listNegative as $index=>$negA) {
+                // определяем тип инвестиции
+                if ($negA instanceof AnalysisMetal_Model_Abstract) {
+                    $code = $negA->getMetalCode();
+                    $balance = $this->getManager('BalanceMetal')->getByCode($code);
+                    if ($balance) {
+                        if (Core_Math::compareMoney($balance->getBalance(), 0) == 1) {
+                            $balanceValue = $balance->getBalance() * (abs($index)/$sumNeg);
+                            $balance->sub($balanceValue);
+                            $this->getManager('BalanceMetal')->update($balance);
+                            // пополняем основной счет по курсу
+                            $this->getManager('account')->addPay($this->getManager('BalanceMetal')->getSellCodeByDate($code, $date) * $balanceValue);
+                        }
+                    }
+                }elseif ($negA instanceof AnalysisCurrency_Model_Abstract) {
+                    $code = $negA->getCurrencyCode();
+                    $balance = $this->getManager('BalanceCurrency')->getByCode($code);
+                    if ($balance) {
+                        $balanceValue = $balance->getBalance();
+                        if (Core_Math::compareMoney($balanceValue, 0) == 1) {
+                            $balanceValue = $balance->getBalance() * (abs($index)/$sumNeg);
+                            $balance->sub($balanceValue);
+                            $this->getManager('BalanceCurrency')->update($balance);
+                            // пополняем основной счет по курсу
+                            $this->getManager('account')->addPay($this->getManager('BalanceCurrency')->getValueCodeByDate($code, $date) * $balanceValue);
+                        }
+                    }
+                }
+            }
+        }
+        // переводим на положительный прогноз
+//        if (!count($this->listPositive)) {
+//            
+//            foreach ($this->listMetalSub as $code=>$value) {
+//                $balance = $this->getManager('BalanceMetal')->getByCode($code);
+//                $balance->sub($value);
+//            }
+//        }else{
+//            
+//        }
         
-        $analysis = $this->getManager('analysisMetal')->fetchAllByDate($date);
     }
+    
+    public function getWeightAnalysis($analisys) {
+        if ($analisys->isPercent()) {
+            return $analisys->getDiffPercent() * $analisys->getPeriod() * self::PERCENT_RATE;
+        }else{
+            return $analisys->getDiffPercent() * $analisys->countData() * self::OVERTIME_RATE;
+        }
+    }
+
+    
+    
     
     // =========================================================================
     

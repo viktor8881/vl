@@ -79,8 +79,15 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters, $paginator, $orders);
     }
 
+    public function getSellCodeByDate($code, Core_Date $date) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseMetal_Filter_Date($date))
+                ->addFilter(new CourseMetal_Filter_Code($code));
+        $model = parent::getByFilter($filters);
+        return ($model)?$model->getSell():0;
+    }
     
-    public function getByDate(Core_Date $date) {
+    public function hasByDate(Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseMetal_Filter_Date($date));
         return parent::getByFilter($filters);

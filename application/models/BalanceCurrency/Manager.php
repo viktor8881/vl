@@ -13,6 +13,12 @@
  */
 class BalanceCurrency_Manager extends Core_Domen_Manager_Abstract {
     
+    
+    public function getBalanceByCode($code) { 
+        $model = $this->getByCode($code);
+        return ($model)?$model->getBalance():0;
+    }
+    
     public function getByCode($code) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new BalanceCurrency_Filter_Code($code));

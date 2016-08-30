@@ -56,6 +56,9 @@ class AnalysisCurrency_Model_OverTime extends AnalysisCurrency_Model_Abstract {
         return count($this->listData);
     }
 
+    public function getDiffPercent() {
+        return 100 - (abs(reset($this->listData)*100/end($this->listData)));
+    }
     
     // == abstract methods =
     
