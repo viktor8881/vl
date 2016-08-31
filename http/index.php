@@ -30,6 +30,22 @@ $application = new Zend_Application(
 $application->bootstrap()
             ->run();
 
+
+//==============================================================================
+
+function _($text=null) {
+    if(!$text) {
+        return '';
+    }
+    $registry = Zend_Registry::getInstance();
+    if ($registry->offsetExists('Zend_Translate')) {
+        $translate = $registry->get('Zend_Translate');    
+        $str = $translate->translate($text);
+        return $str;
+    }
+    return $text;
+}
+
 function pr($value) {
     echo '<pre>';
     print_r($value);

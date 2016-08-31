@@ -21,7 +21,7 @@ class Investments_MetalController extends Core_Controller_Action
                 $invest = $this->getManager('investmentMetal')->createModel($form->getValuesForModel());
                 $invest->setType(InvestmentMetal_Model::TYPE_BUY);
                 try {
-                    $this->getManager('investmentMetal')->insertPay($invest);
+                    $this->getManager('investmentMetal')->insertBuy($invest);
                     $this->_redirect('/investments/metal/list');
                 } catch (Exception $exc) {
                     throw new RuntimeException(_('Ошибка добавления инвестиции.'));
@@ -88,8 +88,7 @@ class Investments_MetalController extends Core_Controller_Action
             throw new RuntimeException(_('Инвестиция не найдена.'));
         }
         try {
-            $this->getManager('investmentMetal')->delete($invest);            
-            $this->getManager('balanceMetal')->updateBalanceByInvest($invest);
+            $this->getManager('investmentMetal')->delete($invest);
             $this->_redirect('/investments/');
         } catch (Exception $exc) {
             throw new RuntimeException(_('Ошибка удаления инвестиции.'));

@@ -21,7 +21,7 @@ class Investments_CurrencyController extends Core_Controller_Action
                 $invest = $this->getManager('investmentCurrency')->createModel($form->getValuesForModel());
                 $invest->setType(InvestmentCurrency_Model::TYPE_BUY);
                 try {
-                    $this->getManager('investmentCurrency')->insertPay($invest);
+                    $this->getManager('investmentCurrency')->insertBuy($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
                     throw new RuntimeException(_('Ошибка добавления инвестиции.'));
@@ -89,7 +89,6 @@ class Investments_CurrencyController extends Core_Controller_Action
         }
         try {
             $this->getManager('investmentCurrency')->delete($invest);
-            $this->getManager('balanceCurrency')->updateBalanceByInvest($invest);
             $this->_redirect('/investments/');
         } catch (Exception $exc) {
             throw new RuntimeException(_('Ошибка удаления инвестиции.'));

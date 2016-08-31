@@ -13,7 +13,7 @@
  */
 class InvestmentCurrency_Manager extends Core_Domen_Manager_Abstract {
     
-    public function insertPay(InvestmentCurrency_Model $model) {
+    public function insertBuy(InvestmentCurrency_Model $model) {
         $res = parent::insert($model);
         if ($res) {
             $this->getManager('balanceCurrency')->addToInvestment($model);
@@ -27,6 +27,18 @@ class InvestmentCurrency_Manager extends Core_Domen_Manager_Abstract {
             $this->getManager('balanceCurrency')->subToInvestment($model);
         }
         return $res;
+    }
+    
+    public function delete(\Core_Domen_IModel $model) {
+        if (!($model instanceof InvestmentCurrency_Model)) {
+            throw new RuntimeException("Error delete. Wrong type.");
+        }
+        if ($model->isBuy()) {
+            $this->getManager('balanceCurrency')->subToInvestment($model);
+        }else{
+            $this->getManager('balanceCurrency')->addToInvestment($model);
+        }
+        return parent::delete($model);
     }
 
     public function getSumByBalance(BalanceCurrency_Model $balance) {

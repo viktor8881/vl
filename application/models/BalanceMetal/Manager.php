@@ -28,25 +28,31 @@ class BalanceMetal_Manager extends Core_Domen_Manager_Abstract {
     public function addToInvestment(InvestmentMetal_Model $model) {
         $balance = $this->getByCode($model->getMetalCode());
         if (!$balance) {
-            $balance = $this->createModel();
-            $balance->setMetalCode($model->getMetalCode())
-                    ->setBalance(0);
-            parent::insert($balance);
+            $balance = $this->createBallance($model->getMetalCode());
         }
         $balance->addBalance($model->getCount());
+        $this->getManager('account')->subPay( abs($model->getSum()) );
         return parent::update($balance);
     }
 
     public function subToInvestment(InvestmentMetal_Model $model) {
         $balance = $this->getByCode($model->getMetalCode());
         if (!$balance) {
-            $balance = $this->createModel();
-            $balance->setMetalCode($model->getMetalCode())
-                    ->setBalance(0);
-            parent::insert($balance);
+            $balance = $this->createBallance($model->getMetalCode());
         }
         $balance->subBalance($model->getCount());
+        $this->getManager('account')->addPay( abs($model->getSum()) );
         return parent::update($balance);
+    }
+    
+    private function createBallance($code, $balanceValue=0) {
+        $balance = $this->createModel();
+        $balance->setMetalCode($code)
+                ->setBalance($balanceValue);
+        if(!parent::insert($balance)) {
+            throw new RuntimeException("Error added currency balance.");
+        }
+        return $balance;
     }
         
     public function updateBalanceByCode($code, $addBalance) {

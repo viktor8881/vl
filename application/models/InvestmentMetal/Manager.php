@@ -13,7 +13,7 @@
  */
 class InvestmentMetal_Manager extends Core_Domen_Manager_Abstract {
     
-    public function insertPay(InvestmentMetal_Model $model) {
+    public function insertBuy(InvestmentMetal_Model $model) {
         $res = parent::insert($model);
         if ($res) {
             $this->getManager('balanceMetal')->addToInvestment($model);
@@ -39,5 +39,16 @@ class InvestmentMetal_Manager extends Core_Domen_Manager_Abstract {
         return $investments->getSumByBalance($balance->getBalance());
     }
 
+    public function delete(\Core_Domen_IModel $model) {
+        if (!($model instanceof InvestmentMetal_Model)) {
+            throw new RuntimeException("Error delete. Wrong type.");
+        }
+        if ($model->isBuy()) {
+            $this->getManager('balanceMetal')->subToInvestment($model);
+        }else{
+            $this->getManager('balanceMetal')->addToInvestment($model);
+        }
+        return parent::delete($model);
+    }
     
 }
