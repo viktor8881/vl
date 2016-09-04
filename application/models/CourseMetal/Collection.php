@@ -34,4 +34,15 @@ class CourseMetal_Collection extends Core_Domen_CollectionAbstract {
         return $last->getValue() < $first->getValue();
     }
     
+    public function getCourseByCode($code) {
+        $result = 0;
+        foreach ($this->getIterator() as $course) {
+            if ($code == $course->getCode()) {
+                $result = $course->getValue();
+                break;
+            }
+        }
+        return $result;
+    }
+    
 }

@@ -55,44 +55,49 @@ class Cron_IndexController extends Core_Controller_Action
 
     private function taskAnalysis(Core_Date $dateNow) {
         $count = 0;
+        $serviceAnalyses = $this->getService('analysis');
         // считываем настройки выполнения анализа
         $tasks = $this->getManager('task')->fetchAll();
         foreach ($tasks as $task) {
-            $serviceAnalyses = $this->getService('analysis');
             $count += $serviceAnalyses->runByTask($task, $dateNow);
         }
         return $count;
     }
-    
-    public function testAction() {
-        $bootstrap = $this->getInvokeArg('bootstrap');
-        $fileName = $bootstrap->getOptions()['path']['temp'].'date.tmp';
-        $date = new Core_Date(file_get_contents($fileName));
-        // run analysis
-        $this->taskAnalysis($date);
-        
-        $serviceAutoInvest = $this->getService('autoinvestment');
-        $serviceAutoInvest->run($date);
-        
-        
-        
-        // added very good from very bad
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->layout()->disableLayout(); 
-    }
 
-
-//    public function analisysAction() {
-//        $count = 0;
-//        // считываем настройки выполнения анализа
-//        $tasks = $this->getManager('task')->fetchAll();
-//        foreach ($tasks as $task) {
-//            $serviceAnalyses = $this->getService('analysis');
-//            $count += $serviceAnalyses->runByTask($task);            
+//
+//    
+//    public function recAction() {
+//        $path = APPLICATION_PATH.'/../data/sourcesCurrency/';
+//        $date = new Core_Date('02.03.2001');
+//        $flag = true;
+//        while($flag) {
+//            if (!file_exists($path.$date->format('d.m.Y'))) {
+//                file_put_contents($path.'../endsourcesCurrency', $date->format('d.m.Y'));
+//                $flag = false;
+//                continue;
+//            }
+//            $xmlstr = file_get_contents($path.$date->format('d.m.Y'));
+//            $movies = new SimpleXMLElement($xmlstr);
+//            if (false !== strstr($xmlstr, $date->format('d.m.Y'))) {
+//                $currencies = $this->getManager('currency')->fetchAll();
+//                foreach ($movies->Valute as $item) {
+//                    $code = (string)$item['ID'];
+//                    if ($currencies->hasCode($code)) {
+//                        // insert
+//                        $course = $this->getManager('courseCurrency')->createModel();
+//                        $course->setCode($code)
+//                                        ->setNominal(str_replace(',','.',(string)$item->Nominal))
+//                                        ->setValue(str_replace(',','.',(string)$item->Value))
+//                                        ->setDate($date);
+//                        $this->getManager('courseCurrency')->insert($course);
+//                    }
+//                }
+//            }
+//            $date->add(new DateInterval('P1D'));
 //        }
-//        echo $count;
-//        die('stop');
-//        return $count;
+//        exit;
 //    }
+//    
+    
     
 }

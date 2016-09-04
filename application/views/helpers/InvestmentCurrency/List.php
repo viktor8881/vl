@@ -37,8 +37,8 @@ class View_Helper_InvestmentCurrency_List extends Zend_View_Helper_Abstract
                     $html .= '<td>'.$this->view->escape($invest->getCurrencyName()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getCourse()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getSum()).'</td>';
-                    $html .= '<td><a href="/investments/currency/edit/id/'.$invest->getId().'">'.$this->view->iconEdit('edit')._('ред.').'</a> '
-                            . '<a href="/investments/currency/delete/id/'.$invest->getId().'">'.$this->view->iconDelete('del')._('уд.').'</a></td>';
+                    $html .= '<td><a href="/investments/currency/edit/id/'.$invest->getId().'">'.$this->view->iconEdit('edit').'</a> '
+                            . '<a href="/investments/currency/delete/id/'.$invest->getId().'">'.$this->view->iconDelete('del').'</a></td>';
                 $html .= '</tr>';
             }
         }else{

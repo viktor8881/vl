@@ -87,9 +87,33 @@ class Core_Mail extends Zend_Mail
         }
     }
     
-    private static function getLayout() {
+    public static function sendAutoInvest(BalanceCurrency_Collection $balanceCurrency, 
+                                        BalanceMetal_Collection $balanceMetal, 
+                                        CourseCurrency_Collection $courseCurrency, 
+                                        CourseMetal_Collection $courseMetal, 
+                                        Core_Date $date, $currentValue) {
+        $mail = new Zend_Mail(self::$_defaultCharset);
+        $mail->setFrom(self::getSiteEmail());
+        $mail->addTo(self::getAdminEmail());
+        $mail->setSubject('Результат анализа на '.$date->formatDMY());
+        $layout = self::getLayout('email_autoinvest');
+        $view = self::getView();
+        
+        $view->assign('balanceCurrency', $balanceCurrency);
+        $view->assign('balanceMetal', $balanceMetal);
+        $view->assign('courseCurrency', $courseCurrency);
+        $view->assign('courseMetal', $courseMetal);
+        $view->assign('currentValue', $currentValue);
+        $layout->currentValue = $view->formatMoney($currentValue, true);
+        $layout->content = $view->render('autoinvest.phtml');
+        $layout->footer = $view->render('footer.phtml');
+        $mail->setBodyHtml($layout->render());
+        $mail->send();        
+    }
+
+    private static function getLayout($name = 'email') {
         $layout = new Zend_Layout(array('layoutPath' => APPLICATION_PATH . '/layouts/scripts'));
-        $layout->setLayout('email');
+        $layout->setLayout($name);
         return $layout;
     }
     

@@ -32,18 +32,19 @@ $application->bootstrap()
 
 
 //==============================================================================
-
-function _($text=null) {
-    if(!$text) {
-        return '';
+if (!function_exists('_')) {
+    function _($text=null) {
+        if(!$text) {
+            return '';
+        }
+        $registry = Zend_Registry::getInstance();
+        if ($registry->offsetExists('Zend_Translate')) {
+            $translate = $registry->get('Zend_Translate');    
+            $str = $translate->translate($text);
+            return $str;
+        }
+        return $text;
     }
-    $registry = Zend_Registry::getInstance();
-    if ($registry->offsetExists('Zend_Translate')) {
-        $translate = $registry->get('Zend_Translate');    
-        $str = $translate->translate($text);
-        return $str;
-    }
-    return $text;
 }
 
 function pr($value) {

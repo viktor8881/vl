@@ -22,4 +22,5 @@ class BalanceCurrency_Collection extends Core_Domen_CollectionAbstract {
         return false;
     }
     
+    
 }

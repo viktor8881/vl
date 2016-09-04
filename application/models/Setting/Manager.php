@@ -9,8 +9,8 @@ class Setting_Manager extends Core_Domen_Manager_Abstract
     
     
     const PERCENT_FRACT=2;
-    
     const MONEY_FRACT=2;
+    const METAL_FRACT=3;
     const MONEY_UNIT='руб.';
     
 
@@ -42,6 +42,10 @@ class Setting_Manager extends Core_Domen_Manager_Abstract
      */
     public function getRoundMoney() {
         return $this->fractMoney();
+    }
+    
+    public function getRoundMetal() {
+        return self::METAL_FRACT;
     }
     
     public function getRoundPercent() {

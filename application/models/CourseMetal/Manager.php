@@ -18,6 +18,12 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         $filters->addFilter(new CourseMetal_Filter_Period(array($dateStart, $dateEnd)));
         return parent::fetchAllByFilter($filters);
     }
+
+    public function fetchAllByDate(Core_Date $date) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseCurrency_Filter_Date($date));
+        return parent::fetchAllByFilter($filters);
+    }
     
     public function fetchAllByPeriodByCode(Core_Date $dateStart, Core_Date $dateEnd, $code) {
         $filters = new Core_Domen_Filter_Collection();
@@ -79,13 +85,22 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters, $paginator, $orders);
     }
 
-    public function getSellCodeByDate($code, Core_Date $date) {
+//    public function getSellCodeByDate($code, Core_Date $date) {
+//        $filters = new Core_Domen_Filter_Collection();
+//        $filters->addFilter(new CourseMetal_Filter_Date($date))
+//                ->addFilter(new CourseMetal_Filter_Code($code));
+//        $model = parent::getByFilter($filters);
+//        return ($model)?$model->getSell():0;
+//    }
+    
+    public function getValueCodeByDate($code, Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseMetal_Filter_Date($date))
                 ->addFilter(new CourseMetal_Filter_Code($code));
         $model = parent::getByFilter($filters);
         return ($model)?$model->getSell():0;
     }
+    
     
     public function hasByDate(Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();

@@ -25,11 +25,6 @@ class Service_Autoinvestment {
     // list negative analysis
     private $listNegative = array();
     
-    private $listMetalSub       = array();
-    private $listCurrencySub    = array();
-    private $listMetalAdd       = array();
-    private $listCurrencyAdd    = array();
-    
     
     
     private function getManager($name) {
@@ -40,22 +35,23 @@ class Service_Autoinvestment {
         foreach($this->getManager('analysisCurrency')->fetchAllByDate($date) as $analysis) {
             $weight = $this->getWeightAnalysis($analysis);
             if ($analysis->isQuotesFall()) {
-                $this->listNegative[$weight] = $analysis;
+                $listNegative[$weight] = $analysis;
             }else{
-                $this->listPositive[$weight] = $analysis;
+                $listPositive[$weight] = $analysis;
             }
         }
         foreach($this->getManager('analysisMetal')->fetchAllByDate($date) as $analysis) {
+            $weight = $this->getWeightAnalysis($analysis);
             if ($analysis->isQuotesFall()) {
-                $this->listNegative[$weight] = $analysis;
+                $listNegative[$weight] = $analysis;
             }else{
-                $this->listPositive[$weight] = $analysis;
+                $listPositive[$weight] = $analysis;
             }
         }
         // найдем сколько нужно списать
-        if (count($this->listNegative)) {
-            $sumNeg = abs(array_sum(array_keys($this->listNegative)))+self::ADD_DIFF_SELL;
-            foreach ($this->listNegative as $index=>$negA) {
+        if (count($listNegative)) {
+            $sumNeg = abs(array_sum(array_keys($listNegative)))+self::ADD_DIFF_SELL;
+            foreach ($listNegative as $index=>$negA) {
                 // определяем тип инвестиции
                 if ($negA instanceof AnalysisMetal_Model_Abstract) {
                     $code = $negA->getMetalCode();
@@ -67,7 +63,7 @@ class Service_Autoinvestment {
                         $invest->setType(InvestmentMetal_Model::TYPE_SELL)
                                 ->setCount($count)
                                 ->setMetalCode($code)
-                                ->setCourse($this->getManager('CourseMetal')->getSellCodeByDate($code, $date))
+                                ->setCourse($this->getManager('CourseMetal')->getValueCodeByDate($code, $date))
                                 ->setDate($date);
                         $this->getManager('InvestmentMetal')->insertSell($invest);
                     }
@@ -81,22 +77,22 @@ class Service_Autoinvestment {
                         $invest->setType(InvestmentCurrency_Model::TYPE_SELL)
                                 ->setCount($count)
                                 ->setMetalCode($code)
-                                ->setCourse($this->getManager('CourseCurrency')->getSellCodeByDate($code, $date))
+                                ->setCourse($this->getManager('CourseCurrency')->getValueCodeByDate($code, $date))
                                 ->setDate($date);
                         $this->getManager('InvestmentCurrency')->insertSell($invest);
                     }
                 }
             }
         }
-        if (count($this->listPositive)) {
+        if (count($listPositive)) {
             $accValue = $this->getManager('account')->getValue();
-            $sumPos = array_sum(array_keys($this->listPositive)) + self::ADD_DIFF_BAY;
-            foreach ($this->listPositive as $index=>$posA) {
+            $sumPos = array_sum(array_keys($listPositive)) + self::ADD_DIFF_BAY;    
+            foreach ($listPositive as $index=>$posA) {
                 // определяем тип инвестиции
                 if ($posA instanceof AnalysisMetal_Model_Abstract) {
                     $code = $posA->getMetalCode();
                     // курс
-                    $course = $this->getManager('CourseMetal')->getSellCodeByDate($code, $date);
+                    $course = $this->getManager('CourseMetal')->getValueCodeByDate($code, $date);
                     // сколько купить
                     $count = Core_Math::roundMoney(($accValue * $index / $sumPos)/$course);
                     $invest = $this->getManager('InvestmentMetal')->createModel();

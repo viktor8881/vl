@@ -33,6 +33,16 @@ class CourseCurrency_Collection extends Core_Domen_CollectionAbstract {
         $last = $this->last();
         return $last->getValue() < $first->getValue();
     }
-    
+        
+    public function getCourseByCode($code) {
+        $result = 0;
+        foreach ($this->getIterator() as $course) {
+            if ($code == $course->getCode()) {
+                $result = $course->getValueForOne();
+                break;
+            }
+        }
+        return $result;
+    }
     
 }

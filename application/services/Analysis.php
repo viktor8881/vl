@@ -60,7 +60,7 @@ class Service_Analysis implements Service_Interface {
                     $data = array('type'=>AnalysisCurrency_Model_Abstract::TYPE_PERCENT,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
-                        'created'=>new Core_Date());
+                        'created'=>$dateNow);
                     $analysis = $this->getManager('analysisCurrency')->createModel($data);
                     $this->getManager('analysisCurrency')->insert($analysis);
                     $countRec++;
@@ -91,7 +91,7 @@ class Service_Analysis implements Service_Interface {
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_PERCENT,
                         'metal_code'=>$metal->getCode(),
                         'body'=>  json_encode($subData),
-                        'created'=>new Core_Date());
+                        'created'=>$dateNow);
                     $analysis = $this->getManager('analysisMetal')->createModel($data);
                     $this->getManager('analysisMetal')->insert($analysis);
                     $countRec++;
