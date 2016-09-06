@@ -76,7 +76,7 @@ class Service_Autoinvestment {
                         $invest = $this->getManager('InvestmentCurrency')->createModel();
                         $invest->setType(InvestmentCurrency_Model::TYPE_SELL)
                                 ->setCount($count)
-                                ->setMetalCode($code)
+                                ->setCurrencyCode($code)
                                 ->setCourse($this->getManager('CourseCurrency')->getValueCodeByDate($code, $date))
                                 ->setDate($date);
                         $this->getManager('InvestmentCurrency')->insertSell($invest);
