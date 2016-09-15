@@ -26,6 +26,9 @@ class Currency_Mapper extends Core_Domen_Mapper_Abstract {
             case 'Currency_Filter_Code':                
                 $select->where('code IN(?)', $values);
                 break;
+            case 'Currency_Filter_Id':
+                $select->where('id IN(?)', $values);
+                break;
             default:
                 break;
         }

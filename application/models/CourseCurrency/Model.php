@@ -93,5 +93,9 @@ class CourseCurrency_Model extends Core_Domen_Model_Abstract {
     public function getDateFormatDMY() {
         return $this->getDate()->format(Core_Date::DMY);
     }
+    
+    public function getDateFormatDM() {
+        return $this->getDate()->format(Core_Date::DM);
+    }
 
 }

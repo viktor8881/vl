@@ -13,6 +13,8 @@
  */
 class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
     
+    
+
     public function fetchAllByPeriod(Core_Date $dateStart, Core_Date $dateEnd) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseCurrency_Filter_Period(array($dateStart, $dateEnd)));

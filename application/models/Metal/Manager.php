@@ -13,6 +13,11 @@
  */
 class Metal_Manager extends Core_Domen_Manager_Abstract {
     
+    public function getCodeByDefault() {
+        $course = $this->get(1);
+        return $course?$course->getCode():2;
+    }   
+    
     public function fetchAllToArray() {
         $result = array();
         foreach (parent::fetchAll() as $metal) {

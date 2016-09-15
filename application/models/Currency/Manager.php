@@ -14,6 +14,11 @@
 class Currency_Manager extends Core_Domen_Manager_Abstract {
         
     
+    public function getCodeByDefault() {
+        $course = $this->get(2);
+        return $course?$course->getCode():1;
+    }
+    
     public function fetchAllToArray() {
         $result = array();
         foreach (parent::fetchAll() as $model) {

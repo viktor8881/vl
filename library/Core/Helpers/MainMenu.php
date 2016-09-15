@@ -18,16 +18,26 @@ class Core_Helper_MainMenu extends Zend_View_Helper_Placeholder_Container_Standa
     private $_links = array(
         '/balance'          => 'Главная', 
         '/investments'      => 'Инвестиции',
-        '/tasks/index/list' => 'Задания');
+        '/tasks/index/list' => 'Задания',
+//        array('/course/currency/index/'=>'Курс валюты',
+//            '/course/metal/index/'=>'Курс металла',)
+        );
     
     public function mainMenu()
     {
         $currentUrl = $this->view->url();
         $xhtml = '<ul class="nav navbar-nav">';
         foreach ($this->_links as $url=>$name) {
-            $class = $currentUrl==$url?' class="active"':'';
-            $xhtml .= '<li'.$class.'><a href="'.$url.'">'._($name).'</a></li> ';
+                $class = $currentUrl==$url?' class="active"':'';
+            $xhtml .= '<li'.$class. '><a href="'.$url.'">'._($name).'</a></li> ';
         }
+        $xhtml .= '<li class="dropdown">'
+                . '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'._('Курсы').' <span class="caret"></span></a>'
+                . '<ul class="dropdown-menu">'
+                    . '<li><a href="/course/currency/index/">'._('Курсы валют').'</a></li>'
+                    . '<li><a href="/course/metal/index/">'._('Курсы металлов').'</a></li>'
+                . '</ul>'
+                . '</li> ';
         $xhtml .= '</ul>';
         return $xhtml;
     }

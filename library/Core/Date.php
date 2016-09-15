@@ -13,6 +13,7 @@ class Core_Date extends DateTime {
 
     const DB = "Y-m-d H:i:s";
     const DB_DATE = 'Y-m-d';
+    const DM = 'd.m';
     const DMY = 'd.m.Y';
     const DMYHI = 'd.m.Y H:i';
 
