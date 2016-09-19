@@ -11,7 +11,7 @@
  *
  * @author Viktor
  */
-class GraphAnalisis {
+class Service_GraphAnalisis {
     
     const PERSENT_UP_TREND = 5;
     const PERSENT_DOWN_TREND = 5;
@@ -124,7 +124,7 @@ class GraphAnalisis {
         $i=0;
         $tmpArr = [];
         $prevCourse = reset($courses);
-        $lineNeck = reset($courses)*(1-($percent/100));;
+        $lineNeck = reset($courses)*(1-($percent/100));
         foreach ($courses as $key=>$course) {
             if (++$i==1) {
                 $tmpArr[] = $course;
@@ -190,7 +190,7 @@ class GraphAnalisis {
                     continue;
                 }
             }elseif ($mode == 4) {
-                // цена пробивает верхнюю линию поддержки $firsTop
+                // цена пробивает верхнюю линию сопротивления $firsTop
                 if (Core_Math::compareMoney($course, $secondTop)==1) {
                     return false;
                 }

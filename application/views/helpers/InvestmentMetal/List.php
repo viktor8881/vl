@@ -30,7 +30,8 @@ class View_Helper_InvestmentMetal_List extends Zend_View_Helper_Abstract
         <tbody>';
         if ($coll->count()) {
             foreach ($coll as $invest) {
-                $html .= '<tr>';
+                $class = ($invest->isBuy())?'success':'warning';
+                $html .= '<tr class="'.$class.'">';
                     $html .= '<td>'.$this->view->investmentMetal_TypeName($invest->getType()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getDateFormatDMY()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getCount()).'</td>';

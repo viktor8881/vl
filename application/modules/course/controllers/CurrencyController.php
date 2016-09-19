@@ -3,6 +3,8 @@
 class Course_CurrencyController extends Core_Controller_Action
 {
     
+    const DATE_START = '01.01.2010';
+    
     public function indexAction() {
         $items = $this->getManager('currency')->fetchAll();
         
@@ -10,15 +12,15 @@ class Course_CurrencyController extends Core_Controller_Action
         if (!($current = $items->getValue($id))) {
             throw new RuntimeException(_('Валюта не найдена.'));
         }   
+        $dateStart = $this->getParam('start', self::DATE_START);
+        $dateEnd   = $this->getParam('end', date('d.m.Y'));
+        if (!Zend_Validate::is($dateStart, 'Date', array(), 'Core_Validate') or !Zend_Validate::is($dateEnd, 'Date', array(), 'Core_Validate')) {
+            throw new RuntimeException(_('Не верный формат периода.'));
+        }
+        $this->view->period = ['start'=>$dateStart, 'end'=>$dateEnd];
         $this->view->items = $items;
         $this->view->currentItem = $current;
-        $filters = new Core_Domen_Filter_Collection();
-        $filters->addFilter(new CourseCurrency_Filter_Code($current->getCode()));
-        $orders = new Core_Domen_Order_Collection();
-        $orders->addOrder(new CourseCurrency_Order_Id('DESC'));
-        $paginator = $this->_helper->paginator($this->getManager('CourseCurrency')->count(), $this->getParam('page', 1));
-        $this->view->paginator = $paginator;
-        $this->view->courses = $this->getManager('CourseCurrency')->fetchAllByFilter($filters, $paginator, $orders);
+        $this->view->courses = $this->getManager('CourseCurrency')->fetchAllByPeriodByCode(new Core_Date($dateStart), new Core_Date($dateEnd), $current->getCode());
     }
     
 }

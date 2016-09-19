@@ -7,20 +7,20 @@
  */
 
 /**
- * Description of GraphAnalisis
+ * Description of Service_GraphAnalisis
  *
  * @author Viktor
  */
 use PHPUnit\Framework\TestCase;
 require_once APPLICATION_PATH.'/services/GraphAnalisis.php';
 
-class GraphAnalisisTest extends TestCase {
+class Service_GraphAnalisisTest extends TestCase {
     
     /**
      * @dataProvider additionIsUpTrendFalse
      */
     public function testIsUpTrendFalse($courses, $percent) {
-        $actual = GraphAnalisis::isUpTrend($courses);
+        $actual = Service_GraphAnalisis::isUpTrend($courses);
         $this->assertFalse($actual);        
         return true;
     }
@@ -37,7 +37,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsUpTrendTrue
      */
     public function testIsUpTrendTrue($courses, $percent) {
-        $actual = GraphAnalisis::isUpTrend($courses);
+        $actual = Service_GraphAnalisis::isUpTrend($courses);
         $this->assertTrue($actual);        
         return true;
     }
@@ -57,7 +57,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsDownTrendFalse
      */
     public function testIsDownTrendFalse($courses, $percent) {
-        $actual = GraphAnalisis::isDownTrend($courses, $percent);
+        $actual = Service_GraphAnalisis::isDownTrend($courses, $percent);
         $this->assertFalse($actual);        
         return true;
     }
@@ -74,7 +74,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsDownTrendTrue
      */
     public function testIsDownTrendTrue($courses, $percent) {
-        $actual = GraphAnalisis::isDownTrend($courses, $percent);
+        $actual = Service_GraphAnalisis::isDownTrend($courses, $percent);
         $this->assertTrue($actual);        
         return true;
     }
@@ -93,7 +93,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsEqualTrendFalse
      */
     public function testIsEqualTrendFalse($courses, $percent) {
-        $actual = GraphAnalisis::isEqualTrend($courses, $percent);
+        $actual = Service_GraphAnalisis::isEqualTrend($courses, $percent);
         $this->assertFalse($actual);        
         return true;
     }
@@ -109,7 +109,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsEqualTrendTrue
      */
     public function testIsEqualTrendTrue($courses, $percent) {
-        $actual = GraphAnalisis::isEqualTrend($courses, $percent);
+        $actual = Service_GraphAnalisis::isEqualTrend($courses, $percent);
         $this->assertTrue($actual);        
         return true;
     }
@@ -127,7 +127,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsDoubleTopFalse
      */
     public function testIsDoubleTopFalse($courses, $percent, $sureTrend) {
-        $actual = GraphAnalisis::isDoubleTop($courses, $percent, $sureTrend);
+        $actual = Service_GraphAnalisis::isDoubleTop($courses, $percent, $sureTrend);
         $this->assertFalse($actual);        
         return true;
     }
@@ -157,7 +157,7 @@ class GraphAnalisisTest extends TestCase {
      * @dataProvider additionIsDoubleTopTrue
      */
     public function testIsDoubleTopTrue($courses, $percent, $sureTrend) {
-        $actual = GraphAnalisis::isDoubleTop($courses, $percent, $sureTrend);
+        $actual = Service_GraphAnalisis::isDoubleTop($courses, $percent, $sureTrend);
         $this->assertTrue($actual);        
         return true;
     }
@@ -167,6 +167,7 @@ class GraphAnalisisTest extends TestCase {
             [[100, 103, 103, 105, 102, 115, 103, 102, 103, 102, 102, 107,  105, 117, 105, 101] , 5, 3],
             [[100, 103, 103, 105, 102, 115, 103, 97, 96, 98, 95, 107,  105, 117, 100, 94, 92] , 5, 3],
             [[100, 105, 110, 115, 120, 125, 130, 150, 130, 120, 125, 135, 140, 155, 125, 119] , 5, 3],
+            [[100, 105, 110, 115, 120, 125, 130, 150, 130, 155, 125, 119] , 5, 3],
         ];
     }
     
