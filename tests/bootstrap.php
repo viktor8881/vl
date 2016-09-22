@@ -8,9 +8,11 @@ defined('APPLICATION_PATH')
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'testing'));
 
+
 // Ensure library/ is on include_path
+
 set_include_path(implode(PATH_SEPARATOR, array(
-    'D:\projects\php\ZendFramework1.12.18\library',
+    'E:\projects\ZendFramework-1.12.20\library',
     realpath(APPLICATION_PATH . '/../library'),
     get_include_path(),
 )));
@@ -25,3 +27,4 @@ function pr($value) {
     print_r($value);
     echo '</pre>';
 }
+
