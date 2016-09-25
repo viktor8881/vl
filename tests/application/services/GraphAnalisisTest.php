@@ -85,15 +85,15 @@ class Service_GraphAnalisisTest extends TestCase {
     // =========================================================================
     
     /**
-     * @dataProvider additionIsEqualTrendFalse
+     * @dataProvider additionIsEqualChannelFalse
      */
-    public function testIsEqualTrendFalse($courses, $percent) {
-        $actual = Service_GraphAnalisis::isEqualTrend($courses, $percent);
+    public function testIsEqualChannelFalse($courses, $percent) {
+        $actual = Service_GraphAnalisis::isEqualChannel($courses, $percent);
         $this->assertFalse($actual);        
         return true;
     }
     
-    public function additionIsEqualTrendFalse() {
+    public function additionIsEqualChannelFalse() {
         return [
             [[100, 106, 104,  100, 95, 105], 5],
             [[100, 105, 104,  100, 94, 105], 5],
@@ -101,15 +101,15 @@ class Service_GraphAnalisisTest extends TestCase {
     }
     
     /**
-     * @dataProvider additionIsEqualTrendTrue
+     * @dataProvider additionIsEqualChannelTrue
      */
-    public function testIsEqualTrendTrue($courses, $percent) {
-        $actual = Service_GraphAnalisis::isEqualTrend($courses, $percent);
+    public function testIsEqualChannelTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isEqualChannel($courses, $percent);
         $this->assertTrue($actual);        
         return true;
     }
     
-    public function additionIsEqualTrendTrue() {
+    public function additionIsEqualChannelTrue() {
         return [
             [[100, 103, 97, 103, 100, 97]  , 3],
             [[100, 95, 99, 95, 97, 105], 5],
@@ -149,7 +149,7 @@ class Service_GraphAnalisisTest extends TestCase {
             // превышение верхней границы
             [[100, 106.10], 3], 
             [[100, 106.09, 109.28], 3],
-//            // превышение нижней границы
+            // превышение нижней границы
             [[100, 99.83], 4], 
             [[100, 99.84, 103.82],4],
         ];
@@ -195,6 +195,131 @@ class Service_GraphAnalisisTest extends TestCase {
         ];
     }
     
+    //===========================================================================
+    /**
+     * @dataProvider additionIsDobleTopTrue
+     */
+    public function testIsDobleTopTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isDoubleTop($courses, $percent);
+        $this->assertTrue($actual);        
+        return true;
+    }
+    
+    public function additionIsDobleTopTrue() {
+        return [
+            [[90, 150, 120, 150, 120], 3, 20], // идеал
+            [[90, 150, 120, 154.5, 119], 3, 20], // по верхней границе
+            [[90, 150, 120, 145.5, 119], 3, 20], // по нижней границе
+        ];
+    }
+    
+    /**
+     * @dataProvider additionIsDobleTopFalse
+     */
+    public function testIsDobleTopFalse($courses, $percent, $percentDiff) {
+        $actual = Service_GraphAnalisis::isDoubleTop($courses, $percent, $percentDiff);
+        $this->assertFalse($actual);        
+        return true;
+    }
+    
+    public function additionIsDobleTopFalse() {
+        return [
+            [[90, 100, 120, 150, 120], 3, 20], 
+            [[90, 150, 150, 150, 120], 3, 20], 
+            [[90, 150, 120, 120, 120], 3, 20], 
+            [[90, 150, 120, 150, 150], 3, 20], 
+            [[90, 150, 120, 150, 121], 3, 20], 
+            
+            [[90, 105, 100, 105, 99], 3, 20], 
+            [[90, 150, 120, 154.6, 119], 3, 20], // по верхней границе
+            [[90, 150, 120, 145.4, 119], 3, 20], // по нижней границе
+            
+            [[97, 150, 119, 150, 119], 3, 20],
+        ];
+    }
+  
+    
+    //===========================================================================
+   
+    /**
+     * @dataProvider additionIsDobleBottomTrue
+     */
+    public function testIsDobleBottomTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isDoubleBottom($courses, $percent);
+        $this->assertTrue($actual);        
+        return true;
+    }
+    
+    public function additionIsDobleBottomTrue() {
+        return [
+            [[100, 50, 80, 50, 80], 3], // идеал
+            [[100, 50, 80, 51.5, 81], 3], // по верхней границе
+            [[100, 50, 80, 48.5, 81], 3], // по нижней границе
+        ];
+    }
+    
+    /**
+     * @dataProvider additionIsDobleBottomFalse
+     */
+    public function testIsDobleBottomFalse($courses, $percent, $percentDiff) {
+        $actual = Service_GraphAnalisis::isDoubleBottom($courses, $percent, $percentDiff);
+        $this->assertFalse($actual);        
+        return true;
+    }
+    
+    public function additionIsDobleBottomFalse() {
+        return [
+            [[100, 100, 80, 50, 81], 3, 20], 
+            [[100,  50, 50, 50, 81], 3, 20], 
+            [[100,  50, 80, 80, 81], 3, 20], 
+            [[100,  50, 80, 50, 50], 3, 20], 
+            [[100,  50, 80, 50, 79], 3, 20], 
+            
+            [[100, 95, 100, 95,   99], 3, 20], 
+            [[100, 50, 80,  51.6, 81], 3, 20], // по верхней границе
+            [[100, 50, 80, 48.4, 81], 3, 20], // по нижней границе
+        ];
+    }
+    
+    //===========================================================================
+   
+    /**
+     * @dataProvider additionIsHeadShouldersTrue
+     */
+    public function testIsHeadShouldersTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isHeadShoulders($courses, $percent);
+        $this->assertTrue($actual);        
+        return true;
+    }
+    
+    public function additionIsHeadShouldersTrue() {
+        return [
+            [[99, 150, 110, 220, 110, 170, 109.99], 3], // идеал
+        ];
+    }
+    
+    
+    /**
+     * @dataProvider additionIsHeadShouldersFalse
+     */
+    public function testIsHeadShouldersFalse($courses, $percent) {
+        $actual = Service_GraphAnalisis::isHeadShoulders($courses, $percent);
+        $this->assertFalse($actual);
+        return true;
+    }
+    
+    public function additionIsHeadShouldersFalse() {
+        return [
+            //  0 > 1
+            [[99, 98, 110, 220, 110, 170, 109.99], 3],
+            // 1-10% < 2
+            [[99, 150, 110, 220, 110, 170, 109.99], 3]
+            // 3 < 2
+//            [[99, 150, 110, 220, 110, 170, 109.99], 3, 10]
+        ];
+    }
+    
+    //===============================================================================
     
 //        
 //    /**
