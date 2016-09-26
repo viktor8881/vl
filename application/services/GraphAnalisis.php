@@ -192,7 +192,7 @@ class Service_GraphAnalisis {
             return false;
         }
         $hight2 = $courses[2]*(1+($percent/100));
-        $low2 = $courses[2]*(1-($percent/100));
+        $low2 = $courses[2]*(1-($percent/100));        
         
         if (Core_Math::compareMoney($courses[1], $courses[0])==1 
             && Core_Math::compareMoney($courses[2], $courses[0])==1
@@ -221,7 +221,7 @@ class Service_GraphAnalisis {
             && Core_Math::compareMoney($courses[4], $courses[6])==1
                 
             && Core_Math::compareMoney($courses[5], $courses[6])==1
-                                                                    ) {
+                                                                    ) {            
             return true;
         }
         return false;
