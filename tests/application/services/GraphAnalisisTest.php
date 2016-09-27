@@ -297,7 +297,6 @@ class Service_GraphAnalisisTest extends TestCase {
             [[99, 150, 110, 220, 110, 170, 99.01], 3], // идеал
         ];
     }
-//    
     
     /**
      * @dataProvider additionIsHeadShouldersFalse
@@ -361,55 +360,85 @@ class Service_GraphAnalisisTest extends TestCase {
         ];
     }
     
-    //===============================================================================
     
-//        
-//    /**
-//     * @dataProvider additionIsDoubleTopFalse
-//     */
-//    public function testIsDoubleTopFalse($courses, $percent, $sureTrend) {
-//        $actual = Service_GraphAnalisis::isDoubleTop($courses, $percent, $sureTrend);
-//        $this->assertFalse($actual);        
-//        return true;
-//    }
-//    
-//    public function additionIsDoubleTopFalse() {
-//        return [
-//            // not up trend. mode=1. find stable up trend. /
-//            [[100, 94, 105, 110, 115, 120], 5, 4],
-//            [[100, 105, 96, 110, 115, 120], 5, 4],
-//            [[100, 105, 110, 107, 95, 120], 5, 5],
-//            // low line neck. mode=2. find down trend. /\
-//            [[100, 105, 110, 107, 120,99, 94, 105],5, 4],
-//            [[100, 105, 110, 107, 120,94, 105],5, 4],
-//            // hight line Up support line. mode=3. find up trend. /\/
-//            [[100, 105, 110, 107, 120,  96,  127],5, 4],
-//            [[100, 105, 110, 107, 120,  99, 97, 99, 96,  105, 110, 115, 120, 130, 140],5, 4],
-//            [[100, 105, 110, 107, 120,  99, 97, 99, 96,  105, 110, 115, 120, 126, 140],5, 4],
-//            // hight line Up support line. mode=4. find down trend. /\/\
-//            [[100, 105, 110, 120,  96,  122, 127],5, 3],
-//            [[100, 105, 110, 120,  96,  122, 119, 121, 97],5, 3],
-//            [[100, 105, 110, 120,  96,  122, 119, 121, 97, 96],5, 3],
-//            [[100, 103, 103, 105, 102, 115, 103, 97, 96, 98, 95, 107,  105, 117, 100, 95] , 5, 3],
-//        ];
-//    }
-//    
-//    /**
-//     * @dataProvider additionIsDoubleTopTrue
-//     */
-//    public function testIsDoubleTopTrue($courses, $percent, $sureTrend) {
-//        $actual = Service_GraphAnalisis::isDoubleTop($courses, $percent, $sureTrend);
-//        $this->assertTrue($actual);        
-//        return true;
-//    }
-//    
-//    public function additionIsDoubleTopTrue() {
-//        return [
-//            [[100, 103, 103, 105, 102, 115, 103, 102, 103, 102, 102, 107,  105, 117, 105, 101] , 5, 3],
-//            [[100, 103, 103, 105, 102, 115, 103, 97, 96, 98, 95, 107,  105, 117, 100, 94, 92] , 5, 3],
-//            [[100, 105, 110, 115, 120, 125, 130, 150, 130, 120, 125, 135, 140, 155, 125, 119] , 5, 3],
-//            [[100, 105, 110, 115, 120, 125, 130, 150, 130, 155, 125, 119] , 5, 3],
-//        ];
-//    }
-//    
+    //===========================================================================
+   
+    /**
+     * @dataProvider additionIsReverseHeadShouldersTrue
+     */
+    public function testIsReverseHeadShouldersTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isReverseHeadShoulders($courses, $percent);
+        $this->assertTrue($actual);        
+        return true;
+    }
+    
+    public function additionIsReverseHeadShouldersTrue() {
+        return [
+            [[500, 250, 300, 150, 300, 200, 301], 3], // идеал
+        ];
+    }
+    
+    /**
+     * @dataProvider additionIsReverseHeadShouldersFalse
+     */
+    public function testIsReverseHeadShouldersFalse($courses, $percent) {
+        $actual = Service_GraphAnalisis::isReverseHeadShoulders($courses, $percent);
+        $this->assertFalse($actual);
+        return true;
+    }
+    
+    public function additionIsReverseHeadShouldersFalse() {
+        return [
+            // 0 < 1
+            [[500, 500.01, 300, 150, 300, 200, 301], 3], 
+            // 0 < 2
+             [[500, 250, 500.01, 150, 300, 200, 301], 3], 
+            // 0 < 3
+             [[500, 250, 300, 500.01, 300, 200, 301], 3], 
+            // 0 < 4
+             [[500, 250, 300, 150, 500.01, 200, 301], 3], 
+            // 0 < 5
+             [[500, 250, 300, 150, 300, 500.01, 301], 3], 
+            // 0 < 6
+            [[500, 250, 300, 150, 300, 200, 500.01], 3], 
+            
+            // 1 > 2
+             [[500, 250, 249.99, 150, 300, 200, 301], 3], 
+            // 1 < 3
+             [[500, 250, 300, 250.01, 300, 200, 301], 3], 
+            // 1 > 4
+             [[500, 300.01, 300, 150, 300, 200, 301], 3], 
+            // 1 < 5
+             [[500, 250, 300, 150, 300, 250.01, 301], 3], 
+            // 1 > 6
+            [[500, 301.01, 300, 150, 300, 200, 301], 3], 
+            
+            // 2 < 3
+             [[500, 250, 300, 300.01, 300, 200, 301], 3], 
+            // 2 ~ 4
+             [[500, 250, 300, 150, 309, 200, 301], 3], // за вверх границы
+             [[500, 250, 300, 150, 291, 200, 301], 3], // за низ границы
+            // 2 < 5
+             [[500, 250, 300, 150, 300, 300.01, 301], 3], 
+            // 2 > 6
+            [[500, 301.01, 300, 150, 300, 200, 301], 3], 
+             
+            // 3 > 4
+             [[500, 250, 300, 300.01, 300, 200, 301], 3],
+            // 3 > 5
+             [[500, 250, 300, 200.01, 300, 200, 301], 3],
+            // 3 > 6
+            [[500, 250, 300, 301.01, 300, 200, 301], 3],
+             
+            // 4 < 5
+             [[500, 250, 300, 150, 300, 300.01, 301], 3], 
+            // 4 > 6
+            [[500, 250, 300, 150, 301.01, 200, 301], 3], 
+             
+            // 5 > 6
+            [[500, 250, 300, 150, 300, 301.01, 301], 3], 
+        ];
+    }
+    
+
 }

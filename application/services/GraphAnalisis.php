@@ -227,6 +227,48 @@ class Service_GraphAnalisis {
         return false;
     }
     
+    
+    public static function isReverseHeadShoulders(array $courses, $percent=5) {
+        if (count($courses) != 7) {
+            return false;
+        }
+        $hight2 = $courses[2]*(1+($percent/100));
+        $low2 = $courses[2]*(1-($percent/100));        
+        
+        if (Core_Math::compareMoney($courses[0], $courses[1])==1 
+            && Core_Math::compareMoney($courses[0], $courses[2])==1 
+            && Core_Math::compareMoney($courses[0], $courses[3])==1 
+            && Core_Math::compareMoney($courses[0], $courses[4])==1 
+            && Core_Math::compareMoney($courses[0], $courses[5])==1 
+            && Core_Math::compareMoney($courses[0], $courses[6])==1 
+                
+            && Core_Math::compareMoney($courses[2], $courses[1])==1 
+            && Core_Math::compareMoney($courses[1], $courses[3])==1 
+            && Core_Math::compareMoney($courses[4], $courses[1])==1 
+            && Core_Math::compareMoney($courses[1], $courses[5])==1 
+            && Core_Math::compareMoney($courses[6], $courses[1])==1 
+                
+            && Core_Math::compareMoney($courses[2], $courses[3])==1 
+            && Core_Math::compareMoney($courses[2], $courses[5])==1 
+            && Core_Math::compareMoney($hight2, $courses[4])==1 
+            && Core_Math::compareMoney($courses[4], $low2)==1 
+            && Core_Math::compareMoney($courses[6], $courses[2])==1
+                
+            && Core_Math::compareMoney($courses[4], $courses[3])==1 
+            && Core_Math::compareMoney($courses[5], $courses[3])==1 
+            && Core_Math::compareMoney($courses[6], $courses[3])==1 
+                
+            && Core_Math::compareMoney($courses[4], $courses[5])==1 
+            && Core_Math::compareMoney($courses[6], $courses[4])==1 
+                
+            && Core_Math::compareMoney($courses[6], $courses[5])==1 
+                                                                    ) {
+            
+            return true;
+        }
+        return false;
+    }
+    
 //    public static function isHeadShoulders(array $courses, $percent=5, $percentDiffPeak=20) {
 //        if (Core_Math::compareMoney($courses[1], $courses[0])==1
 //            && Core_Math::compareMoney($courses[1], $courses[2])==1
