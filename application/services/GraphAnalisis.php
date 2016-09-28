@@ -269,135 +269,100 @@ class Service_GraphAnalisis {
         return false;
     }
     
-//    public static function isHeadShoulders(array $courses, $percent=5, $percentDiffPeak=20) {
-//        if (Core_Math::compareMoney($courses[1], $courses[0])==1
-//            && Core_Math::compareMoney($courses[1], $courses[2])==1
-//            && Core_Math::compareMoney($courses[3], $courses[1])==1
-//            && Core_Math::compareMoney($courses[3], $courses[5])==1
-//            && Core_Math::compareMoney($courses[5], $courses[1])==1
-//            && Core_Math::compareMoney($courses[5], $courses[4])==1
-//            && Core_Math::compareMoney($courses[5], $courses[6])==1) {
-//                        
-//            $hight1 = $courses[1]*(1+($percentDiffPeak/100));
-//            $low1   = $courses[1]*(1-($percentDiffPeak/100));
-//            $hight2 = $courses[2]*(1+($percent/100));
-//            $low2   = $courses[2]*(1-($percent/100));
-//            $hight5 = $courses[5]*(1+($percentDiffPeak/100));            
-//            if (Core_Math::compareMoney($courses[5], $hight1)>=0
-//                    && Core_Math::compareMoney($low1, $courses[2])>=0
-//                    && Core_Math::compareMoney($courses[2]*(1-($percentDiffPeak/100)), $courses[0])>=0
-//                    && Core_Math::compareMoney($courses[4], $low2)>=0
-//                    && Core_Math::compareMoney($hight2, $courses[4])>=0
-//                    && Core_Math::compareMoney($courses[3], $hight5)>=0 ) {
-//                
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//    
-    /**
-     *  Двойная вершина (дно) double Top. Разворотная фигура
-     * для повышательного тренда имеет вид буквы М. Двойная вершина является
-     * сигналом более слабым, чем тройная вершина.
-     * @param array $courses
-     * @param float $percent
-     * @return boolean
-     */
-//    public static function isDoubleTop(array $courses, $percent=null, $sureTrend=null) {
-//        if (!$percent) {
-//            $percent = self::PERSENT_EQUAL_TREND;
-//        }
-//        if (!$sureTrend) {
-//            $sureTrend = self::SURE_TREND;
-//        }
-//        $mode = 1;
-//        $i=0;
-//        $tmpArr = [];
-//        $prevCourse = reset($courses);
-//        $lineNeck = reset($courses)*(1-($percent/100));
-//        foreach ($courses as $key=>$course) {
-//            if (++$i==1) {
-//                $tmpArr[] = $course;
-//                continue;
-//            }
-//            $tmpArr[] = $course;
-//            if ($mode == 1) {
-//                if (self::isUpTrend($tmpArr, $percent) or self::isEqualTrend($tmpArr, $percent) ) {
-//                    $prevCourse = $course;
-//                    continue;
-//                }else{
-//                    if ($i <= $sureTrend){
-//                        // не найден уверенный повышенный тренд
-//                        return false;
-//                    }
-//                    // цена пробивает линию шеи
-//                    if (Core_Math::compareMoney($lineNeck, $course)==1) {
-//                        return false;
-//                    }
-//                    $mode = 2;
-//                    $firsTop = $prevCourse*(1+($percent/100));
-//                    $tmpArr = [$prevCourse, $course];
-//                    $prevCourse = $course;
-//                    continue;
-//                }
-//            }elseif($mode == 2) {
-//                // цена пробивает линию шеи
-//                if (Core_Math::compareMoney($lineNeck, $course)==1) {
-//                    return false;
-//                }
-//                // ищем понижение
-//                if (self::isDownTrend($tmpArr, $percent) or self::isEqualTrend($tmpArr, $percent) ) {
-//                    $prevCourse = $course;
-//                    continue;
-//                }else{
-//                    // цена пробивает верхнюю линию поддержки $firsTop
-//                    if (Core_Math::compareMoney($course, $firsTop)==1) {
-//                        return false;
-//                    }
-//                    $mode = 3;
-//                    $firsBottom = min($tmpArr);
-//                    $tmpArr = [$prevCourse, $course];
-//                    $prevCourse = $course;
-//                    continue;
-//                }
-//            }elseif ($mode == 3) {
-//                // цена пробивает верхнюю линию поддержки $firsTop
-//                if (Core_Math::compareMoney($course, $firsTop)==1) {
-//                    return false;
-//                }
-//                // цена пробивает линию шеи
-//                if (Core_Math::compareMoney($lineNeck, $course)==1) {
-//                    return false;
-//                }
-//                if (self::isUpTrend($tmpArr, $percent) or self::isEqualTrend($tmpArr, $percent) ) {
-//                    $prevCourse = $course;
-//                    continue;
-//                }else{
-//                    $mode = 4;
-//                    $secondTop = $prevCourse*(1+($percent/100));
-//                    $tmpArr = [$prevCourse, $course];
-//                    $prevCourse = $course;
-//                    continue;
-//                }
-//            }elseif ($mode == 4) {
-//                // цена пробивает верхнюю линию сопротивления $firsTop
-//                if (Core_Math::compareMoney($course, $secondTop)==1) {
-//                    return false;
-//                }
-//                if (self::isDownTrend($tmpArr, $percent) or self::isEqualTrend($tmpArr, $percent) ) {
-//                    // цена пробивает нижнюю линию поддержки
-//                    if (Core_Math::compareMoney($firsBottom, $course)==1) {
-//                        return true;
-//                    }else{
-//                        continue;
-//                    }
-//                }else{
-//                    return false;
-//                }
-//            }
-//        }
-//        return false;
-//    }
+    
+    public static function isTripleTop(array $courses, $percentBottom=5, $percentTop=10) {
+        if (count($courses) != 7) {
+            return false;
+        }
+        
+        $hightTop = $courses[1]*(1+($percentTop/100));
+        $lowTop = $courses[1]*(1-($percentTop/100));        
+        
+        $hightBottom = $courses[2]*(1+($percentBottom/100));
+        $lowBottom = $courses[2]*(1-($percentBottom/100));  
+        
+        if (Core_Math::compareMoney($courses[1], $courses[0])==1 
+            && Core_Math::compareMoney($courses[2], $courses[0])==1 
+            && Core_Math::compareMoney($courses[3], $courses[0])==1 
+            && Core_Math::compareMoney($courses[4], $courses[0])==1 
+            && Core_Math::compareMoney($courses[5], $courses[0])==1 
+            && Core_Math::compareMoney($courses[6], $courses[0])==1 
+
+            && Core_Math::compareMoney($courses[1], $courses[2])==1 
+            && Core_Math::compareMoney($hightTop, $courses[3])==1 
+            && Core_Math::compareMoney($courses[3], $lowTop)==1
+            && Core_Math::compareMoney($courses[1], $courses[4])==1 
+            && Core_Math::compareMoney($hightTop, $courses[5])==1 
+            && Core_Math::compareMoney($courses[5], $lowTop)==1
+            && Core_Math::compareMoney($courses[1], $courses[6])==1 
+
+            && Core_Math::compareMoney($courses[3], $courses[2])==1 
+            && Core_Math::compareMoney($hightBottom, $courses[4])==1 
+            && Core_Math::compareMoney($courses[4], $lowBottom)==1
+            && Core_Math::compareMoney($courses[5], $courses[2])==1 
+            && Core_Math::compareMoney($courses[2], $courses[6])==1 
+
+            && Core_Math::compareMoney($courses[3], $courses[4])==1 
+            && Core_Math::compareMoney($hightTop, $courses[5])==1 
+            && Core_Math::compareMoney($courses[5], $lowTop)==1
+            && Core_Math::compareMoney($courses[3], $courses[6])==1 
+
+            && Core_Math::compareMoney($courses[5], $courses[4])==1 
+            && Core_Math::compareMoney($courses[4], $courses[6])==1 
+
+            && Core_Math::compareMoney($courses[5], $courses[6])==1                 
+                                                                    ) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static function isTripleBottom(array $courses, $percentBottom=5, $percentTop=10) {
+        if (count($courses) != 7) {
+            return false;
+        }
+        
+        $hightBottom = $courses[1]*(1+($percentBottom/100));
+        $lowBottom = $courses[1]*(1-($percentBottom/100));        
+        
+        $hightTop = $courses[2]*(1+($percentTop/100));
+        $lowTop = $courses[2]*(1-($percentTop/100));
+        
+        if (Core_Math::compareMoney($courses[0], $courses[1])==1 
+            && Core_Math::compareMoney($courses[0], $courses[2])==1 
+            && Core_Math::compareMoney($courses[0], $courses[3])==1 
+            && Core_Math::compareMoney($courses[0], $courses[4])==1 
+            && Core_Math::compareMoney($courses[0], $courses[5])==1 
+            && Core_Math::compareMoney($courses[0], $courses[6])==1 
+                
+            && Core_Math::compareMoney($courses[2], $courses[1])==1 
+            && Core_Math::compareMoney($hightBottom, $courses[3])==1 
+            && Core_Math::compareMoney($courses[3], $lowBottom)==1 
+            && Core_Math::compareMoney($courses[4], $courses[1])==1 
+            && Core_Math::compareMoney($hightBottom, $courses[5])==1 
+            && Core_Math::compareMoney($courses[5], $lowBottom)==1 
+            && Core_Math::compareMoney($courses[6], $courses[1])==1 
+                
+            && Core_Math::compareMoney($courses[2], $courses[3])==1 
+            && Core_Math::compareMoney($hightTop, $courses[4])==1 
+            && Core_Math::compareMoney($courses[4], $lowTop)==1 
+            && Core_Math::compareMoney($courses[2], $courses[5])==1 
+            && Core_Math::compareMoney($courses[6], $courses[2])==1 
+            
+            && Core_Math::compareMoney($courses[4], $courses[3])==1 
+            && Core_Math::compareMoney($hightBottom, $courses[5])==1 
+            && Core_Math::compareMoney($courses[5], $lowBottom)==1 
+            && Core_Math::compareMoney($courses[6], $courses[3])==1 
+            
+            && Core_Math::compareMoney($courses[4], $courses[5])==1 
+            && Core_Math::compareMoney($courses[6], $courses[4])==1 
+            
+            && Core_Math::compareMoney($courses[6], $courses[5])==1 
+                                                                    ){
+            return true;
+        }
+        return false;
+    }
     
 }
