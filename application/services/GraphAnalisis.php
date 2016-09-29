@@ -411,7 +411,54 @@ class Service_GraphAnalisis {
         if (Core_Math::compareMoney($courses[$startKey+1], $courses[$startKey+3]) == 1) {
             return false;
         }
-        $percentSup = ($courses[$startKey+3]*100 / $courses[$startKey+1])-100;
+        $percentRes = ($courses[$startKey+3]*100 / $courses[$startKey+1])-100;
+        
+        $i=0;
+        $listHorizon = $listRes = array();
+        for ($index=$startKey; $index < count($courses); $index++) {
+            if ($i++ & 1) {
+                $listRes[] = $courses[$index];
+            } else { 
+                $listHorizon[] = $courses[$index];
+            }
+        }
+
+        if (!(self::isEqualChannel($listHorizon, $percentHorizon) && self::isUpChannel($listRes, $percentRes))) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    /**
+     * Hизходящий» треугольник - нижняя граница треугольника образует горизонтальную 
+     * (или почти горизонтальную) линию поддержки, верхняя граница треугольника 
+     * имеет нисходящий наклон. Амплитуда колебаний внутри треугольника снижается. 
+     * @param array $courses
+     * @param type $percentHorizon
+     * @return boolean
+     */
+    public static function isDescendingTriangle(array $courses, $percentHorizon=1) {
+        if (count($courses) < 5) {
+            return false;
+        }
+        $courses = array_values($courses);
+        
+        // определяем точку на горизонт. линии
+        if (Core_Math::compareMoney($courses[0], $courses[1]) == 1) {
+            $startKey = 1;
+        }elseif(Core_Math::compareMoney($courses[1], $courses[0]) == 1) {
+            $startKey = 2;
+        }else{
+            return false;
+        }
+        $hightHorizon   = $courses[$startKey]*(1+($percentHorizon/100));
+        $lowHorizon     = $courses[$startKey]*(1-($percentHorizon/100));
+        // определяем процент линии сопротивления
+        if (Core_Math::compareMoney($courses[$startKey+3], $courses[$startKey+1]) == 1) {
+            return false;
+        }
+        $percentSup = ($courses[$startKey+1]*100 / $courses[$startKey+3])-100;
         
         $i=0;
         $listHorizon = $listSup = array();
@@ -421,9 +468,9 @@ class Service_GraphAnalisis {
             } else { 
                 $listHorizon[] = $courses[$index];
             }
-        }
+        }        
 
-        if (!(self::isEqualChannel($listHorizon, $percentHorizon) && self::isUpChannel($listSup, $percentSup))) {
+        if (!(self::isEqualChannel($listHorizon, $percentHorizon) && self::isDownChannel($listSup, $percentSup))) {
             return false;
         }
         return true;

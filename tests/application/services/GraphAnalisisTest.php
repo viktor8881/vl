@@ -628,9 +628,7 @@ class Service_GraphAnalisisTest extends TestCase {
             [[100, 20, 50, 22, 50, 24, 50, 26], 1],
             [[10,      50, 22, 50, 24, 50, 26], 1]
             ];
-    }
-    
-    
+    }        
     
     /**
      * @dataProvider additionIsAscendingTriangleFalse
@@ -662,6 +660,60 @@ class Service_GraphAnalisisTest extends TestCase {
             // прорыв по низу
             [[100, 20, 50, 22, 50, 24, 50, 26, 50, 23], 1],
             [[10,      50, 22, 50, 24, 50, 26, 55, 23], 1],
+            ];
+    }
+    
+    
+    // =========================================================================
+
+    /**
+     * @dataProvider additionIsDescendingTriangleTrue
+     */
+    public function testIsDescendingTriangleTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isDescendingTriangle($courses, $percent);
+        $this->assertTrue($actual);        
+        return true;
+    }
+    
+    public function additionIsDescendingTriangleTrue() {
+        return [
+            [[100, 20, 50, 20, 48, 20, 46, 20], 1],
+            [[10,  50, 20, 48, 20, 46, 20, 44], 1]
+            ];
+    }
+        
+    /**
+     * @dataProvider additionIsDescendingTriangleFalse
+     */
+    public function testIsDescendingTriangleFalse($courses, $percent) {
+        $actual = Service_GraphAnalisis::isDescendingTriangle($courses, $percent);
+        $this->assertFalse($actual);        
+        return true;
+    }
+    
+    public function additionIsDescendingTriangleFalse() {
+        return [
+            // count < 5
+            [[1, 2, 3, 4], 3], 
+            // точка входа ($startKey) не определена
+            [[1, 1, 3, 4, 5], 3], 
+            // $startKey+3 > $startKey+1 ($startKey = 1)
+            [[100, 20, 50, 20, 50.01, 20, 46, 20], 1],
+            [[10,  50, 20, 48, 20, 48.01, 20, 44], 1],
+            // не горизонт
+            [[100, 20, 50, 20.21, 48, 20, 46, 20], 1],
+            [[10,  50, 20, 48, 20, 46, 20.21, 44], 1],
+            [[100, 20, 50, 20, 48, 19.79, 46, 20], 1],
+            [[10,  50, 20, 48, 20, 46, 19.79, 44], 1],
+            // не верный спуск
+            [[100, 20, 50, 20, 48, 20, 47.84, 20], 1],// по верху
+            [[100, 20, 50, 20, 48, 20, 44.00, 20], 1],// по низу
+            // прорыв по верху
+            [[100, 20, 50, 20, 48, 20, 46, 20, 50], 1],
+            [[10,  50, 20, 48, 20, 46, 20, 44, 50], 1],
+            // прорыв по низу
+            [[100, 20, 50, 20, 48, 20, 46, 20, 15], 1],
+            [[10,  50, 20, 48, 20, 46, 20, 44, 15], 1]
             ];
     }
     
