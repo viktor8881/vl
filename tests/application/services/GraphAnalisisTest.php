@@ -611,5 +611,58 @@ class Service_GraphAnalisisTest extends TestCase {
             [[500, 150, 250, 150, 250, 150, 150.01], 3, 5], 
         ];
     }
+    
+    // =========================================================================
 
+    /**
+     * @dataProvider additionIsAscendingTriangleTrue
+     */
+    public function testIsAscendingTriangleTrue($courses, $percent) {
+        $actual = Service_GraphAnalisis::isAscendingTriangle($courses, $percent);
+        $this->assertTrue($actual);        
+        return true;
+    }
+    
+    public function additionIsAscendingTriangleTrue() {
+        return [
+            [[100, 20, 50, 22, 50, 24, 50, 26], 1],
+            [[10,      50, 22, 50, 24, 50, 26], 1]
+            ];
+    }
+    
+    
+    
+    /**
+     * @dataProvider additionIsAscendingTriangleFalse
+     */
+    public function testIsAscendingTriangleFalse($courses, $percent) {
+        $actual = Service_GraphAnalisis::isAscendingTriangle($courses, $percent);
+        $this->assertFalse($actual);        
+        return true;
+    }
+    
+    public function additionIsAscendingTriangleFalse() {
+        return [
+            // count < 5
+            [[1, 2, 3, 4], 3], 
+            // точка входа ($startKey) не определена
+            [[1, 1, 3, 4, 5], 3], 
+            // $startKey+1 > $startKey+3 ($startKey = 1)
+            [[100, 20, 50, 22, 50, 21.99, 50, 26], 1],
+            [[10,  50, 22, 50, 21.99, 50, 26], 1],
+            // не горизонт
+            [[100, 20, 50, 22, 50.51, 24, 50, 26], 1],
+            [[10, 50, 22, 50.51, 24, 50, 26], 1],
+            // не верный подъем
+            [[100, 20, 50, 22, 50, 24, 50, 28.57], 1],// по верху
+            [[100, 20, 50, 22, 50, 24, 50, 23.79], 1],// по низу
+            // прорыв по верху
+            [[100, 20, 50, 22, 50, 24, 50, 26, 55], 1],
+            [[10,      50, 22, 50, 24, 50, 26, 55], 1],
+            // прорыв по низу
+            [[100, 20, 50, 22, 50, 24, 50, 26, 50, 23], 1],
+            [[10,      50, 22, 50, 24, 50, 26, 55, 23], 1],
+            ];
+    }
+    
 }

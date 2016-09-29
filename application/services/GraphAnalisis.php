@@ -29,6 +29,7 @@ class Service_GraphAnalisis {
      * @return boolean
      */
     public static function isUpTrend(array $courses, $percent=5) {
+        $courses = array_values($courses);
         $i=0;
         $prevCourse = null;
         foreach ($courses as $course) {
@@ -56,6 +57,7 @@ class Service_GraphAnalisis {
      * @return boolean
      */
     public static function isDownTrend(array $courses, $percent=5) {
+        $courses = array_values($courses);
         $i=0;
         $prevCourse = null;
         foreach ($courses as $course) {
@@ -81,6 +83,7 @@ class Service_GraphAnalisis {
      * @return boolean
      */
     public static function isEqualChannel(array $courses, $percent=5) {
+        $courses = array_values($courses);
         $i=0;
         $prevCourse = null;
         foreach ($courses as $course) {
@@ -97,6 +100,7 @@ class Service_GraphAnalisis {
     }
     
     public static function isUpChannel(array $courses, $percent=5) {
+        $courses = array_values($courses);
         $i=0;
         $prevCourse = null;
         foreach ($courses as $course) {
@@ -107,6 +111,7 @@ class Service_GraphAnalisis {
             }
             $hightCritery = $hightCritery*(1+($percent/100));
             $lowCritery = $lowCritery*(1+($percent/100));
+         
             if (Core_Math::compareMoney($course, $hightCritery)==1 or Core_Math::compareMoney($lowCritery, $course)==1) {
                 return false;
             }
@@ -115,6 +120,7 @@ class Service_GraphAnalisis {
     }
     
     public static function isDownChannel(array $courses, $percent=5) {
+        $courses = array_values($courses);
         $i=0;
         $prevCourse = null;
         foreach ($courses as $course) {
@@ -142,6 +148,10 @@ class Service_GraphAnalisis {
      * @return boolean
      */
     public static function isDoubleTop(array $courses, $percent=5, $percentDiffPeak=20) {
+        if (count($courses) != 5) {
+            return false;
+        }
+        $courses = array_values($courses);
         if (Core_Math::compareMoney($courses[1], $courses[0])==1
             && Core_Math::compareMoney($courses[1], $courses[2])==1
             && Core_Math::compareMoney($courses[2], $courses[4])>=0
@@ -165,6 +175,10 @@ class Service_GraphAnalisis {
     }
     
     public static function isDoubleBottom(array $courses, $percent=5, $percentDiffPeak=20) {
+        if (count($courses) != 5) {
+            return false;
+        }
+        $courses = array_values($courses);
         if (Core_Math::compareMoney($courses[0], $courses[1])==1
             && Core_Math::compareMoney($courses[2], $courses[1])==1
             && Core_Math::compareMoney($courses[2], $courses[3])==1
@@ -191,6 +205,7 @@ class Service_GraphAnalisis {
         if (count($courses) != 7) {
             return false;
         }
+        $courses = array_values($courses);
         $hight2 = $courses[2]*(1+($percent/100));
         $low2 = $courses[2]*(1-($percent/100));        
         
@@ -232,6 +247,7 @@ class Service_GraphAnalisis {
         if (count($courses) != 7) {
             return false;
         }
+        $courses = array_values($courses);
         $hight2 = $courses[2]*(1+($percent/100));
         $low2 = $courses[2]*(1-($percent/100));        
         
@@ -274,6 +290,7 @@ class Service_GraphAnalisis {
         if (count($courses) != 7) {
             return false;
         }
+        $courses = array_values($courses);
         
         $hightTop = $courses[1]*(1+($percentTop/100));
         $lowTop = $courses[1]*(1-($percentTop/100));        
@@ -322,6 +339,7 @@ class Service_GraphAnalisis {
         if (count($courses) != 7) {
             return false;
         }
+        $courses = array_values($courses);
         
         $hightBottom = $courses[1]*(1+($percentBottom/100));
         $lowBottom = $courses[1]*(1-($percentBottom/100));        
@@ -363,6 +381,52 @@ class Service_GraphAnalisis {
             return true;
         }
         return false;
+    }
+    
+    
+    /**
+     * «Восходящий» треугольник - верхняя граница треугольника образует 
+     * горизонтальную (или почти горизонтальную) линию сопротивления, 
+     * нижняя граница треугольника имеет восходящий наклон. Амплитуда колебаний внутри треугольника снижается. 
+     * @param array $courses
+     * @return boolean
+     */
+    public static function isAscendingTriangle(array $courses, $percentHorizon=1) {
+        if (count($courses) < 5) {
+            return false;
+        }
+        $courses = array_values($courses);
+        // определяем точку на горизонт. линии
+        if (Core_Math::compareMoney($courses[0], $courses[1]) == 1) {
+            $startKey = 2;
+        }elseif(Core_Math::compareMoney($courses[1], $courses[0]) == 1) {
+            $startKey = 1;
+        }else{
+            return false;
+        }
+        $hightHorizon   = $courses[$startKey]*(1+($percentHorizon/100));
+        $lowHorizon     = $courses[$startKey]*(1-($percentHorizon/100));
+        
+        // определяем процент линии сопротивления
+        if (Core_Math::compareMoney($courses[$startKey+1], $courses[$startKey+3]) == 1) {
+            return false;
+        }
+        $percentSup = ($courses[$startKey+3]*100 / $courses[$startKey+1])-100;
+        
+        $i=0;
+        $listHorizon = $listSup = array();
+        for ($index=$startKey; $index < count($courses); $index++) {
+            if ($i++ & 1) {
+                $listSup[] = $courses[$index];
+            } else { 
+                $listHorizon[] = $courses[$index];
+            }
+        }
+
+        if (!(self::isEqualChannel($listHorizon, $percentHorizon) && self::isUpChannel($listSup, $percentSup))) {
+            return false;
+        }
+        return true;
     }
     
 }
