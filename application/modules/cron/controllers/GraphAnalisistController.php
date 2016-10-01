@@ -60,9 +60,9 @@ class Cron_GraphAnalisistController extends Core_Controller_Action {
                 $firstCourses = $courses->first();
                 $currentCourses = $courses->last();
                 // рост инвестиций
-                if (Service_GraphAnalisis::isEqualTrend($courses->getValues(), 0.5)) {
+                if (Service_GraphAnalysis::isEqualTrend($courses->getValues(), 0.5)) {
                     // echo'Стабильный горизонтальный тренд<br />';
-                }elseif (Service_GraphAnalisis::isUpTrend($courses->getValues(), 0.5)) {
+                }elseif (Service_GraphAnalysis::isUpTrend($courses->getValues(), 0.5)) {
                     // echo'рост инвестиций<br />';
                     if ($this->isUpTrendContinue()) {
                         // все норм. поднимаем Стоп-лосс
@@ -88,7 +88,7 @@ class Cron_GraphAnalisistController extends Core_Controller_Action {
                             $stopLoss->delete();
                         }
                     }
-                    if (Service_GraphAnalisis::isDoubleTop($courses->getValues(), 1, 5)) {
+                    if (Service_GraphAnalysis::isDoubleTop($courses->getValues(), 1, 5)) {
                         // echo'достигли isDoubleTop. Продажа инвестиций<br />';
                         $this->investSell($currentCourses, $date);
                         $stopLoss->delete();

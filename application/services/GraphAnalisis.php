@@ -11,7 +11,7 @@
  *
  * @author Viktor
  */
-class Service_GraphAnalisis {
+class Service_GraphAnalysis {
     
     const PERSENT_UP_TREND = 5;
     const PERSENT_DOWN_TREND = 5;
@@ -404,9 +404,6 @@ class Service_GraphAnalisis {
         }else{
             return false;
         }
-        $hightHorizon   = $courses[$startKey]*(1+($percentHorizon/100));
-        $lowHorizon     = $courses[$startKey]*(1-($percentHorizon/100));
-        
         // определяем процент линии сопротивления
         if (Core_Math::compareMoney($courses[$startKey+1], $courses[$startKey+3]) == 1) {
             return false;
@@ -452,8 +449,6 @@ class Service_GraphAnalisis {
         }else{
             return false;
         }
-        $hightHorizon   = $courses[$startKey]*(1+($percentHorizon/100));
-        $lowHorizon     = $courses[$startKey]*(1-($percentHorizon/100));
         // определяем процент линии сопротивления
         if (Core_Math::compareMoney($courses[$startKey+3], $courses[$startKey+1]) == 1) {
             return false;
