@@ -25,6 +25,46 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cache_cources_currency`
+--
+
+DROP TABLE IF EXISTS `cache_cources_currency`;
+CREATE TABLE IF NOT EXISTS `cache_cources_currency` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `value_last` decimal(20,6) NOT NULL,
+  `type_trend` tinyint(1) NOT NULL COMMENT '1-повыш. 0-пониж.',
+  `data_value` text NOT NULL,
+  `date_last` datetime NOT NULL,
+  `percent` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cache_cources_metal`
+--
+
+DROP TABLE IF EXISTS `cache_cources_metal`;
+CREATE TABLE IF NOT EXISTS `cache_cources_metal` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `value_last` decimal(20,6) NOT NULL,
+  `type_trend` tinyint(1) NOT NULL COMMENT '1-повыш. 0-пониж.',
+  `data_value` text NOT NULL,
+  `date_last` datetime NOT NULL,
+  `percent` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 --
 -- Структура таблицы `account`
 --

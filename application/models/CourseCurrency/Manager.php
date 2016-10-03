@@ -127,5 +127,6 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
     private function isLess($left, $right) {
         return $left < $right;
     }
+       
     
 }
