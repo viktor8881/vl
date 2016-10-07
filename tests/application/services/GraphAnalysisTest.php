@@ -12,7 +12,7 @@
  * @author Viktor
  */
 use PHPUnit\Framework\TestCase;
-require_once APPLICATION_PATH.'/services/GraphAnalisis.php';
+require_once APPLICATION_PATH.'/services/GraphAnalysis.php';
 
 class Service_GraphAnalysisTest extends TestCase {
     

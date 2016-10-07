@@ -115,11 +115,11 @@ class Cron_TmpController extends Core_Controller_Action {
                     $cacheCourse = $this->getManager('cacheCourseMetal')->lastByCodePercent($course->getCode(), $percent);
                     $arr4Analysis = array($cacheCourse->getLastValue(), $course->getValue());
                     if ($cacheCourse->isUpTrend()) {
-                        $isContinueTrend = Service_GraphAnalisis::isUpTrend($arr4Analysis, $cacheCourse->getPercent());
+                        $isContinueTrend = Service_GraphAnalysis::isUpTrend($arr4Analysis, $cacheCourse->getPercent());
                     }else{
-                        $isContinueTrend = Service_GraphAnalisis::isDownTrend($arr4Analysis, $cacheCourse->getPercent());
+                        $isContinueTrend = Service_GraphAnalysis::isDownTrend($arr4Analysis, $cacheCourse->getPercent());
                     }
-                    if ($isContinueTrend or Service_GraphAnalisis::isEqualChannel($arr4Analysis, $cacheCourse->getPercent())) {
+                    if ($isContinueTrend or Service_GraphAnalysis::isEqualChannel($arr4Analysis, $cacheCourse->getPercent())) {
                         $cacheCourse->setLastValue($course->getValue())
                                 ->addDataValueByCourse($course)
                                 ->setLastDate($date);
@@ -172,11 +172,11 @@ class Cron_TmpController extends Core_Controller_Action {
                     $cacheCourse = $this->getManager('cacheCourseCurrency')->lastByCodePercent($course->getCode(), $percent);
                     $arr4Analysis = array($cacheCourse->getLastValue(), $course->getValue());
                     if ($cacheCourse->isUpTrend()) {
-                        $isContinueTrend = Service_GraphAnalisis::isUpTrend($arr4Analysis, $cacheCourse->getPercent());
+                        $isContinueTrend = Service_GraphAnalysis::isUpTrend($arr4Analysis, $cacheCourse->getPercent());
                     }else{
-                        $isContinueTrend = Service_GraphAnalisis::isDownTrend($arr4Analysis, $cacheCourse->getPercent());
+                        $isContinueTrend = Service_GraphAnalysis::isDownTrend($arr4Analysis, $cacheCourse->getPercent());
                     }
-                    if ($isContinueTrend or Service_GraphAnalisis::isEqualChannel($arr4Analysis, $cacheCourse->getPercent())) {
+                    if ($isContinueTrend or Service_GraphAnalysis::isEqualChannel($arr4Analysis, $cacheCourse->getPercent())) {
                         $cacheCourse->setLastValue($course->getValue())
                                 ->addDataValueByCourse($course)
                                 ->setLastDate($date);
@@ -219,7 +219,7 @@ class Cron_TmpController extends Core_Controller_Action {
                     && $cacheCourses->lastNullOperation()) {
                     
                     if ( $cacheCourses->firstIsUpTrend()
-                        && Service_GraphAnalisis::isDoubleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        && Service_GraphAnalysis::isDoubleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
                         // покупаем
                         $investId = $this->investBuyMetal($currentCourse, $date);
                         // пишем что образовалась фигура
@@ -230,7 +230,7 @@ class Cron_TmpController extends Core_Controller_Action {
                                 ->setCasheCoursesListId($cacheCourses->listId());
                         $this->getManager('figureMetal')->insert($figure);
                     }elseif ($cacheCourses->firstIsDownTrend()
-                        && Service_GraphAnalisis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        && Service_GraphAnalysis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
                         // продаем
                         $investId = $this->investSellMetal($currentCourse, $date);
                         // пишем что образовалась фигура
@@ -250,7 +250,7 @@ class Cron_TmpController extends Core_Controller_Action {
                     && $cacheCourses->lastNullOperation() ) {
                     
                     if ($cacheCourses->firstIsUpTrend()) {
-                        if (Service_GraphAnalisis::isTripleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        if (Service_GraphAnalysis::isTripleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
                             // покупаем
                             $investId = $this->investBuyMetal($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -261,7 +261,7 @@ class Cron_TmpController extends Core_Controller_Action {
                                     ->setCasheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureMetal')->insert($figure);
                         }
-                        if (Service_GraphAnalisis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
+                        if (Service_GraphAnalysis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
                             // покупаем
                             $investId = $this->investBuyMetal($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -273,7 +273,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $this->getManager('figureMetal')->insert($figure);
                         }
                     }elseif($cacheCourses->firstIsDownTrend()) {
-                        if (Service_GraphAnalisis::isTripleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        if (Service_GraphAnalysis::isTripleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
                             // продаем
                             $investId = $this->investSellMetal($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -284,7 +284,7 @@ class Cron_TmpController extends Core_Controller_Action {
                                     ->setCasheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureMetal')->insert($figure);
                         }
-                        if (Service_GraphAnalisis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
+                        if (Service_GraphAnalysis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
                             // продаем
                             $investId = $this->investSellMetal($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -315,7 +315,7 @@ class Cron_TmpController extends Core_Controller_Action {
                     && $cacheCourses->lastNullOperation()) {
                     
                     if ( $cacheCourses->firstIsUpTrend()
-                        && Service_GraphAnalisis::isDoubleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        && Service_GraphAnalysis::isDoubleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
                         // покупаем
                         $investId = $this->investBuyCurrency($currentCourse, $date);
                         // пишем что образовалась фигура
@@ -326,7 +326,7 @@ class Cron_TmpController extends Core_Controller_Action {
                                 ->setCasheCoursesListId($cacheCourses->listId());
                         $this->getManager('figureCurrency')->insert($figure);
                     }elseif ($cacheCourses->firstIsDownTrend()
-                        && Service_GraphAnalisis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        && Service_GraphAnalysis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
                         // продаем
                         $investId = $this->investSellCurrency($currentCourse, $date);
                         // пишем что образовалась фигура
@@ -346,7 +346,7 @@ class Cron_TmpController extends Core_Controller_Action {
                     && $cacheCourses->lastNullOperation() ) {
                     
                     if ($cacheCourses->firstIsUpTrend()) {
-                        if (Service_GraphAnalisis::isTripleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        if (Service_GraphAnalysis::isTripleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
                             // покупаем
                             $investId = $this->investBuyCurrency($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -357,7 +357,7 @@ class Cron_TmpController extends Core_Controller_Action {
                                     ->setCasheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureCurrency')->insert($figure);
                         }
-                        if (Service_GraphAnalisis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
+                        if (Service_GraphAnalysis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
                             // покупаем
                             $investId = $this->investBuyCurrency($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -369,7 +369,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $this->getManager('figureCurrency')->insert($figure);
                         }
                     }elseif($cacheCourses->firstIsDownTrend()) {
-                        if (Service_GraphAnalisis::isTripleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
+                        if (Service_GraphAnalysis::isTripleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
                             // продаем
                             $investId = $this->investSellCurrency($currentCourse, $date);
                             // пишем что образовалась фигура
@@ -380,7 +380,7 @@ class Cron_TmpController extends Core_Controller_Action {
                                     ->setCasheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureCurrency')->insert($figure);
                         }
-                        if (Service_GraphAnalisis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
+                        if (Service_GraphAnalysis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
                             // продаем
                             $investId = $this->investSellCurrency($currentCourse, $date);
                             // пишем что образовалась фигура

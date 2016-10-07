@@ -7,7 +7,7 @@
  */
 
 /**
- * Description of Cron_GraphAnalisist2Controller
+ * Description of Cron_GraphAnalysist2Controller
  *
  * @author Viktor
  */

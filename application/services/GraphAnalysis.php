@@ -7,7 +7,7 @@
  */
 
 /**
- * Description of GraphAnalisis
+ * Description of GraphAnalysis
  *
  * @author Viktor
  */

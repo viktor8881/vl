@@ -7,12 +7,12 @@
  */
 
 /**
- * Description of Cron_GraphAnalisistController
+ * Description of Cron_GraphAnalysistController
  *
  * @author Viktor
  */
 require_once APPLICATION_PATH.'/modules/cron/models/StopLoss.php';
-class Cron_GraphAnalisistController extends Core_Controller_Action {
+class Cron_GraphAnalysistController extends Core_Controller_Action {
     
     const ID_METAL = 1;
     
