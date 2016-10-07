@@ -13,11 +13,11 @@
 class Course_View_Helper_CourseToTable extends Zend_View_Helper_Abstract
 {
     
-    public function courseToTable(array $cources) {
+    public function courseToTable(array $courses) {
         $xhtml = '<table class="table table-bordered">';
         $listDate = array();
         $listValue = array();
-        foreach ($cources as $course) {
+        foreach ($courses as $course) {
             $listDate[] = $course->getDateFormatDM();
             $listValue[] = Core_Math::roundMoney($course->getValue());
         }

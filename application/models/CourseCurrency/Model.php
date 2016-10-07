@@ -27,7 +27,6 @@ class CourseCurrency_Model extends Core_Domen_Model_Abstract {
             'value'=>$this->getValue(),
             'date'=>$this->getDateToDb());
     }
-
     
     public function getId() {
         return $this->id;

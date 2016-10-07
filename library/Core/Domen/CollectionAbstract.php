@@ -18,17 +18,24 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * 
      * @return \ArrayIterator
      */
-    function getIterator()
-    {
+    public function getIterator() {
         return new ArrayIterator($this->_values);
+    }
+    
+    public function reverse() {
+        $name = get_class($this);
+        $result = new $name;
+        foreach (array_reverse($this->_values, true) as $key=>$item) {
+            $result->add($key, $item);
+        }
+        return $result;
     }
     
     /**
      * вернуть в виде массива
      * @return array
      */
-    public function toArray()
-    {
+    public function toArray() {
         return $this->_values;
     }
     
@@ -60,8 +67,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * @param type $key
      * @return boolean
      */
-    public function isExistsKey ($key)
-    {
+    public function isExistsKey ($key) {
         if (isset($this->_values[$key])) {
             return true;
         }
@@ -73,8 +79,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * @param type $key
      * @return boolean || Core_Domen_Model_Abstract
      */
-    public function getValue ($key)
-    {
+    public function getValue ($key) {
         if ($this->isExistsKey ($key)){
             return $this->_values[$key];
         }
@@ -85,22 +90,19 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * удалить элемент из коллекции
      * @param type $offset
      */
-    public function remove ($key)
-    {
+    public function remove ($key) {
         if ($this->isExistsKey ($key)){
             unset($this->_values[$key]);
         }
         return $this;
     }
     
-    public function count()
-    {
+    public function count() {
         return count($this->_values);
     }
     
     
-    public function current()
-    {
+    public function current() {
         reset($this->_values);
         return current($this->_values);
     }
@@ -109,8 +111,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * очистить коллекцию
      * @return \Abstract_Collection
      */
-    public function clear()
-    {
+    public function clear() {
         $this->_values=array();
         return $this;
     }
@@ -118,8 +119,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
     /**
      * клонируем. и все что внутри тоже подвергаем клонированию
      */
-    public function __clone() 
-    {
+    public function __clone()  {
         foreach ($this->_values as $key => $item) {
             if (is_object($item)) {
                 $this->_values[$key] = clone $item;
@@ -131,8 +131,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * получить массив ключевых полей
      * @return array
      */
-    public function getListId()
-    {
+    public function getListId() {
         return array_keys($this->_values);
     }
     
@@ -140,8 +139,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * получить последний элемент коллекции
      * @return null
      */
-    public function last()
-    {
+    public function last() {
         $i=0;
         $count = count($this->_values);
         foreach ($this->_values as $key => $item) {
@@ -156,8 +154,7 @@ abstract class Core_Domen_CollectionAbstract implements IteratorAggregate,  Coun
      * получить первый элемент коллекции
      * @return null
      */
-    public function first()
-    {
+    public function first() {
         foreach ($this->_values as $key => $item) {            
             return $this->_values[$key];
         }

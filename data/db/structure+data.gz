@@ -29,19 +29,51 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+
 --
--- Структура таблицы `cache_cources_currency`
+-- Структура таблицы `figure_currency`
 --
 
-DROP TABLE IF EXISTS `cache_cources_currency`;
-CREATE TABLE IF NOT EXISTS `cache_cources_currency` (
+DROP TABLE IF EXISTS `figure_currency`;
+CREATE TABLE IF NOT EXISTS `figure_currency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `investment_id` int(11) DEFAULT NULL,
+  `figure` tinyint(1) NOT NULL,
+  `cashe_courses_list_id` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `figure_metal`
+--
+
+DROP TABLE IF EXISTS `figure_metal`;
+CREATE TABLE IF NOT EXISTS `figure_metal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `investment_id` int(11) DEFAULT NULL,
+  `figure` tinyint(1) NOT NULL,
+  `cashe_courses_list_id` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Структура таблицы `cache_course_currency`
+--
+
+DROP TABLE IF EXISTS `cache_course_currency`;
+CREATE TABLE IF NOT EXISTS `cache_course_currency` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `code` varchar(10) NOT NULL,
   `value_last` decimal(20,6) NOT NULL,
   `type_trend` tinyint(1) NOT NULL COMMENT '1-повыш. 0-пониж.',
   `data_value` text NOT NULL,
-  `date_last` datetime NOT NULL,
+  `date_last` date NOT NULL,
   `percent` decimal(4,2) NOT NULL,
+  `operation` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -49,18 +81,19 @@ CREATE TABLE IF NOT EXISTS `cache_cources_currency` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `cache_cources_metal`
+-- Структура таблицы `cache_course_metal`
 --
 
-DROP TABLE IF EXISTS `cache_cources_metal`;
-CREATE TABLE IF NOT EXISTS `cache_cources_metal` (
+DROP TABLE IF EXISTS `cache_course_metal`;
+CREATE TABLE IF NOT EXISTS `cache_course_metal` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `code` varchar(10) NOT NULL,
   `value_last` decimal(20,6) NOT NULL,
   `type_trend` tinyint(1) NOT NULL COMMENT '1-повыш. 0-пониж.',
   `data_value` text NOT NULL,
-  `date_last` datetime NOT NULL,
+  `date_last` date NOT NULL,
   `percent` decimal(4,2) NOT NULL,
+  `operation` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `code` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

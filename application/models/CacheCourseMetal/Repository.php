@@ -12,5 +12,10 @@
  * @author Viktor
  */
 class CacheCourseMetal_Repository extends Core_Domen_Repository_Abstract {
-    //put your code here
+    
+    
+    public function setOperation(array $listId) {
+        return $this->getMapper()->setOperation($listId);
+    }
+    
 }

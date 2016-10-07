@@ -13,26 +13,36 @@
  */
 class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
     
+    const TREND_UP = 1;
+    const TREND_DOWN = 0;
+    
+    const OPERATION = 1;
+    
     private $id;
     private $code;
     private $value_last;
     private $type_trend;
-    private $data_value;   
+    private $data_value=array();
     private $date_last;   
     private $percent;   
+    private $operation;   
 
+    protected $_aliases = array('value_last'=>'LastValue',
+        'type_trend'=>'TypeTrend',
+        'data_value'=>'DataValue',
+        'date_last'=>'LastDate',);
     
     public function getOptions() {
         return array('id'=> $this->getId(),
             'code'      => $this->getCode(),
             'value_last'=> $this->getLastValue(),
             'type_trend'=> $this->getTypeTrend(),
-            'data_value'=> $this->getDataValue(),
-            'date_last' => $this->getLastDate(),
+            'data_value'=> $this->getDataValueToDb(),
+            'date_last' => $this->getLastDateToDb(),
             'percent'   => $this->getPercent(),
+            'operation' => $this->getOperation(),
             );
     }
-
     
     public function getId() {
         return $this->id;
@@ -49,7 +59,15 @@ class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
     public function getTypeTrend() {
         return $this->type_trend;
     }
+    
+    public function isUpTrend() {
+        return $this->getTypeTrend() == self::TREND_UP;
+    }
 
+    public function isDownTrend() {
+        return $this->getTypeTrend() == self::TREND_DOWN;
+    }
+    
     public function getPercent() {
         return $this->percent;
     }
@@ -72,13 +90,29 @@ class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
     public function getDataValue() {
         return $this->data_value;
     }
-
-    public function setDataValue($data_value) {
-        $this->data_value = $data_value;
-        return $this;
+    
+    public function countDataValue() {
+        return count($this->data_value);
+    }
+    
+    public function getDataValueToDb() {
+        return json_encode($this->data_value);
     }
 
-        
+    public function setDataValue($data_value) {
+        $this->data_value = json_decode($data_value, true);
+        return $this;
+    }
+    
+    public function addDataValue(Core_Date $date,  $value) {
+        $this->data_value[] = array('data'=>$date->formatDbDate(), 'value'=>$value);
+        return $this;
+    }
+    
+    public function addDataValueByCourse(CourseCurrency_Model $model) {
+        return $this->addDataValue($model->getDate(), $model->getValue());
+    }
+
     /**
      * 
      * @return Core_Date
@@ -107,12 +141,24 @@ class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
     }
 
     public function getLastDateToDb() {
-        return $this->getLastDate()->format(Core_Date::DB);
+        return $this->getLastDate()->format(Core_Date::DB_DATE);
     }
     
     public function getLastDateFormatDMY() {
         return $this->getLastDate()->format(Core_Date::DMY);
     }
+    
+    public function getOperation() {
+        return $this->operation;
+    }
 
+    public function setOperation($operation) {
+        $this->operation = $operation;
+        return $this;
+    }
+
+    public function hasOperation() {
+        return !is_null($this->operation);
+    }
 
 }

@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of CourseMetal_Filter_Code
+ * Description of CacheCourseMetal_Filter_Code
  *
  * @author Viktor
  */
-class CourseMetal_Filter_Code extends Core_Domen_Filter_Abstract {
+class CacheCourseMetal_Filter_Code extends Core_Domen_Filter_Abstract {
     
     
     public function filter($value) {

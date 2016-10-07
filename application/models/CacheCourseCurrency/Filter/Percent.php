@@ -7,15 +7,15 @@
  */
 
 /**
- * Description of CacheCourseCurrency_Repository
+ * Description of CacheCourseCurrency_Filter_Percent
  *
  * @author Viktor
  */
-class CacheCourseCurrency_Repository extends Core_Domen_Repository_Abstract {
+class CacheCourseCurrency_Filter_Percent extends Core_Domen_Filter_Abstract {
     
     
-    public function setOperation(array $listId) {
-        return $this->getMapper()->setOperation($listId);
+    public function filter($value) {
+        return (float)$value;
     }
     
 }

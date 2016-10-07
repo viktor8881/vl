@@ -7,18 +7,15 @@
  */
 
 /**
- * Description of CourseMetal_Filter_LsEqDate
+ * Description of CacheCourseMetal_Filter_Percent
  *
  * @author Viktor
  */
-class CourseMetal_Filter_LsEqDate extends Core_Domen_Filter_Abstract {
-        
+class CacheCourseMetal_Filter_Percent extends Core_Domen_Filter_Abstract {
+    
     
     public function filter($value) {
-        if ( $value instanceof Core_Date ) {
-            return $value->formatDbDate();
-        }
-        return false;
+        return (float)$value;
     }
     
 }

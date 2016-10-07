@@ -7,10 +7,10 @@
  */
 
 /**
- * Description of InvestmentCurrency_Order_Id
+ * Description of CacheCourseMetal_Order_Id
  *
  * @author Home
  */
-class CourseMetal_Order_Id extends Core_Domen_Order_Abstract {
+class CacheCourseMetal_Order_Id extends Core_Domen_Order_Abstract {
     //put your code here
 }

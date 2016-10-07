@@ -14,9 +14,7 @@
 class CacheCourseCurrency_Filter_Code extends Core_Domen_Filter_Abstract {
     
     
-    
-    public function filter($value)
-    {
+    public function filter($value) {
         return (string)$value;
     }
     
