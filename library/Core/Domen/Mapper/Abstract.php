@@ -151,13 +151,11 @@ abstract class Core_Domen_Mapper_Abstract implements Core_Domen_IMapper {
      * @param Zend_Paginator $paginator
      * @return array(array(), array(), ...)
      */
-    public function fetchAllByFilter(Core_Domen_Filter_Collection $filters,  Zend_Paginator $paginator=null, Core_Domen_Order_Collection $orders=null) 
-    {
+    public function fetchAllByFilter(Core_Domen_Filter_Collection $filters,  Zend_Paginator $paginator=null, Core_Domen_Order_Collection $orders=null) {
         $select = $this->getSelect();
         $this->_addWhereByFilters($filters, $select);
         return $this->_fetchAll($select, $paginator, $orders);
     }
-    
     
     /**
      * кол-во по фильтру

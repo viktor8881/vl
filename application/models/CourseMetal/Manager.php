@@ -21,7 +21,7 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
 
     public function fetchAllByDate(Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
-        $filters->addFilter(new CourseCurrency_Filter_Date($date));
+        $filters->addFilter(new CourseMetal_Filter_Date($date));
         return parent::fetchAllByFilter($filters);
     }
     
@@ -93,15 +93,18 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
 //        return ($model)?$model->getSell():0;
 //    }
     
-    public function getValueCodeByDate($code, Core_Date $date) {
+    public function  getByCodeDate($code, Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseMetal_Filter_Date($date))
                 ->addFilter(new CourseMetal_Filter_Code($code));
-        $model = parent::getByFilter($filters);
+        return $this->getByFilter($filters);
+    }
+
+    public function getValueCodeByDate($code, Core_Date $date) {
+        $model = $this->getByCodeDate($code, $date);
         return ($model)?$model->getSell():0;
     }
-    
-    
+        
     public function hasByDate(Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseMetal_Filter_Date($date));

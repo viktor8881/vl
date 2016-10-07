@@ -34,11 +34,15 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters);
     }
     
-    public function getValueCodeByDate($code, Core_Date $date) {
+    public function  getByCodeDate($code, Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseCurrency_Filter_Date($date))
                 ->addFilter(new CourseCurrency_Filter_Code($code));
-        $model = parent::getByFilter($filters);
+        return $this->getByFilter($filters);
+    }
+    
+    public function getValueCodeByDate($code, Core_Date $date) {
+        $model = $this->getByCodeDate($code, $date);
         return ($model)?$model->getValueForOne():0;
     }
 
@@ -127,5 +131,6 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
     private function isLess($left, $right) {
         return $left < $right;
     }
+       
     
 }
