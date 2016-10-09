@@ -6,19 +6,19 @@ class Cron_IndexController extends Core_Controller_Action
     public function indexAction()
     {
         $dateNow = new Core_Date();
-        $queue = Core_Container::getQueue();
+        $queue = new Core_Queue_Analysis('analysis');
         $messages = $queue->receive();
-        foreach ($messages as $i => $message) {
+        foreach ($messages as $message) {
             $body = $message->body;
             switch ($body) {
-                case Core_Queue::TASK_ANALYSIS:
+                case Core_Queue_Analysis::TASK_ANALYSIS:
                     $countRec = $this->taskAnalysis($dateNow);
                     if ($countRec > 0) {
                         // add task send email.
                         $queue->sendTaskEmail(true);
                     }
                     break;
-                case Core_Queue::TASK_SEND_MESSAGE:
+                case Core_Queue_Analysis::TASK_SEND_MESSAGE:
                     $this->sendMessage($dateNow);
                     break;
                 default:

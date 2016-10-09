@@ -12,8 +12,7 @@
  * @author Viktor
  */
 class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
-    
-    
+
 
     public function fetchAllByPeriod(Core_Date $dateStart, Core_Date $dateEnd) {
         $filters = new Core_Domen_Filter_Collection();
@@ -26,6 +25,13 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         $filters->addFilter(new CourseCurrency_Filter_Date($date));
         return parent::fetchAllByFilter($filters);
     }
+        
+    public function fetchAllByDateListCode(Core_Date $date, array $listCodes) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseCurrency_Filter_Date($date))
+                ->addFilter(new CourseCurrency_Filter_Code($listCodes));
+        return parent::fetchAllByFilter($filters);
+    }
     
     public function fetchAllByPeriodByCode(Core_Date $dateStart, Core_Date $dateEnd, $code) {
         $filters = new Core_Domen_Filter_Collection();
@@ -34,7 +40,7 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters);
     }
     
-    public function  getByCodeDate($code, Core_Date $date) {
+    public function getByCodeDate($code, Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseCurrency_Filter_Date($date))
                 ->addFilter(new CourseCurrency_Filter_Code($code));

@@ -29,7 +29,7 @@ class FigureMetal_Model extends Core_Domen_Model_Abstract {
     private $cashe_courses_list_id;
 
     protected $_aliases = array('investment_id'=>'investmentId',
-        'cashe_courses_list_id'=>'casheCoursesListId');
+        'cashe_courses_list_id'=>'casheCoursesListIdFromDb');
     
 
     public function getOptions() {
@@ -76,7 +76,14 @@ class FigureMetal_Model extends Core_Domen_Model_Abstract {
     }
     
     public function setCasheCoursesListId(array $cashe_courses_list_id) {
-        $this->cashe_courses_list_id = $cashe_courses_list_id;
+        if (!is_null($cashe_courses_list_id)) {
+            $this->cashe_courses_list_id = $cashe_courses_list_id;
+        }
+        return $this;
+    }
+    
+    public function setCasheCoursesListIdFromDb($cashe_courses_list_id) {
+        $this->cashe_courses_list_id = explode(self::SEPARATE, $cashe_courses_list_id);
         return $this;
     }
 
@@ -89,6 +96,15 @@ class FigureMetal_Model extends Core_Domen_Model_Abstract {
         return $this;
     }
 
-
+    public function getPercentCacheCources() {
+        $list = $this->getCasheCoursesListId();
+        if (count($list)) {
+            $cacheCources = $this->getManager('CacheCourseMetal')->get(reset($list));
+            if ($cacheCources) {
+                return $cacheCources->getPercent();
+            }
+        }
+        return null;
+    }
 
 }

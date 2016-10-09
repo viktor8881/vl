@@ -24,10 +24,13 @@ class Core_Controller_Action extends Zend_Controller_Action
     public function getManager($managerName) {
         return Core_Container::getManager($managerName);
     }
-        
-    
+            
     public function getService($serviceName) {
         return Core_Container::getService($serviceName);
+    }
+            
+    public function getQueue($queueName) {
+        return Core_Container::getQueue($queueName);
     }
     
     

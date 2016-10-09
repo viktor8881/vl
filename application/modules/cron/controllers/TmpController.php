@@ -18,13 +18,52 @@ class Cron_TmpController extends Core_Controller_Action {
     const PERSENT_BUY = 10;
     const PERSENT_SELL = 20;
     
+    const COUNT_RUN_AT_TIME = 90;
+    
     
     private $listPercents = [0.2, 0.5, 0.75, 1, 1.5, 2];
     private $pathTmp;
-    
+    private $listCurrencyCodes = ['R01235', 'R01239'];
+
+
+
+
     public function init() {
         $bootstrap = $this->getInvokeArg('bootstrap');
         $this->pathTmp = $bootstrap->getOptions()['path']['temp'];
+//        $queue = new Core_Queue_TechnicalAnalysis('TechnicalAnalysis');
+//        $queue->sendTaskAnalysisCurrency();
+//        exit;
+    }
+        
+    public function indexAction() {
+        $queue = new Core_Queue_TechnicalAnalysis('TechnicalAnalysis');
+        $messages = $queue->receive();
+        foreach ($messages as $message) {
+            $body = $message->body;
+            switch ($body) {
+                case Core_Queue_TechnicalAnalysis::TASK_ANALYSIS_CURRENCY:
+                    $this->cacheCurrencyAction();
+                    // add task send email.
+                    $queue->sendTaskAnalysisMetal();
+                    break;
+                case Core_Queue_TechnicalAnalysis::TASK_ANALYSIS_METAL:
+                    $this->cacheMetalAction();
+                    // add task send email.
+                    $queue->sendTaskEmail();
+                    break;
+                case Core_Queue_TechnicalAnalysis::TASK_SEND_MESSAGE:
+                    $this->mailAction();
+                    $queue->sendTaskAnalysisCurrency();
+                    break;
+                default:
+                    throw new RuntimeException('unknown type task.');
+                    break;
+            }
+            $queue->deleteMessage($message);
+        }
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout()->disableLayout(); 
     }
     
     public function cacheInitMetalAction() {
@@ -58,8 +97,7 @@ class Cron_TmpController extends Core_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout(); 
     }
-    
-    
+        
     public function cacheInitCurrencyAction() {
         $fileName = $this->pathTmp.'date-currency.tmp';
         $flag = true;
@@ -91,14 +129,13 @@ class Cron_TmpController extends Core_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout(); 
     }
-    
-    
+        
     public function cacheMetalAction() {
         $fileName = $this->pathTmp.'date-metal.tmp';
         $i= 0 ;
         $flag = true;
         while($flag) {
-            if (++$i > 10) {
+            if (++$i > self::COUNT_RUN_AT_TIME) {
                 $flag = false;
                 break;
             }
@@ -147,15 +184,14 @@ class Cron_TmpController extends Core_Controller_Action {
 
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout(); 
-    }
-    
+    }    
     
     public function cacheCurrencyAction() {
         $fileName = $this->pathTmp.'date-currency.tmp';
         $i= 0 ;
         $flag = true;
         while($flag) {
-            if (++$i > 30) {
+            if (++$i > self::COUNT_RUN_AT_TIME) {
                 $flag = false;
                 break;
             }
@@ -167,7 +203,7 @@ class Cron_TmpController extends Core_Controller_Action {
                 continue;
             }
             // =================================================================
-            foreach($this->getManager('courseCurrency')->fetchAllByDate($date) as $course) {
+            foreach($this->getManager('courseCurrency')->fetchAllByDateListCode($date, $this->listCurrencyCodes) as $course) {
                 foreach ($this->listPercents as $percent) {
                     $cacheCourse = $this->getManager('cacheCourseCurrency')->lastByCodePercent($course->getCode(), $percent);
                     $arr4Analysis = array($cacheCourse->getLastValue(), $course->getValue());
@@ -205,8 +241,7 @@ class Cron_TmpController extends Core_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout(); 
     }
-    
-    
+        
     private function technicalAnalysisMetal(Metal_Model $metal, Core_Date $date, $percent) {
         // ищем фигуры разворота.
 //        foreach($this->getManager('metal')->fetchAll() as $metal) {
@@ -300,8 +335,7 @@ class Cron_TmpController extends Core_Controller_Action {
                 }
 //            }
 //        }
-    }
-    
+    }    
     
     private function technicalAnalysisCurrency(Currency_Model $currency, Core_Date $date, $percent) {
         // ищем фигуры разворота.
@@ -456,6 +490,32 @@ class Cron_TmpController extends Core_Controller_Action {
             $this->getManager('InvestmentCurrency')->insertSell($invest);
             return $invest->getId();
         }
+    }
+    
+    
+    public function mailAction() {
+        $fileName = $this->pathTmp.'date-metal.tmp';
+        $date = new Core_Date(file_get_contents($fileName));
+        $i=0;
+        while(true) {
+            if (!$this->getManager('courseCurrency')->hasByDate($date) or !$this->getManager('courseMetal')->hasByDate($date)) {
+                $date->sub(new DateInterval('P1D'));
+                if (++$i > 10){
+                    break;    
+                }
+                continue;
+            }else{
+                break;
+            }
+        }
+        $currentValue       = $this->getManager('Account')->getValue();
+        $balanceCurrency    = $this->getManager('BalanceCurrency')->fetchAll();
+        $balanceMetal       = $this->getManager('BalanceMetal')->fetchAll();
+        $courseCurrency     = $this->getManager('courseCurrency')->fetchAllByDate($date);
+        $courseMetal        = $this->getManager('courseMetal')->fetchAllByDate($date);
+        Core_Mail::sendAutoInvest($balanceCurrency, $balanceMetal, $courseCurrency, $courseMetal, $date, $currentValue);
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout()->disableLayout(); 
     }
     
 }

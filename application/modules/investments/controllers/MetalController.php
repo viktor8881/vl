@@ -4,12 +4,22 @@ class Investments_MetalController extends Core_Controller_Action
 {
 
     public function listAction() {
+        $filters = new Core_Domen_Filter_Collection();
+        if ($this->hasParam('id')) {
+            $metal = $this->getManager('metal')->get((int)$this->getParam('id'));
+            if (!$metal) {
+                throw new RuntimeException('Метала нет в системе!');
+            }
+            $filters->addFilter(new InvestmentMetal_Filter_Code($metal->getCode()));
+        }
         $orders = new Core_Domen_Order_Collection();
         $orders->addOrder(new InvestmentMetal_Order_Id('DESC'));
         $page = $this->getParam('page', 1);
-        $paginator = $this->_helper->paginator($this->getManager('investmentMetal')->count(), $page);
+        $paginator = $this->_helper->paginator($this->getManager('investmentMetal')->countByFilter($filters), $page);
         $this->view->paginator = $paginator;
-        $this->view->investments = $this->getManager('investmentMetal')->fetchAll($paginator, $orders);
+        $investments = $this->getManager('investmentMetal')->fetchAllByFilter($filters, $paginator, $orders);
+        $this->view->investments = $investments;
+        $this->view->figures = $this->getManager('FigureMetal')->fetchAllByInvestmentId($investments->listId());
     }
     
     public function addAction() {

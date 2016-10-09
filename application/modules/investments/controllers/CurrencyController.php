@@ -4,12 +4,20 @@ class Investments_CurrencyController extends Core_Controller_Action
 {
 
     public function listAction() {
+        $filters = new Core_Domen_Filter_Collection();
+        if ($this->hasParam('id')) {
+            $currency = $this->getManager('currency')->get((int)$this->getParam('id'));
+            if (!$currency) {
+                throw new RuntimeException('Валюты нет в системе!');
+            }
+            $filters->addFilter(new InvestmentCurrency_Filter_Code($currency->getCode()));
+        }
         $orders = new Core_Domen_Order_Collection();
         $orders->addOrder(new InvestmentMetal_Order_Id('DESC'));
         $page = $this->getParam('page', 1);
-        $paginator = $this->_helper->paginator($this->getManager('investmentCurrency')->count(), $page);
+        $paginator = $this->_helper->paginator($this->getManager('investmentCurrency')->countByFilter($filters), $page);
         $this->view->paginator = $paginator;
-        $this->view->investments = $this->getManager('investmentCurrency')->fetchAll($paginator, $orders);
+        $this->view->investments = $this->getManager('investmentCurrency')->fetchAllByFilter($filters, $paginator, $orders);
     }
     
     public function addAction() {

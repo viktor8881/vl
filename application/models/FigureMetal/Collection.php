@@ -7,21 +7,36 @@
  */
 
 /**
- * Description of Cource_Collection
+ * Description of FigureMetal_Collection
  *
  * @author Viktor
  */
 class FigureMetal_Collection extends Core_Domen_CollectionAbstract {
     
-    public function orderByOwerTime() {
-        usort($this->_values, array($this, "_orderByOwerTime"));
-        return $this;
+    
+    public function getByInvestId($id) {
+        foreach ($this->getIterator() as $figure) {
+            if ($figure->getInvestmentId() == $id) {
+                return $figure;
+            }
+        }
+        return null;
     }
     
-    private function _orderByOwerTime($a, $b) {
-        return $a->isOvertime()?-1:1;
+    public function getFigureByInvestId($id) {
+        $figure = $this->getByInvestId($id);
+        if ($figure) {
+            return $figure->getFigure();            
+        }
+        return null;
     }
     
-    
+    public function getPercentByInvestId($id) {
+        $figure = $this->getByInvestId($id);
+        if ($figure) {
+            return $figure->getPercentCacheCources();            
+        }
+        return null;
+    }
     
 }

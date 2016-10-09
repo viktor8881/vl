@@ -14,6 +14,12 @@
 class FigureMetal_Manager extends Core_Domen_Manager_Abstract {
     
     
+    public function fetchAllByInvestmentId($listId) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new FigureMetal_Filter_InvestId($listId));
+        return $this->fetchAllByFilter($filters);
+    }
+
     public function insert(\Core_Domen_IModel $model) {
         if ($model instanceof FigureMetal_Model) {
             // пишем что произвели операцию
