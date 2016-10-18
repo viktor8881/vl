@@ -13,6 +13,15 @@
  */
 class CacheCourseMetal_Manager extends Core_Domen_Manager_Abstract {    
     
+    
+    public function fetchAllByPeriodByCodePercent(Core_Date $dateStart, Core_Date $dateEnd, $code, $percent) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CacheCourseMetal_Filter_Period(array($dateStart, $dateEnd)))
+                ->addFilter(new CacheCourseMetal_Filter_Code($code))
+                ->addFilter(new CacheCourseMetal_Filter_Percent($percent));
+        return parent::fetchAllByFilter($filters);
+    }
+    
     public function lastByCodePercent($code, $percent) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CacheCourseMetal_Filter_Code($code))
