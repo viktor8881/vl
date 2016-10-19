@@ -19,6 +19,9 @@ class AnalysisCurrency_Factory implements Core_Domen_IFactory {
             throw new RuntimeException('Not found "type" of analysis.');
         }
         switch ($values['type']) {
+            case AnalysisCurrency_Model_Abstract::TYPE_FIGURE:
+                return new AnalysisCurrency_Model_Figure($values);
+                break;
             case AnalysisCurrency_Model_Abstract::TYPE_PERCENT:
                 return new AnalysisCurrency_Model_Percent($values);
                 break;

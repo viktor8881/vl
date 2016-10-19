@@ -48,4 +48,14 @@ class AnalysisMetal_Collection extends Core_Domen_CollectionAbstract {
         return null;
     }
     
+    public function listFigureByMetalCode($code) {
+        $list = array();
+        foreach ($this->getIterator() as $analysis) {
+            if ($analysis->isFigure() && $analysis->getMetalCode() == $code) {
+                $list[] = $analysis;
+            }
+        }
+        return $list;
+    }
+    
 }

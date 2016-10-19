@@ -35,7 +35,7 @@ class Core_Mail extends Zend_Mail
     }
     
     
-    public static function sendAnalysisCurrency($currency, AnalysisCurrency_Model_OverTime $overtime=null, array $percents) {
+    public static function sendAnalysisCurrency($currency, AnalysisCurrency_Model_OverTime $overtime=null, array $percents, array $figures) {
         $mail = new Zend_Mail(self::$_defaultCharset);
         $mail->setFrom(self::getSiteEmail());
         $mail->addTo(self::getAdminEmail());
@@ -53,6 +53,11 @@ class Core_Mail extends Zend_Mail
             $view->assign('percents', $percents);
             $layoutСontent .= $view->render('percents.phtml');
         }
+        if (count($figures)) {
+            $view->clearVars();
+            $view->assign('figures', $figures);
+            $layoutСontent .= $view->render('figures.phtml');
+        }
         if ($layoutСontent) {
             $layout->content = $layoutСontent;
             $layout->footer = $view->render('footer.phtml');
@@ -61,7 +66,7 @@ class Core_Mail extends Zend_Mail
         }
     }
     
-    public static function sendAnalysisMetal($metal, AnalysisMetal_Model_OverTime $overtime=null, array $percents) {
+    public static function sendAnalysisMetal($metal, AnalysisMetal_Model_OverTime $overtime=null, array $percents, array $figures) {
         $mail = new Zend_Mail(self::$_defaultCharset);
         $mail->setFrom(self::getSiteEmail());
         $mail->addTo(self::getAdminEmail());
@@ -78,6 +83,11 @@ class Core_Mail extends Zend_Mail
             $view->clearVars();
             $view->assign('percents', $percents);
             $layoutСontent .= $view->render('percents.phtml');
+        }
+        if (count($figures)) {
+            $view->clearVars();
+            $view->assign('figures', $figures);
+            $layoutСontent .= $view->render('figures.phtml');
         }
         if ($layoutСontent) {
             $layout->content = $layoutСontent;

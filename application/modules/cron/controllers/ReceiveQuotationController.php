@@ -27,7 +27,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                         // tasks to queue
                         if ($this->getManager('courseMetal')->hasByDate($date)) {
                             $queue = $this->getQueue('analysis');
-                            $queue->sendRunAnalysis(true);
+                            $queue->sendFillData(true);
                         }
                     }
                 }
@@ -56,7 +56,7 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                     // tasks to queue
                     if ($this->getManager('courseCurrency')->hasByDate($date)) {
                         $queue = $this->getQueue('analysis');
-                        $queue->sendRunAnalysis(true);
+                        $queue->sendFillData(true);
                     }
                 }
             }

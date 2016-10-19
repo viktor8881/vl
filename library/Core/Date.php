@@ -202,8 +202,30 @@ class Core_Date extends DateTime {
             return 0;
         }
     }
+
+    /**
+     * вернуть разницу в секундах между датами
+     * @param Core_Date $object
+     * @return int
+     */
+    public function diffSeconds($object) {
+        $interval = parent::diff($object, true);
+        return (int)$interval->format('%a')*24*60*60 + 
+                $interval->format('%h')*60*60 + 
+                $interval->format('%i')*60 + 
+                $interval->format('%s');
+    }
     
     
+    /**
+     * вернуть разницу в днях между датами
+     * @param Core_Date $object
+     * @return int
+     */
+    public function diffDays($object) {
+        $interval = parent::diff($object, true);
+        return (int)$interval->format('%a');
+    }
     
     
     public static function sort($a, $b)

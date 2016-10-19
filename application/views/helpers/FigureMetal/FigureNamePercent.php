@@ -14,7 +14,7 @@ class View_Helper_FigureMetal_FigureNamePercent extends Zend_View_Helper_Abstrac
 {
     
     public function figureMetal_FigureNamePercent( $figure)  {
-        $name = $this->view->figureMetal_FigureNamePercent($figure->getFigure());
+        $name = $this->view->figureMetal_FigureName($figure->getFigure());
         return $name.' ('.$figure->getPercentCacheCources().')';
     }
         

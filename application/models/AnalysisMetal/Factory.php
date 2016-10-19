@@ -19,6 +19,9 @@ class AnalysisMetal_Factory implements Core_Domen_IFactory {
             throw new RuntimeException('Not found "type" of analysis.');
         }
         switch ($values['type']) {
+            case AnalysisMetal_Model_Abstract::TYPE_FIGURE:
+                return new AnalysisMetal_Model_Figure($values);
+                break;
             case AnalysisMetal_Model_Abstract::TYPE_PERCENT:
                 return new AnalysisMetal_Model_Percent($values);
                 break;

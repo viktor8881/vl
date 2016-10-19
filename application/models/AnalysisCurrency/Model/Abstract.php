@@ -13,8 +13,9 @@
  */
 abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract {
     
-    const TYPE_PERCENT = 1;
-    const TYPE_OVER_TIME = 2;
+    const TYPE_PERCENT  = 1;
+    const TYPE_OVER_TIME= 2;
+    const TYPE_FIGURE   = 3;
     
     private $id;
     private $currencyCode;
@@ -55,6 +56,10 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
     
     public function isOvertime() {
         return $this->getType()==self::TYPE_OVER_TIME;
+    }
+    
+    public function isFigure() {
+        return $this->getType()==self::TYPE_FIGURE;
     }
     
     public function getCurrencyCode() {
