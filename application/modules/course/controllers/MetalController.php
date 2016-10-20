@@ -39,7 +39,7 @@ class Course_MetalController extends Core_Controller_Action
         $this->view->period = ['start'=>$dateStart, 'end'=>$dateEnd];
         $this->view->items = $items;
         $this->view->currentItem = $current;
-        $this->view->courses = $this->getManager('cacheCourseMetal')->fetchAllByPeriodByCodePercent(new Core_Date($dateStart), new Core_Date($dateEnd), $current->getCode(), $percent);
+        $this->view->courses = $this->getManager('cacheCourseMetal')->fetchAllByPeriodByCodeByPercent(new Core_Date($dateStart), new Core_Date($dateEnd), $current->getCode(), $percent);
     }
     
 }

@@ -49,4 +49,10 @@ class CacheCourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         return $this->getRepository()->setOperation($listId);
     }
     
+    public function fetchAllByList(array $list) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CacheCourseCurrency_Filter_Id($list));
+        return $this->fetchAllByFilter($filters);
+    }
+    
 }

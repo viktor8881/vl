@@ -62,4 +62,12 @@ class CacheCourseCurrency_Collection extends Core_Domen_CollectionAbstract {
         return $result;
     }
     
+    public function getFirstDate() {
+        return $this->first()->getFirstDate();
+    }
+    
+    public function getLastDate() {
+        return $this->last()->getLastDate();
+    }
+    
 }

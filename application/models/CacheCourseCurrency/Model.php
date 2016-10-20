@@ -112,9 +112,19 @@ class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
     public function addDataValueByCourse(CourseCurrency_Model $model) {
         return $this->addDataValue($model->getDate(), $model->getValue());
     }
+    
+    /**
+     * @return Core_Date
+     */
+    public function getFirstDate() {
+        $first = reset($this->getDataValue());
+        if ($first) {
+            return new Core_Date($first['data']);
+        }
+        return null;
+    }
 
     /**
-     * 
      * @return Core_Date
      */
     public function getLastDate() {

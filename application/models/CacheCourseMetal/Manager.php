@@ -14,7 +14,7 @@
 class CacheCourseMetal_Manager extends Core_Domen_Manager_Abstract {    
     
     
-    public function fetchAllByPeriodByCodePercent(Core_Date $dateStart, Core_Date $dateEnd, $code, $percent) {
+    public function fetchAllByPeriodByCodeByPercent(Core_Date $dateStart, Core_Date $dateEnd, $code, $percent) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CacheCourseMetal_Filter_Period(array($dateStart, $dateEnd)))
                 ->addFilter(new CacheCourseMetal_Filter_Code($code))
@@ -57,6 +57,13 @@ class CacheCourseMetal_Manager extends Core_Domen_Manager_Abstract {
     
     public function setOperation(array $listId) {
         return $this->getRepository()->setOperation($listId);
+    }
+    
+    
+    public function fetchAllByList(array $list) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CacheCourseMetal_Filter_Id($list));
+        return $this->fetchAllByFilter($filters);
     }
     
 }

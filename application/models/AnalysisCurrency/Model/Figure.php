@@ -24,6 +24,8 @@ class AnalysisCurrency_Model_Figure extends AnalysisMetal_Model_Abstract {
     
     private $figure;
     private $cashe_courses_list_id;
+    
+    private $_cashe_courses;
 
     protected $_aliases = array('investment_id'=>'investmentId',
         'cashe_courses_list_id'=>'casheCoursesListIdFromDb');
@@ -69,6 +71,21 @@ class AnalysisCurrency_Model_Figure extends AnalysisMetal_Model_Abstract {
             }
         }
         return null;
+    }
+    
+    public function getCasheCourses() {
+        if (is_null($this->_cashe_courses)) {
+            $this->_cashe_courses = $this->getManager('CacheCourseCurrency')->fetchAllByList($this->getCasheCoursesListId());
+        }
+        return $this->_cashe_courses;
+    }
+
+    public function getDateFirst() {
+        return $this->getCasheCourses()->getFirstDate();        
+    }
+    
+    public function getDateLast() {
+        return $this->getCasheCourses()->getLastDate();
     }
     
     // == abstract methods =

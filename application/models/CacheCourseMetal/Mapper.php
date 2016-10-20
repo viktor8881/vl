@@ -36,10 +36,13 @@ class CacheCourseMetal_Mapper extends Core_Domen_Mapper_Abstract {
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
+            case 'CacheCourseMetal_Filter_Id':                
+                $select->where('id IN(?)', $values);
+                break;
             case 'CacheCourseMetal_Filter_Period':
                 $select->where('date_last BETWEEN '.$this->getConnect()->quote($values[0]).' AND '.$this->getConnect()->quote($values[1]));
                 break;
-            case 'CacheCourseMetal_Filter_Code':                
+            case 'CacheCourseMetal_Filter_Code':
                 $select->where('code IN(?)', $values);
                 break;
             case 'CacheCourseMetal_Filter_Percent':
