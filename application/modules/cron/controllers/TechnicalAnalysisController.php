@@ -87,7 +87,7 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
     
     public function tmpCurrencyAction() {
         $dateNow = new Core_Date();
-        $fileName = $this->pathTmp.'date-metal.tmp';
+        $fileName = $this->pathTmp.'date-currency.tmp';
         $i= 0 ;
         $flag = true;
         while($flag) {
