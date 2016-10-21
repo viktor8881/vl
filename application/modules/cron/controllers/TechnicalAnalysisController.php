@@ -15,10 +15,10 @@
 class Cron_TechnicalAnalysisController extends Core_Controller_Action {
     
     
-    const INIT_DATE = '01.04.2011';
+    const INIT_DATE = '06.03.2001';
     const COUNT_RUN_AT_TIME = 730;
 
-    private $listPercents = [0.2, 0.5, 0.75, 1, 1.5, 2];
+    private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
     private $pathTmp;
     
 
@@ -28,7 +28,7 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
     }
     
     public function tmpMetalAction() {
-        $dateNow = new Core_Date('25.07.2016');
+        $dateNow = new Core_Date();
         $fileName = $this->pathTmp.'date-metal.tmp';
         $i= 0 ;
         $flag = true;
@@ -86,7 +86,7 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
     
     
     public function tmpCurrencyAction() {
-        $dateNow = new Core_Date('25.07.2016');
+        $dateNow = new Core_Date();
         $fileName = $this->pathTmp.'date-metal.tmp';
         $i= 0 ;
         $flag = true;
@@ -177,12 +177,5 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
         $this->_helper->viewRenderer->setNoRender(true);
         $this->_helper->layout()->disableLayout(); 
     }
-    
-    
-//    public function indexAction() {
-//        
-//        $this->_helper->viewRenderer->setNoRender(true);
-//        $this->_helper->layout()->disableLayout(); 
-//    }
     
 }
