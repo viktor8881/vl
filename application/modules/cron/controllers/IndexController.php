@@ -20,10 +20,10 @@ class Cron_IndexController extends Core_Controller_Action
                     break;
                 case Core_Queue_Analysis::TASK_ANALYSIS:
                     $countRec = $this->taskAnalysis($dateNow);
-                    if ($countRec > 0) {
+//                    if ($countRec > 0) {
                         // add task send email.
                         $queue->sendTaskEmail(true);
-                    }
+//                    }
                     break;
                 case Core_Queue_Analysis::TASK_SEND_MESSAGE:
                     $this->sendMessage($dateNow);
