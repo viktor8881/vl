@@ -58,6 +58,7 @@ class Core_Mail extends Zend_Mail
             $view->assign('figures', $figures);
             $layoutСontent .= $view->render('figures.phtml');
         }
+        
         if ($layoutСontent) {
             $layout->content = $layoutСontent;
             $layout->footer = $view->render('footer.phtml');
@@ -131,6 +132,7 @@ class Core_Mail extends Zend_Mail
         $view = new Zend_View();
         $view->setScriptPath(APPLICATION_PATH . '/views/scripts/email');
         $view->setHelperPath('Core/Helpers', 'Core_Helper');
+        $view->addHelperPath(APPLICATION_PATH.'/views/helpers', 'View_Helper');
         $view->clearVars();
         return $view;
     }

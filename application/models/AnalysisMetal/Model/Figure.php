@@ -26,12 +26,16 @@ class AnalysisMetal_Model_Figure extends AnalysisMetal_Model_Abstract {
     private $cashe_courses_list_id;
 
     private $_cashe_courses;
-    
-    protected $_aliases = array('investment_id'=>'investmentId',
-        'cashe_courses_list_id'=>'casheCoursesListIdFromDb');
-    
+
 
     
+    public function __construct(array $options = null) {
+        $this->_aliases += ['investment_id'=>'investmentId',
+                'courses_list_id'=>'casheCoursesListIdToArray',
+                'cashe_courses_list_id'=>'casheCoursesListIdFromDb'];
+        parent::__construct($options);
+    }
+
     public function getCasheCoursesListId() {
         return $this->cashe_courses_list_id;
     }
@@ -50,6 +54,11 @@ class AnalysisMetal_Model_Figure extends AnalysisMetal_Model_Abstract {
     
     public function setCasheCoursesListIdFromDb($cashe_courses_list_id) {
         $this->cashe_courses_list_id = explode(self::SEPARATE, $cashe_courses_list_id);
+        return $this;
+    }
+    
+    public function setCasheCoursesListIdToArray($cashe_courses_list_id) {
+        $this->cashe_courses_list_id = $cashe_courses_list_id;
         return $this;
     }
 

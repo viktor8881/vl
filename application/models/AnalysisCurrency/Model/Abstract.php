@@ -106,8 +106,4 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
     
     abstract public function setBody($body);
 
-    abstract public function isQuotesGrowth();
-    
-    abstract public function isQuotesFall();
-
 }
