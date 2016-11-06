@@ -23,5 +23,11 @@ class AnalysisMetal_Manager extends Core_Domen_Manager_Abstract {
         $filters->addFilter(new AnalysisMetal_Filter_Date($date));
         return $this->fetchAllByFilter($filters);
     }
+    
+    public function getLastByType($type) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new AnalysisMetal_Filter_Type($type));
+        return $this->getByFilter($filters);
+    }
 
 }

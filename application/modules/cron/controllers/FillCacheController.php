@@ -12,11 +12,11 @@
  * @author Viktor
  */
 
-class Cron_TechnicalAnalysisController extends Core_Controller_Action {
+class Cron_FillCacheController extends Core_Controller_Action {
     
     
     const INIT_DATE = '06.03.2001';
-    const COUNT_RUN_AT_TIME = 730;
+    const COUNT_RUN_AT_TIME = 100;
 
     private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
     private $pathTmp;
@@ -30,6 +30,9 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
     public function tmpMetalAction() {
         $dateNow = new Core_Date();
         $fileName = $this->pathTmp.'date-metal.tmp';
+        if (!file_exists($fileName)) {
+            exit;
+        }
         $i= 0 ;
         $flag = true;
         while($flag) {
@@ -45,6 +48,7 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
                 continue;
             }
             if ($date->compareDate($dateNow)==1) {
+                rename($fileName, $this->pathTmp.'_date-metal.tmp');
                 $flag = false;
                 break;
             }
@@ -88,6 +92,9 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
     public function tmpCurrencyAction() {
         $dateNow = new Core_Date();
         $fileName = $this->pathTmp.'date-currency.tmp';
+        if (!file_exists($fileName)) {
+            exit;
+        }
         $i= 0 ;
         $flag = true;
         while($flag) {
@@ -103,6 +110,7 @@ class Cron_TechnicalAnalysisController extends Core_Controller_Action {
                 continue;
             }
             if ($date->compareDate($dateNow)==1) {
+                rename($fileName, $this->pathTmp.'_date-currency.tmp');
                 $flag = false;
                 break;
             }

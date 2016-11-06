@@ -36,7 +36,7 @@ class FigureCurrency_Model extends Core_Domen_Model_Abstract {
         return array('id'       =>$this->getId(),
             'code'              =>$this->getCode(),
             'investment_id'     =>$this->getInvestmentId(),
-            'figure'             =>$this->getFigure(),
+            'figure'            =>$this->getFigure(),
             'cashe_courses_list_id'=>$this->getCasheCoursesListIdToDb());
     }
     

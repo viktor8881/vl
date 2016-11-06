@@ -26,6 +26,9 @@ class AnalysisMetal_Mapper extends Core_Domen_Mapper_Abstract {
             case 'AnalysisMetal_Filter_Date':
                 $select->where('created = ?',current($values));
                 break;
+            case 'AnalysisMetal_Filter_Type':
+                $select->where('type IN(?)', $values);
+                break;
             case 'AnalysisMetal_Filter_MetalCode':                
                 $select->where('metal_code IN(?)', $values);
                 break;

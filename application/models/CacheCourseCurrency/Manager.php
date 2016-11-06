@@ -38,7 +38,9 @@ class CacheCourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         $paginator = Zend_Paginator::factory($count);
         Zend_Paginator::setDefaultItemCountPerPage($count);
         $paginator->setCurrentPageNumber(1);
-        $rows = $this->fetchAllByFilter($filters, $paginator);
+        $orders = new Core_Domen_Order_Collection();
+        $orders->addOrder(new CacheCourseCurrency_Order_Id('DESC'));
+        $rows = $this->fetchAllByFilter($filters, $paginator, $orders);
         if (count($rows)==$count) {
             return $rows;
         }

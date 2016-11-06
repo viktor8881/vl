@@ -3,11 +3,25 @@
 class Cron_IndexController extends Core_Controller_Action
 {
     
-    private $listPercents = [0.2, 0.5, 0.75, 1, 1.5, 2];
+//   INSERT INTO `message` (`message_id`, `queue_id`, `handle`, `body`, `md5`, `timeout`, `created`) VALUES
+//(23, 13, 'e763745c3f1010abccf94248be1397bd', 'task_send_message', '7e67738c6e71c3460b81a893b5f0b4b2', 1478332564.5491, 1478332549); 
+
+
+    const STABLE_TREND = 5;
+    private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
     
+    public function tempAction() {
+        $dateNow = new Core_Date('2016-11-03');
+        $analysis = $this->getManager('analysisCurrency')->fetchAllByDate($dateNow);
+        pr($analysis);
+        pr($this->getManager('analysisMetal')->fetchAllByDate($dateNow));
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->_helper->layout()->disableLayout(); 
+    }
+
     public function indexAction()
     {
-        $dateNow = new Core_Date();
+        $dateNow = new Core_Date('2016-11-01');
         $queue = new Core_Queue_Analysis('analysis');
         $messages = $queue->receive();
         foreach ($messages as $message) {
@@ -150,11 +164,9 @@ class Cron_IndexController extends Core_Controller_Action
 
             if ( $cacheCourses->firstIsUpTrend()
                 && Service_GraphAnalysis::isDoubleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                // покупаем
-//                $investId = $this->investBuyMetal($currentCourse, $date);
                 // пишем что образовалась фигура
-                $subData = array('figure'           => FigureMetal_Model::FIGURE_DOUBLE_BOTTOM,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                $subData = array('figure'=> FigureMetal_Model::FIGURE_DOUBLE_BOTTOM,
+                            'courses_list_id' => $cacheCourses->listId());
                 $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                     'metal_code'=>$metal->getCode(),
                     'body'=>  json_encode($subData),
@@ -163,11 +175,9 @@ class Cron_IndexController extends Core_Controller_Action
                 $this->getManager('analysisMetal')->insert($analysis);
             }elseif ($cacheCourses->firstIsDownTrend()
                 && Service_GraphAnalysis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                // продаем
-//                $investId = $this->investSellMetal($currentCourse, $date);
                 // пишем что образовалась фигура
-                $subData = array('figure'           => FigureMetal_Model::FIGURE_DOUBLE_TOP,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                $subData = array('figure'   => FigureMetal_Model::FIGURE_DOUBLE_TOP,
+                            'courses_list_id' => $cacheCourses->listId());
                 $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                     'metal_code'=>$metal->getCode(),
                     'body'=>  json_encode($subData),
@@ -185,11 +195,9 @@ class Cron_IndexController extends Core_Controller_Action
 
             if ($cacheCourses->firstIsUpTrend()) {
                 if (Service_GraphAnalysis::isTripleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                    // покупаем
-//                    $investId = $this->investBuyMetal($currentCourse, $date);
                     // пишем что образовалась фигура
                     $subData = array('figure'       => FigureMetal_Model::FIGURE_TRIPLE_BOTTOM,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'metal_code'=>$metal->getCode(),
                         'body'=>  json_encode($subData),
@@ -198,11 +206,9 @@ class Cron_IndexController extends Core_Controller_Action
                     $this->getManager('analysisMetal')->insert($analysis);
                 }
                 if (Service_GraphAnalysis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
-//                    // покупаем
-//                    $investId = $this->investBuyMetal($currentCourse, $date);
                     // пишем что образовалась фигура
                     $subData = array('figure'       => FigureMetal_Model::FIGURE_RESERVE_HEADS_HOULDERS,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'metal_code'=>$metal->getCode(),
                         'body'=>  json_encode($subData),
@@ -212,11 +218,9 @@ class Cron_IndexController extends Core_Controller_Action
                 }
             }elseif($cacheCourses->firstIsDownTrend()) {
                 if (Service_GraphAnalysis::isTripleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                    // продаем
-//                    $investId = $this->investSellMetal($currentCourse, $date);
                     // пишем что образовалась фигура
                     $subData = array('figure'       => FigureMetal_Model::FIGURE_TRIPLE_TOP,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'metal_code'=>$metal->getCode(),
                         'body'=>  json_encode($subData),
@@ -225,11 +229,9 @@ class Cron_IndexController extends Core_Controller_Action
                     $this->getManager('analysisMetal')->insert($analysis);
                 }
                 if (Service_GraphAnalysis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
-//                    // продаем
-//                    $investId = $this->investSellMetal($currentCourse, $date);
                     // пишем что образовалась фигура
                     $subData = array('figure'       => FigureMetal_Model::FIGURE_HEADS_HOULDERS,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'metal_code'=>$metal->getCode(),
                         'body'=>  json_encode($subData),
@@ -253,11 +255,9 @@ class Cron_IndexController extends Core_Controller_Action
 
             if ( $cacheCourses->firstIsUpTrend()
                 && Service_GraphAnalysis::isDoubleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                // покупаем
-//                $investId = $this->investBuyCurrency($currentCourse, $date);
                 // пишем что образовалась фигура
-                $subData = array('figure'           => FigureCurrency_Model::FIGURE_DOUBLE_BOTTOM,
-                        'cashe_courses_list_id' => $cacheCourses->listId());
+                $subData = array('figure'   => FigureCurrency_Model::FIGURE_DOUBLE_BOTTOM,
+                        'courses_list_id' => $cacheCourses->listId());
                 $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                     'currency_code'=>$currency->getCode(),
                     'body'=>  json_encode($subData),
@@ -266,11 +266,9 @@ class Cron_IndexController extends Core_Controller_Action
                 $this->getManager('analysisCurrency')->insert($analysis);
             }elseif ($cacheCourses->firstIsDownTrend()
                 && Service_GraphAnalysis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                // продаем
-//                $investId = $this->investSellCurrency($currentCourse, $date);
                 // пишем что образовалась фигура
-                $subData = array('figure'           => FigureCurrency_Model::FIGURE_DOUBLE_TOP,
-                        'cashe_courses_list_id' => $cacheCourses->listId());
+                $subData = array('figure'   => FigureCurrency_Model::FIGURE_DOUBLE_TOP,
+                        'courses_list_id' => $cacheCourses->listId());
                 $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                     'currency_code'=>$currency->getCode(),
                     'body'=>  json_encode($subData),
@@ -288,11 +286,9 @@ class Cron_IndexController extends Core_Controller_Action
 
             if ($cacheCourses->firstIsUpTrend()) {
                 if (Service_GraphAnalysis::isTripleBottom($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                    // покупаем
-//                    $investId = $this->investBuyCurrency($currentCourse, $date);
                     // пишем что образовалась фигура
-                    $subData = array('figure'           => FigureCurrency_Model::FIGURE_TRIPLE_BOTTOM,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                    $subData = array('figure'   => FigureCurrency_Model::FIGURE_TRIPLE_BOTTOM,
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
@@ -301,11 +297,9 @@ class Cron_IndexController extends Core_Controller_Action
                     $this->getManager('analysisCurrency')->insert($analysis);
                 }
                 if (Service_GraphAnalysis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
-//                    // покупаем
-//                    $investId = $this->investBuyCurrency($currentCourse, $date);
                     // пишем что образовалась фигура
-                    $subData = array('figure'           => FigureCurrency_Model::FIGURE_RESERVE_HEADS_HOULDERS,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                    $subData = array('figure'   => FigureCurrency_Model::FIGURE_RESERVE_HEADS_HOULDERS,
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
@@ -315,11 +309,9 @@ class Cron_IndexController extends Core_Controller_Action
                 }
             }elseif($cacheCourses->firstIsDownTrend()) {
                 if (Service_GraphAnalysis::isTripleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
-//                    // продаем
-//                    $investId = $this->investSellCurrency($currentCourse, $date);
                     // пишем что образовалась фигура
-                    $subData = array('figure'           => FigureCurrency_Model::FIGURE_TRIPLE_TOP,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                    $subData = array('figure'   => FigureCurrency_Model::FIGURE_TRIPLE_TOP,
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
@@ -328,11 +320,9 @@ class Cron_IndexController extends Core_Controller_Action
                     $this->getManager('analysisCurrency')->insert($analysis);
                 }
                 if (Service_GraphAnalysis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
-//                    // продаем
-//                    $investId = $this->investSellCurrency($currentCourse, $date);
                     // пишем что образовалась фигура
-                    $subData = array('figure'           => FigureCurrency_Model::FIGURE_HEADS_HOULDERS,
-                            'cashe_courses_list_id' => $cacheCourses->listId());
+                    $subData = array('figure'   => FigureCurrency_Model::FIGURE_HEADS_HOULDERS,
+                            'courses_list_id' => $cacheCourses->listId());
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),

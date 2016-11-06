@@ -2,6 +2,8 @@
 set_time_limit(0);
 define('APPLICATION_ENV', 'development');
 
+define ('PUBLIC_PATH', explode('html', __DIR__)[0].'/');
+
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
@@ -26,6 +28,7 @@ $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
+
 $application->bootstrap()
             ->run();
 
