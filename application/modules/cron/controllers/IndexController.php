@@ -2,26 +2,33 @@
 
 class Cron_IndexController extends Core_Controller_Action
 {
-    
-//   INSERT INTO `message` (`message_id`, `queue_id`, `handle`, `body`, `md5`, `timeout`, `created`) VALUES
-//(23, 13, 'e763745c3f1010abccf94248be1397bd', 'task_send_message', '7e67738c6e71c3460b81a893b5f0b4b2', 1478332564.5491, 1478332549); 
+
 
 
     const STABLE_TREND = 5;
     private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
     
-    public function tempAction() {
-        $dateNow = new Core_Date('2016-11-03');
-        $analysis = $this->getManager('analysisCurrency')->fetchAllByDate($dateNow);
-        pr($analysis);
-        pr($this->getManager('analysisMetal')->fetchAllByDate($dateNow));
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->_helper->layout()->disableLayout(); 
-    }
+//    public function tempAction() {
+//        $dateNow = new Core_Date('2016-11-04');
+//        foreach($this->getManager('courseMetal')->fetchAllByDate($dateNow) as $course) {
+//            foreach ($this->listPercents as $percent) {
+//                $metal = $this->getManager('metal')->getByCode($course->getCode());
+//                $this->technicalAnalysisMetal($metal, $dateNow, $percent);
+//            }
+//        }
+//        foreach($this->getManager('courseCurrency')->fetchAllByDate($dateNow) as $course) {
+//            foreach ($this->listPercents as $percent) {
+//                $currency = $this->getManager('currency')->getByCode($course->getCode());
+//                $this->technicalAnalysisCurrency($currency, $dateNow, $percent);
+//            }
+//        }
+//        $this->_helper->viewRenderer->setNoRender(true);
+//        $this->_helper->layout()->disableLayout(); 
+//    }
 
     public function indexAction()
     {
-        $dateNow = new Core_Date('2016-11-01');
+        $dateNow = new Core_Date();
         $queue = new Core_Queue_Analysis('analysis');
         $messages = $queue->receive();
         foreach ($messages as $message) {
@@ -154,8 +161,6 @@ class Cron_IndexController extends Core_Controller_Action
     
     
     private function technicalAnalysisMetal(Metal_Model $metal, Core_Date $date, $percent) {
-        // ищем фигуры разворота.
-        $currentCourse = $this->getManager('courseMetal')->getByCodeDate($metal->getCode(), $date);
         // фигура W и M.
         $cacheCourses = $this->getManager('cacheCourseMetal')->fetch5ByCodePercent($metal->getCode(), $percent);
         if ($cacheCourses
@@ -245,8 +250,6 @@ class Cron_IndexController extends Core_Controller_Action
     }    
     
     private function technicalAnalysisCurrency(Currency_Model $currency, Core_Date $date, $percent) {
-        // ищем фигуры разворота.
-        $currentCourse = $this->getManager('courseCurrency')->getByCodeDate($currency->getCode(), $date);
         // фигура W и M.
         $cacheCourses = $this->getManager('cacheCourseCurrency')->fetch5ByCodePercent($currency->getCode(), $percent);
         if ($cacheCourses
@@ -261,7 +264,7 @@ class Cron_IndexController extends Core_Controller_Action
                 $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                     'currency_code'=>$currency->getCode(),
                     'body'=>  json_encode($subData),
-                    'created'=>new Core_Date());
+                    'created'=>$date);
                 $analysis = $this->getManager('analysisCurrency')->createModel($data);
                 $this->getManager('analysisCurrency')->insert($analysis);
             }elseif ($cacheCourses->firstIsDownTrend()
@@ -272,7 +275,7 @@ class Cron_IndexController extends Core_Controller_Action
                 $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                     'currency_code'=>$currency->getCode(),
                     'body'=>  json_encode($subData),
-                    'created'=>new Core_Date());
+                    'created'=>$date);
                 $analysis = $this->getManager('analysisCurrency')->createModel($data);
                 $this->getManager('analysisCurrency')->insert($analysis);
             }
@@ -292,7 +295,7 @@ class Cron_IndexController extends Core_Controller_Action
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
-                        'created'=>new Core_Date());
+                        'created'=>$date);
                     $analysis = $this->getManager('analysisCurrency')->createModel($data);
                     $this->getManager('analysisCurrency')->insert($analysis);
                 }
@@ -303,7 +306,7 @@ class Cron_IndexController extends Core_Controller_Action
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
-                        'created'=>new Core_Date());
+                        'created'=>$date);
                     $analysis = $this->getManager('analysisCurrency')->createModel($data);
                     $this->getManager('analysisCurrency')->insert($analysis);
                 }
@@ -315,7 +318,7 @@ class Cron_IndexController extends Core_Controller_Action
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
-                        'created'=>new Core_Date());
+                        'created'=>$date);
                     $analysis = $this->getManager('analysisCurrency')->createModel($data);
                     $this->getManager('analysisCurrency')->insert($analysis);
                 }
@@ -326,7 +329,7 @@ class Cron_IndexController extends Core_Controller_Action
                     $data = array('type'=>AnalysisMetal_Model_Abstract::TYPE_FIGURE,
                         'currency_code'=>$currency->getCode(),
                         'body'=>  json_encode($subData),
-                        'created'=>new Core_Date());
+                        'created'=>$date);
                     $analysis = $this->getManager('analysisCurrency')->createModel($data);
                     $this->getManager('analysisCurrency')->insert($analysis);
                 }

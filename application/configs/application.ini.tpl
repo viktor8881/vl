@@ -26,7 +26,7 @@ resources.view.pragmaNoCache = "On"
 path.log.system = APPLICATION_PATH "/../data/log/"
 path.temp = APPLICATION_PATH "/../data/tmp/"
 path.cache = APPLICATION_PATH "/../data/cache/"
-path.public_img_phart = "img/phart/"
+path.public_img_pchart = "img/pchart/"
 path.public_fonts = "fonts/"
 
 %%params%%

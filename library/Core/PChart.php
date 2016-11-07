@@ -30,8 +30,8 @@ class Core_PChart {
             }
         }
         $myPicture = $this->factory($dataBase, $dataFigure, $dates);
-        $filename = $this->path_img.uniqid(rand(), true).'.png';
-        $myPicture->Render($filename);
+        $filename = uniqid(rand(), true).'.png';
+        $myPicture->Render($this->path_img.$filename);
         return $filename;
     }
     
