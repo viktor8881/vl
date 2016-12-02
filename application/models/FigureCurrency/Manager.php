@@ -17,7 +17,7 @@ class FigureCurrency_Manager extends Core_Domen_Manager_Abstract {
     public function insert(\Core_Domen_IModel $model) {
         if ($model instanceof FigureCurrency_Model) {
             // пишем что произвели операцию
-            $this->getManager('CacheCourseCurrency')->setOperation($model->getCasheCoursesListId());
+            $this->getManager('CacheCourseCurrency')->setOperation($model->getCacheCoursesListId());
             return parent::insert($model);
         }
         return false;

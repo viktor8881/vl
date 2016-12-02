@@ -16,6 +16,8 @@ class Core_Date extends DateTime {
     const DM = 'd.m';
     const DMY = 'd.m.Y';
     const DMYHI = 'd.m.Y H:i';
+    const G_CHART = 'D M d Y';
+    
 
     protected static $_month = array(1=>'январь','февраль','март','апрель','май','июнь',
                         'июль','август','сентябрь','октябрь','ноябрь','декабрь');
@@ -157,32 +159,32 @@ class Core_Date extends DateTime {
     }
 
     /**
-     * вернуть формат в виде 'd.m.Y'
      * @return 'd.m.Y'
      */
-    public function formatDMY()
-    {
+    public function formatDMY() {
         return $this->format(self::DMY);
     }
 
-    /**
-     * вернуть формат в виде 'd.m.Y H:i'
+    /**     
      * @return 'd.m.Y H:i'
      */
-    public function formatDMYHI()
-    {
+    public function formatDMYHI() {
         return $this->format(self::DMYHI);
     }
 
-    public function formatDb()
-    {
+    public function formatDb() {
         return $this->format(self::DB);
     }
-    
-    public function formatDbDate()
-    {
+        
+    public function formatDbDate() {
         return $this->format(self::DB_DATE);
     }
+        
+    public function formatGDate() {
+        return $this->format(self::G_CHART);
+    }
+    
+    
     
     /**
      *  сравнение дат на равенство
@@ -192,8 +194,7 @@ class Core_Date extends DateTime {
      *      -1 - переданная дата младше (позднее)     <br />
      *      0  = даты равны
      */
-    public function compareDate(DateTime $date)
-    {
+    public function compareDate(DateTime $date) {
         if ($this->format('U') > $date->format('U')){
             return 1;
         }elseif($this->format('U') < $date->format('U')){

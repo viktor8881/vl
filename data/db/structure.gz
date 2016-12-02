@@ -301,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `figure_currency` (
   `code` varchar(20) NOT NULL,
   `investment_id` int(11) DEFAULT NULL,
   `figure` tinyint(1) NOT NULL,
-  `cashe_courses_list_id` text NOT NULL,
+  `cache_courses_list_id` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `figure_metal` (
   `code` varchar(20) NOT NULL,
   `investment_id` int(11) DEFAULT NULL,
   `figure` tinyint(1) NOT NULL,
-  `cashe_courses_list_id` text NOT NULL,
+  `cache_courses_list_id` text NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 

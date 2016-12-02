@@ -7,16 +7,14 @@
  */
 
 /**
- * Description of AnalysisMetal_Filter_Date
+ * Description of AnalysisCurrency_Filter_Created
  *
  * @author Viktor
  */
-class AnalysisMetal_Filter_Date extends Core_Domen_Filter_Abstract {
+class AnalysisCurrency_Filter_Created extends Core_Domen_Filter_Abstract {
     
-    
-    
-    public function filter($value)
-    {
+        
+    public function filter($value) {
         if ( $value instanceof Core_Date ) {
             return $value->formatDbDate();
         }

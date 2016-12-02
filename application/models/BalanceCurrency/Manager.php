@@ -50,7 +50,7 @@ class BalanceCurrency_Manager extends Core_Domen_Manager_Abstract {
         $balance->setCurrencyCode($code)
                 ->setBalance($balanceValue);
         if(!parent::insert($balance)) {
-            throw new RuntimeException("Error added currency balance.");
+            throw new Exception("Error added currency balance.");
         }
         return $balance;
     }
@@ -58,7 +58,7 @@ class BalanceCurrency_Manager extends Core_Domen_Manager_Abstract {
     public function updateBalanceByCode($code, $balanceValue) {
         $balance = $this->getByCode($code);
         if (!$balance) {
-            throw new RuntimeException('Баланс не найден.');
+            throw new Exception('Баланс не найден.');
         }
         $balance->addBalance($balanceValue);
 //        $this->getManager('account')->addPay($balanceValue * $balance->getCourse());

@@ -66,13 +66,20 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
         return $this->currencyCode;
     }
     
+    /**
+     * @return Currency_Model
+     */
     public function getCurrency() {
         if (is_null($this->_currency)) {
             $this->_currency = $this->getManager('currency')->getByCode($this->getCurrencyCode());
         }
         return $this->_currency;
     }
-
+    
+    public function getCurrencyName() {
+        return $this->getCurrency()->getName();
+    }
+    
     public function getCreated() {
         return $this->created;
     }

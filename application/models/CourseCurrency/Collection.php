@@ -11,16 +11,16 @@
  *
  * @author Viktor
  */
-class CourseCurrency_Collection extends Core_Domen_CollectionAbstract {
+class CourseCurrency_Collection extends Core_Domen_CollectionAbstract  {
     
     
-    public function listDateCourse() {
-        $result = array();
-        foreach ($this->getIterator() as $course) {
-            $result[$course->getDateFormatDMY()] = $course->getValue();
-        }
-        return $result;
-    }
+//    public function listDateCourse() {
+//        $result = array();
+//        foreach ($this->getIterator() as $course) {
+//            $result[$course->getDateFormatDMY()] = $course->getValue();
+//        }
+//        return $result;
+//    }
     
     public function isQuotesGrowth() {
         $first = $this->first();

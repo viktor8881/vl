@@ -58,4 +58,25 @@ class AnalysisMetal_Collection extends Core_Domen_CollectionAbstract {
         return $list;
     }
     
+    /**
+     * the longest figure
+     * @return AnalysisMetal_Model_Figure
+     */
+    public function getFigureByLongest() {
+        $result = null;
+        foreach ($this->getIterator() as $item) {
+            if (!$item->isFigure()) {
+                continue;
+            }
+            if (is_null($result)) {
+                $result = $item;
+                continue;
+            }
+            if ($item->periodForming() > $result->periodForming()) {
+                $result = $item;
+            }
+        }
+        return $result;
+    }
+    
 }

@@ -24,8 +24,9 @@ class Core_PChart {
             $i=0;
             $count = $item->countDataValue();
             foreach ($item->getDataValue() as $value) {
+                $data = new DateTime($value['data']);
                 $dataBase[] = $value['value'];
-                $dates[]    = $value['data'];
+                $dates[]    = $data->format('d.m');
                 $dataFigure[] = (++$i == $count)?$item->getLastValue():self::VOID;
             }
         }
@@ -66,8 +67,7 @@ class Core_PChart {
 
 //        $myPicture->setFontProperties(array("FontName"=>"fonts/Forgotte.ttf","FontSize"=>14));
         $myPicture->setFontProperties(array("FontName"=>$this->path_fonts."/Forgotte.ttf","FontSize"=>14));
-        $TextSettings = array("Align"=>TEXT_ALIGN_MIDDLEMIDDLE
-        , "R"=>0, "G"=>0, "B"=>0);
+        $TextSettings = array("Align"=>TEXT_ALIGN_MIDDLEMIDDLE, "R"=>0, "G"=>0, "B"=>0);
         $myPicture->drawText(350,25,"My first pChart project",$TextSettings);
 
         $myPicture->setGraphArea(50,50,675,190);
@@ -80,7 +80,7 @@ class Core_PChart {
         , "GridR"=>255, "GridG"=>255, "GridB"=>255, "GridAlpha"=>50, "TickR"=>0, "TickG"=>0, "TickB"=>0, "TickAlpha"=>50, "LabelRotation"=>0, "CycleBackground"=>1, "DrawXLines"=>1, "DrawSubTicks"=>1, "SubTickR"=>255, "SubTickG"=>0, "SubTickB"=>0, "SubTickAlpha"=>50, "DrawYLines"=>ALL);
         $myPicture->drawScale($Settings);
 
-        $Config = array("DisplayValues"=>1, "BreakVoid"=>0, "BreakR"=>5, "BreakG"=>1, "BreakB"=>1);
+        $Config = array( "BreakVoid"=>0, "BreakR"=>5, "BreakG"=>1, "BreakB"=>1);
         $myPicture->drawLineChart($Config);
 
         return $myPicture;

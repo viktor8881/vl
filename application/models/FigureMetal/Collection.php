@@ -34,7 +34,7 @@ class FigureMetal_Collection extends Core_Domen_CollectionAbstract {
     public function getPercentByInvestId($id) {
         $figure = $this->getByInvestId($id);
         if ($figure) {
-            return $figure->getPercentCacheCources();            
+            return $figure->getPercentCacheCourses();            
         }
         return null;
     }

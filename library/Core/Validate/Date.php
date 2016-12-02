@@ -16,11 +16,5 @@ class Core_Validate_Date extends Zend_Validate_Date
         $options = array_merge($this->_options, $options);
         parent::__construct($options);
     }
-    
-    
-    public function isValid($value)
-    {
-        return parent::isValid($value);
-    }
 
 }

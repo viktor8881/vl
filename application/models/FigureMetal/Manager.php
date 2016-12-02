@@ -23,7 +23,7 @@ class FigureMetal_Manager extends Core_Domen_Manager_Abstract {
     public function insert(\Core_Domen_IModel $model) {
         if ($model instanceof FigureMetal_Model) {
             // пишем что произвели операцию
-            $this->getManager('CacheCourseMetal')->setOperation($model->getCasheCoursesListId());
+            $this->getManager('CacheCourseMetal')->setOperation($model->getCacheCoursesListId());
             return parent::insert($model);
         }
         return false;

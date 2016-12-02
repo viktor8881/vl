@@ -123,6 +123,14 @@ class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
         }
         return null;
     }
+    
+    public function getFirstValue() {
+        $first = reset($this->getDataValue());
+        if ($first) {
+            return $first['value'];
+        }
+        return null;
+    }
 
     /**
      * @return Core_Date
@@ -169,6 +177,19 @@ class CacheCourseCurrency_Model extends Core_Domen_Model_Abstract {
 
     public function hasOperation() {
         return !is_null($this->operation);
+    }
+    
+    public function getValueFigureByNum($num) {
+        $first = Core_Math::round($this->getFirstValue(), 6);
+        $last = Core_Math::round($this->getLastValue(),6);
+        $part = Core_Math::round(abs(($first - $last))/($this->countDataValue()-1));
+        if ($this->isUpTrend()) {
+            $result = $first+($part*$num);
+        }else{
+            $result = $first-($part*$num);
+        }
+//        pr($first.' '.$last.' - '.$part.' = '.$result.'<br> '.$part*$num.' count:'.$this->countDataValue());
+        return $result;
     }
 
 }

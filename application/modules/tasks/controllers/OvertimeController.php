@@ -17,7 +17,7 @@ class Tasks_OvertimeController extends Core_Controller_Action
                     $this->getManager('task')->insert($task);
                     $this->_redirect('/tasks/index/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -28,7 +28,7 @@ class Tasks_OvertimeController extends Core_Controller_Action
         $this->view->pageHeader('Редактировать задание');
         $task = $this->getManager('task')->get((int)$this->getParam('id'));
         if (!$task or !$task->isOverTime()) {
-            throw new RuntimeException(_('Задание не найдено.'));
+            throw new Core_Domen_NotFoundException(_('Задание не найдено.'));
         }
         $form = new Form_OverTime();
         $form->setMetal($this->getManager('metal')->fetchAllToArray())
@@ -40,7 +40,7 @@ class Tasks_OvertimeController extends Core_Controller_Action
                     $this->getManager('task')->update($task);
                     $this->_redirect('/tasks/index/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка редактирования задания.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка редактирования задания.'));
                 }
             }
         }else{
@@ -52,13 +52,13 @@ class Tasks_OvertimeController extends Core_Controller_Action
     public function deleteAction() {
         $task = $this->getManager('task')->get((int)$this->getParam('id'));
         if (!$task or !$task->isOverTime()) {
-            throw new RuntimeException(_('Задание не найдено.'));
+            throw new Core_Domen_NotFoundException(_('Задание не найдено.'));
         }
         try {
             $this->getManager('task')->delete($task);
             $this->_redirect('/tasks/index/list');
         } catch (Exception $exc) {
-            throw new RuntimeException(_('Ошибка удаления задания.'));
+            throw new Core_Domen_NotFoundException(_('Ошибка удаления задания.'));
         }
     }
     

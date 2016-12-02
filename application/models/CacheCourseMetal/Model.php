@@ -56,7 +56,7 @@ class CacheCourseMetal_Model extends Core_Domen_Model_Abstract {
     public function getLastValue() {
         return $this->value_last;
     }
-
+        
     public function getTypeTrend() {
         return $this->type_trend;
     }
@@ -124,6 +124,18 @@ class CacheCourseMetal_Model extends Core_Domen_Model_Abstract {
         }
         return null;
     }
+    
+    public function getFirstDateFormatDMY() {
+        return $this->getFirstDate()->formatDMY();
+    }
+
+    public function getFirstValue() {
+        $first = reset($this->getDataValue());
+        if ($first) {
+            return $first['value'];
+        }
+        return null;
+    }
         
     /**     
      * @return Core_Date
@@ -171,6 +183,18 @@ class CacheCourseMetal_Model extends Core_Domen_Model_Abstract {
 
     public function hasOperation() {
         return !is_null($this->operation);
+    }
+            
+    public function getValueFigureByNum($num) {
+        $first = Core_Math::round($this->getFirstValue(), 6);
+        $last = Core_Math::round($this->getLastValue(),6);
+        $part = Core_Math::round(abs(($first - $last))/($this->countDataValue()-1));
+        if ($this->isUpTrend()) {
+            $result = $first+($part*$num);
+        }else{
+            $result = $first-($part*$num);
+        }
+        return $result;
     }
     
 }

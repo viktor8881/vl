@@ -17,13 +17,22 @@ class AnalysisCurrency_Mapper extends Core_Domen_Mapper_Abstract {
     protected $_primary='id';
     
     public function addOrder(\Core_Domen_Order_Abstract $order, \Zend_Db_Select $select) {
-        
+        switch (get_class($order)) {
+            case 'AnalysisCurrency_Order_Id':
+                $select->order('id '.$order->getTypeOrder());
+                break;
+            case 'AnalysisCurrency_Order_Created':
+                $select->order('created '.$order->getTypeOrder());
+                break;
+            default:
+                break;
+        }
     }
 
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
-            case 'AnalysisCurrency_Filter_Date':
+            case 'AnalysisCurrency_Filter_Created':
                 $select->where('created = ?',current($values));
                 break;
             case 'AnalysisCurrency_Filter_CurrencyCode':                

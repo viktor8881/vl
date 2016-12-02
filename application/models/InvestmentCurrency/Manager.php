@@ -31,7 +31,7 @@ class InvestmentCurrency_Manager extends Core_Domen_Manager_Abstract {
     
     public function delete(\Core_Domen_IModel $model) {
         if (!($model instanceof InvestmentCurrency_Model)) {
-            throw new RuntimeException("Error delete. Wrong type.");
+            throw new Exception("Error delete. Wrong type.");
         }
         if ($model->isBuy()) {
             $this->getManager('balanceCurrency')->subToInvestment($model);

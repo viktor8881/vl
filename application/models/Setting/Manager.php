@@ -25,7 +25,7 @@ class Setting_Manager extends Core_Domen_Manager_Abstract
         if ($setting) {
             return $setting->getValue();
         }
-        throw new RuntimeException('Параметр '.$alias.' не задан! Проверьте настройки системы');
+        throw new Exception('Параметр '.$alias.' не задан! Проверьте настройки системы');
     }
         
     /**

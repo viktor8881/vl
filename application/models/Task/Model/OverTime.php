@@ -72,7 +72,7 @@ class Task_Model_OverTime extends Task_Model_Abstract {
     public function setBody($body) {
         $options = json_decode($body, true);
         if (is_null($options)) {
-            throw new RuntimeException('Body task can not be empty');
+            throw new Exception('Body task can not be empty');
         }
         return $this->setOptions($options);
     }

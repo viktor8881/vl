@@ -19,6 +19,7 @@ class Core_Helper_MainMenu extends Zend_View_Helper_Placeholder_Container_Standa
         '/balance'          => 'Главная', 
         '/investments'      => 'Инвестиции',
         '/tasks/index/list' => 'Задания',
+        '/analysis/'        => 'Анализ',
 //        array('/course/currency/index/'=>'Курс валюты',
 //            '/course/metal/index/'=>'Курс металла',)
         );
@@ -38,6 +39,13 @@ class Core_Helper_MainMenu extends Zend_View_Helper_Placeholder_Container_Standa
                     . '<li><a href="/course/metal/index/">'._('Курсы металлов').'</a></li>'
                 . '</ul>'
                 . '</li> ';
+//        $xhtml .= '<li class="dropdown">'
+//                . '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">'._('Анализ').' <span class="caret"></span></a>'
+//                . '<ul class="dropdown-menu">'
+//                    . '<li><a href="/analysis/currency/index/">'._('Анализ валют').'</a></li>'
+//                    . '<li><a href="/analysis/metal/index/">'._('Анализ металлов').'</a></li>'
+//                . '</ul>'
+//                . '</li> ';
         $xhtml .= '</ul>';
         return $xhtml;
     }

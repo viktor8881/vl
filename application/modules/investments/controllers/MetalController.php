@@ -8,7 +8,7 @@ class Investments_MetalController extends Core_Controller_Action
         if ($this->hasParam('id')) {
             $metal = $this->getManager('metal')->get((int)$this->getParam('id'));
             if (!$metal) {
-                throw new RuntimeException('Метала нет в системе!');
+                throw new Core_Domen_NotFoundException('Метала нет в системе!');
             }
             $filters->addFilter(new InvestmentMetal_Filter_Code($metal->getCode()));
         }
@@ -34,7 +34,7 @@ class Investments_MetalController extends Core_Controller_Action
                     $this->getManager('investmentMetal')->insertBuy($invest);
                     $this->_redirect('/investments/metal/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -53,7 +53,7 @@ class Investments_MetalController extends Core_Controller_Action
                     $this->getManager('investmentMetal')->insertSell($invest);
                     $this->_redirect('/investments/metal/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -64,7 +64,7 @@ class Investments_MetalController extends Core_Controller_Action
         $this->view->pageHeader('Редактировать');
         $invest = $this->getManager('investmentMetal')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException(_('Инвестиция не найдена.'));
+            throw new Core_Domen_NotFoundException(_('Инвестиция не найдена.'));
         }
         $form = new Form_Metal();
         $form->setMetal($this->getManager('metal')->fetchAllToArray());
@@ -83,7 +83,7 @@ class Investments_MetalController extends Core_Controller_Action
                     }
                     $this->_redirect('/investments/');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка редактирования инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка редактирования инвестиции.'));
                 }
             }
         }else{
@@ -95,13 +95,13 @@ class Investments_MetalController extends Core_Controller_Action
     public function deleteAction() {
         $invest = $this->getManager('investmentMetal')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException(_('Инвестиция не найдена.'));
+            throw new Core_Domen_NotFoundException(_('Инвестиция не найдена.'));
         }
         try {
             $this->getManager('investmentMetal')->delete($invest);
             $this->_redirect('/investments/');
         } catch (Exception $exc) {
-            throw new RuntimeException(_('Ошибка удаления инвестиции.'));
+            throw new Core_Domen_NotFoundException(_('Ошибка удаления инвестиции.'));
         }
     }
     

@@ -59,4 +59,25 @@ class AnalysisCurrency_Collection extends Core_Domen_CollectionAbstract {
         return null;
     }
     
+    /**
+     * the longest figure
+     * @return AnalysisCurrency_Model_Figure
+     */
+    public function getFigureByLongest() {
+        $result = null;
+        foreach ($this->getIterator() as $item) {
+            if (!$item->isFigure()) {
+                continue;
+            }
+            if (is_null($result)) {
+                $result = $item;
+                continue;
+            }
+            if ($item->periodForming() > $result->periodForming()) {
+                $result = $item;
+            }
+        }
+        return $result;
+    }
+    
 }

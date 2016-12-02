@@ -16,7 +16,7 @@ class AnalysisCurrency_Factory implements Core_Domen_IFactory {
     
     public function create(array $values = null) {
         if (!array_key_exists('type', $values)) {
-            throw new RuntimeException('Not found "type" of analysis.');
+            throw new Exception('Not found "type" of analysis.');
         }
         switch ($values['type']) {
             case AnalysisCurrency_Model_Abstract::TYPE_FIGURE:
@@ -29,7 +29,7 @@ class AnalysisCurrency_Factory implements Core_Domen_IFactory {
                 return new AnalysisCurrency_Model_OverTime($values);
                 break;
             default:
-                throw new RuntimeException('Unknown "type" of task.');
+                throw new Exception('Unknown "type" of task.');
                 break;
         }
     }

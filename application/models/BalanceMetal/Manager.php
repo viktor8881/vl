@@ -50,7 +50,7 @@ class BalanceMetal_Manager extends Core_Domen_Manager_Abstract {
         $balance->setMetalCode($code)
                 ->setBalance($balanceValue);
         if(!parent::insert($balance)) {
-            throw new RuntimeException("Error added currency balance.");
+            throw new Exception("Error added currency balance.");
         }
         return $balance;
     }
@@ -58,7 +58,7 @@ class BalanceMetal_Manager extends Core_Domen_Manager_Abstract {
     public function updateBalanceByCode($code, $addBalance) {
         $balance = $this->getByCode($code);
         if (!$balance) {
-            throw new RuntimeException('Баланс не найден.');
+            throw new Exception('Баланс не найден.');
         }
         $balance->addBalance($addBalance);
         return parent::update($balance);

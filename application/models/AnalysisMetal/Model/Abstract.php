@@ -82,6 +82,9 @@ abstract class AnalysisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
         return $this;
     }
     
+    /**
+     * @return Metal_Model
+     */
     public function getMetal() {
         if (is_null($this->_metal)) {
             $this->_metal = $this->getManager('metal')->getByCode($this->getMetalCode());
@@ -89,6 +92,9 @@ abstract class AnalysisMetal_Model_Abstract extends Core_Domen_Model_Abstract {
         return $this->_metal;
     }
 
+    public function getMetalName() {
+        return $this->getMetal()->getName();
+    }
     
     public function setCreated($created) {
         if ($created instanceof DateTime ) {

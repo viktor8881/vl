@@ -76,8 +76,8 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
         return null;
     }
     
-    public function fetchAllForAnalysisByCodeToDate($code, Core_Date $date) {
-        $result = $this->createCollection();
+    public function listValueForAnalysisByCodeToDate($code, Core_Date $date) {
+        $result = [];
         
         $paginator = Zend_Paginator::factory(20);
         Zend_Paginator::setDefaultItemCountPerPage(20);
@@ -90,14 +90,13 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
                 ->addFilter(new CourseCurrency_Filter_LsEqDate($date));
         $rows = parent::fetchAllByFilter($filters, $paginator, $orders);
         
-//        $rows = $this->fetchAllByCode($code, $paginator, $orders);
         if ($rows->count() > 1) {
             $sign = null;
             $prev = $rows->first();
             $i=0;
             foreach ($rows as $row) {
                 if (++$i == 1) {
-                    $result->addModel($row);
+                    $result[$row->getDateFormatDMY()] = $row->getValue();
                     continue;
                 }
                 if (is_null($sign)) {
@@ -108,12 +107,12 @@ class CourseCurrency_Manager extends Core_Domen_Manager_Abstract {
                     }else{
                         break;
                     }
-                    $result->addModel($row);
+                    $result[$row->getDateFormatDMY()] = $row->getValue();
                     $prev = $row;
                     continue;
                 }
                 if ( $this->{$sign}($prev->getValue(), $row->getValue()) ) {
-                    $result->addModel($row);
+                    $result[$row->getDateFormatDMY()] = $row->getValue();
                     $prev = $row;
                     continue;
                 }else{

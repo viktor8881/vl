@@ -41,7 +41,7 @@ class InvestmentMetal_Manager extends Core_Domen_Manager_Abstract {
 
     public function delete(\Core_Domen_IModel $model) {
         if (!($model instanceof InvestmentMetal_Model)) {
-            throw new RuntimeException("Error delete. Wrong type.");
+            throw new Exception("Error delete. Wrong type.");
         }
         if ($model->isBuy()) {
             $this->getManager('balanceMetal')->subToInvestment($model);

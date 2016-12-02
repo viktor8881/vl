@@ -57,7 +57,7 @@ class Cron_TmpController extends Core_Controller_Action {
                     $queue->sendTaskAnalysisCurrency();
                     break;
                 default:
-                    throw new RuntimeException('unknown type task.');
+                    throw new Core_Domen_NotFoundException('unknown type task.');
                     break;
             }
             $queue->deleteMessage($message);
@@ -262,7 +262,7 @@ class Cron_TmpController extends Core_Controller_Action {
                         $figure->setCode($metal->getCode())
                                 ->setInvestmentId($investId)
                                 ->setFigure(FigureMetal_Model::FIGURE_DOUBLE_BOTTOM)
-                                ->setCasheCoursesListId($cacheCourses->listId());
+                                ->setCacheCoursesListId($cacheCourses->listId());
                         $this->getManager('figureMetal')->insert($figure);
                     }elseif ($cacheCourses->firstIsDownTrend()
                         && Service_GraphAnalysis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
@@ -273,7 +273,7 @@ class Cron_TmpController extends Core_Controller_Action {
                         $figure->setCode($metal->getCode())
                                 ->setInvestmentId($investId)
                                 ->setFigure(FigureMetal_Model::FIGURE_DOUBLE_TOP)
-                                ->setCasheCoursesListId($cacheCourses->listId());
+                                ->setCacheCoursesListId($cacheCourses->listId());
                         $this->getManager('figureMetal')->insert($figure);
                     }
                 }
@@ -293,7 +293,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($metal->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureMetal_Model::FIGURE_TRIPLE_BOTTOM)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureMetal')->insert($figure);
                         }
                         if (Service_GraphAnalysis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
@@ -304,7 +304,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($metal->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureMetal_Model::FIGURE_RESERVE_HEADS_HOULDERS)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureMetal')->insert($figure);
                         }
                     }elseif($cacheCourses->firstIsDownTrend()) {
@@ -316,7 +316,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($metal->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureMetal_Model::FIGURE_TRIPLE_TOP)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureMetal')->insert($figure);
                         }
                         if (Service_GraphAnalysis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
@@ -327,7 +327,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($metal->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureMetal_Model::FIGURE_HEADS_HOULDERS)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureMetal')->insert($figure);
                         }
                     }
@@ -357,7 +357,7 @@ class Cron_TmpController extends Core_Controller_Action {
                         $figure->setCode($currency->getCode())
                                 ->setInvestmentId($investId)
                                 ->setFigure(FigureCurrency_Model::FIGURE_DOUBLE_BOTTOM)
-                                ->setCasheCoursesListId($cacheCourses->listId());
+                                ->setCacheCoursesListId($cacheCourses->listId());
                         $this->getManager('figureCurrency')->insert($figure);
                     }elseif ($cacheCourses->firstIsDownTrend()
                         && Service_GraphAnalysis::isDoubleTop($cacheCourses->listLastValue(), $percent, $percent) ) {
@@ -368,7 +368,7 @@ class Cron_TmpController extends Core_Controller_Action {
                         $figure->setCode($currency->getCode())
                                 ->setInvestmentId($investId)
                                 ->setFigure(FigureCurrency_Model::FIGURE_DOUBLE_TOP)
-                                ->setCasheCoursesListId($cacheCourses->listId());
+                                ->setCacheCoursesListId($cacheCourses->listId());
                         $this->getManager('figureCurrency')->insert($figure);
                     }
                 }
@@ -388,7 +388,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($currency->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureCurrency_Model::FIGURE_TRIPLE_BOTTOM)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureCurrency')->insert($figure);
                         }
                         if (Service_GraphAnalysis::isReverseHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
@@ -399,7 +399,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($currency->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureCurrency_Model::FIGURE_RESERVE_HEADS_HOULDERS)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureCurrency')->insert($figure);
                         }
                     }elseif($cacheCourses->firstIsDownTrend()) {
@@ -411,7 +411,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($currency->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureCurrency_Model::FIGURE_TRIPLE_TOP)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureCurrency')->insert($figure);
                         }
                         if (Service_GraphAnalysis::isHeadShoulders($cacheCourses->listLastValue(), $percent) ) {
@@ -422,7 +422,7 @@ class Cron_TmpController extends Core_Controller_Action {
                             $figure->setCode($currency->getCode())
                                     ->setInvestmentId($investId)
                                     ->setFigure(FigureCurrency_Model::FIGURE_HEADS_HOULDERS)
-                                    ->setCasheCoursesListId($cacheCourses->listId());
+                                    ->setCacheCoursesListId($cacheCourses->listId());
                             $this->getManager('figureCurrency')->insert($figure);
                         }
                     }

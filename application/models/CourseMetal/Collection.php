@@ -11,24 +11,24 @@
  *
  * @author Viktor
  */
-class CourseMetal_Collection extends Core_Domen_CollectionAbstract {
+class CourseMetal_Collection extends Core_Domen_CollectionAbstract  {
     
     
-    public function getValues() {
-        $result = array();
-        foreach ($this->getIterator() as $course) {
-            $result[] = $course->getValue();
-        }
-        return $result;
-    }
+//    public function getValues() {
+//        $result = array();
+//        foreach ($this->getIterator() as $course) {
+//            $result[] = $course->getValue();
+//        }
+//        return $result;
+//    }
 
-    public function listDateCourse() {
-        $result = array();
-        foreach ($this->getIterator() as $course) {
-            $result[$course->getDateFormatDMY()] = $course->getValue();
-        }
-        return $result;
-    }
+//    public function listDateCourse() {
+//        $result = array();
+//        foreach ($this->getIterator() as $course) {
+//            $result[$course->getDateFormatDMY()] = $course->getValue();
+//        }
+//        return $result;
+//    }
     
     public function isQuotesGrowth() {
         $first = $this->first();

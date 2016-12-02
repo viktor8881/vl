@@ -23,43 +23,43 @@ class AnalysisCurrency_Model_Figure extends AnalysisCurrency_Model_Abstract {
     const FIGURE_RESERVE_HEADS_HOULDERS  = 6;
     
     private $figure;
-    private $cashe_courses_list_id;
+    private $cache_courses_list_id;
     
-    private $_cashe_courses;
+    private $_cache_courses;
 
       
 
     public function __construct(array $options = null) {
         $this->_aliases += ['investment_id'=>'investmentId',
-                'courses_list_id'=>'casheCoursesListIdToArray',
-                'cashe_courses_list_id'=>'casheCoursesListIdFromDb'];
+                'courses_list_id'=>'cacheCoursesListIdToArray',
+                'cache_courses_list_id'=>'cacheCoursesListIdFromDb'];
         parent::__construct($options);
     }
     
     
-    public function getCasheCoursesListId() {
-        return $this->cashe_courses_list_id;
+    public function getCacheCoursesListId() {
+        return $this->cache_courses_list_id;
     }
 
-    public function getCasheCoursesListIdToDb() {
-        return implode(self::SEPARATE, $this->cashe_courses_list_id);
+    public function getCacheCoursesListIdToDb() {
+        return implode(self::SEPARATE, $this->cache_courses_list_id);
     }
 
     
-    public function setCasheCoursesListId(array $cashe_courses_list_id) {
-        if (!is_null($cashe_courses_list_id)) {
-            $this->cashe_courses_list_id = $cashe_courses_list_id;
+    public function setCacheCoursesListId(array $cache_courses_list_id) {
+        if (!is_null($cache_courses_list_id)) {
+            $this->cache_courses_list_id = $cache_courses_list_id;
         }
         return $this;
     }
     
-    public function setCasheCoursesListIdFromDb($cashe_courses_list_id) {
-        $this->cashe_courses_list_id = explode(self::SEPARATE, $cashe_courses_list_id);
+    public function setCacheCoursesListIdFromDb($cache_courses_list_id) {
+        $this->cache_courses_list_id = explode(self::SEPARATE, $cache_courses_list_id);
         return $this;
     }
     
-    public function setCasheCoursesListIdToArray($cashe_courses_list_id) {
-        $this->cashe_courses_list_id = $cashe_courses_list_id;
+    public function setCacheCoursesListIdToArray($cache_courses_list_id) {
+        $this->cache_courses_list_id = $cache_courses_list_id;
         return $this;
     }
 
@@ -72,30 +72,42 @@ class AnalysisCurrency_Model_Figure extends AnalysisCurrency_Model_Abstract {
         return $this;
     }
 
-    public function getPercentCacheCources() {
-        $list = $this->getCasheCoursesListId();
+    public function getPercentCacheCourses() {
+        $list = $this->getCacheCoursesListId();
         if (count($list)) {
-            $cacheCources = $this->getManager('CacheCourseMetal')->get(reset($list));
-            if ($cacheCources) {
-                return $cacheCources->getPercent();
+            $cacheCourses = $this->getManager('CacheCourseMetal')->get(reset($list));
+            if ($cacheCourses) {
+                return $cacheCourses->getPercent();
             }
         }
         return null;
     }
     
-    public function getCasheCourses() {
-        if (is_null($this->_cashe_courses)) {
-            $this->_cashe_courses = $this->getManager('CacheCourseCurrency')->fetchAllByList($this->getCasheCoursesListId());
+    /**
+     * count of days forming the figure
+     * @return int
+     */
+    public function periodForming() {
+        $result = 0;
+        foreach ($this->getCacheCourses() as $cache) {
+            $result += $cache->countDataValue();
         }
-        return $this->_cashe_courses;
+        return $result;
+    }
+    
+    public function getCacheCourses() {
+        if (is_null($this->_cache_courses)) {
+            $this->_cache_courses = $this->getManager('CacheCourseCurrency')->fetchAllByList($this->getCacheCoursesListId());
+        }
+        return $this->_cache_courses;
     }
 
     public function getDateFirst() {
-        return $this->getCasheCourses()->getFirstDate();        
+        return $this->getCacheCourses()->getFirstDate();        
     }
     
     public function getDateLast() {
-        return $this->getCasheCourses()->getLastDate();
+        return $this->getCacheCourses()->getLastDate();
     }
     
     // == abstract methods =
@@ -106,14 +118,14 @@ class AnalysisCurrency_Model_Figure extends AnalysisCurrency_Model_Abstract {
     
     public function getBody() {
         $body = array('figure'=>$this->getFigure(),
-            'cashe_courses_list_id'=>$this->getCasheCoursesListIdToDb());
+            'cache_courses_list_id'=>$this->getCacheCoursesListIdToDb());
         return json_encode($body);
     }
 
     public function setBody($body) {
         $options = json_decode($body, true);
         if (is_null($options)) {
-            throw new RuntimeException('Body task can not be empty');
+            throw new Exception('Body task can not be empty');
         }
         return $this->setOptions($options);
     }

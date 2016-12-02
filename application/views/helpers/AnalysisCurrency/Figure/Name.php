@@ -17,22 +17,22 @@ class View_Helper_AnalysisCurrency_Figure_Name extends Zend_View_Helper_Abstract
         $name = '';
         switch ($figure) {
             case AnalysisCurrency_Model_Figure::FIGURE_DOUBLE_TOP:
-                $name = 'двойная вершина';
+                $name = _('двойная вершина');
                 break;
             case AnalysisCurrency_Model_Figure::FIGURE_DOUBLE_BOTTOM:
-                $name = 'двойное дно';
+                $name = _('двойное дно');
                 break;
             case AnalysisCurrency_Model_Figure::FIGURE_TRIPLE_TOP:
-                $name = 'тройная вершина';
+                $name = _('тройная вершина');
                 break;
             case AnalysisCurrency_Model_Figure::FIGURE_TRIPLE_BOTTOM:
-                $name = 'тройное дно';
+                $name = _('тройное дно');
                 break;
             case AnalysisCurrency_Model_Figure::FIGURE_HEADS_HOULDERS:
-                $name = 'голова и плечи';
+                $name = _('голова и плечи');
                 break;
             case AnalysisCurrency_Model_Figure::FIGURE_RESERVE_HEADS_HOULDERS:
-                $name = 'перевернутая голова и плечи';
+                $name = _('перевернутая голова и плечи');
                 break;
             default:
                 break;

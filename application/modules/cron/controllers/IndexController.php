@@ -8,8 +8,8 @@ class Cron_IndexController extends Core_Controller_Action
     const STABLE_TREND = 5;
     private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
     
-//    public function tempAction() {
-//        $dateNow = new Core_Date('2016-11-04');
+//    private function tempAction() {
+//        $dateNow = new Core_Date('26.11.2016');
 //        foreach($this->getManager('courseMetal')->fetchAllByDate($dateNow) as $course) {
 //            foreach ($this->listPercents as $percent) {
 //                $metal = $this->getManager('metal')->getByCode($course->getCode());
@@ -22,6 +22,14 @@ class Cron_IndexController extends Core_Controller_Action
 //                $this->technicalAnalysisCurrency($currency, $dateNow, $percent);
 //            }
 //        }
+//        $this->taskAnalysis($dateNow);
+//        $this->_helper->viewRenderer->setNoRender(true);
+//        $this->_helper->layout()->disableLayout(); 
+//    }
+//    
+//    private function mailAction() {
+//        $dateNow = new Core_Date('26.11.2016');
+//        $this->sendMessage($dateNow);
 //        $this->_helper->viewRenderer->setNoRender(true);
 //        $this->_helper->layout()->disableLayout(); 
 //    }
@@ -35,22 +43,20 @@ class Cron_IndexController extends Core_Controller_Action
             $body = $message->body;
             switch ($body) {
                 case Core_Queue_Analysis::TASK_FILL_DATA:
-                    $this->fillData($dateNow);
+                    $this->fillDataCache($dateNow);
                     // add task send email.
                     $queue->sendRunAnalysis(true);                    
                     break;
                 case Core_Queue_Analysis::TASK_ANALYSIS:
                     $countRec = $this->taskAnalysis($dateNow);
-//                    if ($countRec > 0) {
-                        // add task send email.
-                        $queue->sendTaskEmail(true);
-//                    }
+                    // add task send email.
+                    $queue->sendTaskEmail(true);
                     break;
                 case Core_Queue_Analysis::TASK_SEND_MESSAGE:
                     $this->sendMessage($dateNow);
                     break;
                 default:
-                    throw new RuntimeException('unknown type task.');
+                    throw new Core_Domen_NotFoundException('unknown type task.');
                     break;
             }
             $queue->deleteMessage($message);
@@ -59,7 +65,7 @@ class Cron_IndexController extends Core_Controller_Action
         $this->_helper->layout()->disableLayout(); 
     }
     
-    private function fillData(Core_Date $dateNow) {
+    private function fillDataCache(Core_Date $dateNow) {
         foreach($this->getManager('courseMetal')->fetchAllByDate($dateNow) as $course) {
             foreach ($this->listPercents as $percent) {
                 $cacheCourse = $this->getManager('cacheCourseMetal')->lastByCodePercent($course->getCode(), $percent);
