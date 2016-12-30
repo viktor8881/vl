@@ -5,8 +5,8 @@ class Cron_IndexController extends Core_Controller_Action
 
 
 
-    const STABLE_TREND = 5;
-    private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
+    const STABLE_TREND = 3;
+    private $listPercents = [0.06, 0.1, 0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
     
 //    private function tempAction() {
 //        $dateNow = new Core_Date('26.11.2016');

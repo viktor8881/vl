@@ -30,18 +30,19 @@ class Service_GraphAnalysis {
      */
     public static function isUpTrend(array $courses, $percent=5) {
         $courses = array_values($courses);
+        $firstCourse = null;
         $i=0;
-        $prevCourse = null;
+        $iPercent=0;
         foreach ($courses as $course) {
             if (++$i==1) {
-                $prevCourse = $course;
+                $firstCourse = $course;
                 continue;
             }
-            $lowCritery = $prevCourse*(1+($percent/100));
-            if (Core_Math::compareMoney($lowCritery, $course)==1 ) {
+            $iPercent++;
+            $lowCritery = $firstCourse*(1 + ($percent * $iPercent) / 100);
+            if (Core_Math::compareMoney($lowCritery, $course) == 1 ) {
                 return false;
             }
-            $prevCourse = $lowCritery;  
         }
         return true;
     }
@@ -56,20 +57,22 @@ class Service_GraphAnalysis {
      * @param type $percent
      * @return boolean
      */
-    public static function isDownTrend(array $courses, $percent=5) {
+    public static function isDownTrend(array $courses, $percent = 5) {
         $courses = array_values($courses);
+        $firstCourse = null;
         $i=0;
-        $prevCourse = null;
+        $iPercent=0;
         foreach ($courses as $course) {
             if (++$i==1) {
-                $prevCourse = $course;
+                $firstCourse = $course;
                 continue;
             }
-            $hightCritery = $prevCourse*(1-($percent/100));
-            if (Core_Math::compareMoney($course, $hightCritery)==1 ) {
+            $iPercent++;
+            $hightCritery = $firstCourse*(1 - ($percent * $iPercent) / 100);
+            if (Core_Math::compareMoney($course, $hightCritery) == 1 ) {
                 return false;
             }
-            $prevCourse = $hightCritery;
+//            $prevCourse = $hightCritery;
         }
         return true;
     }
@@ -162,6 +165,18 @@ class Service_GraphAnalysis {
             $low1   = $courses[1]*(1-($percent/100));
             $hight2 = $courses[2]*(1+($percentDiffPeak/100));
             $low2   = $courses[2]*(1-($percentDiffPeak/100));
+            
+//            pr($courses);
+//            echo('$hight1 = '.$hight1."\n");
+//            echo('$low1 = '.$low1."\n");
+//            echo('$hight2 = '.$hight2."\n");
+//            echo('$low2 = '.$low2."\n");
+//            var_dump(Core_Math::compareMoney($courses[1], $hight2));
+//            var_dump(Core_Math::compareMoney($hight1, $courses[3]));
+//            var_dump(Core_Math::compareMoney($courses[3], $low1));
+//            var_dump(Core_Math::compareMoney($low2, $courses[0]));
+            
+            
             if (Core_Math::compareMoney($courses[1], $hight2)==1
                 && Core_Math::compareMoney($hight1, $courses[3])>=0
                 && Core_Math::compareMoney($courses[3], $low1)  >=0

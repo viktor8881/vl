@@ -10,7 +10,7 @@
  *
  * @author Viktor Ivanov
  */
-class Course_View_Helper_HeaderMetal extends Zend_View_Helper_Abstract
+class View_Helper_HeaderMetal extends Zend_View_Helper_Abstract
 {
     
     public function headerMetal(Metal_Collection $currencies, Metal_Model $currentCurrency, array $period) {

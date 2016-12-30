@@ -7,14 +7,15 @@
  */
 
 /**
- * Description of CacheCourseMetal_Filter_Period
+ * Description of CacheCourseCurrency_Filter_Period
  *
  * @author Viktor
  */
-class CacheCourseMetal_Filter_Period extends Core_Domen_Filter_Abstract {
+class CacheCourseCurrency_Filter_Period extends Core_Domen_Filter_Abstract {
         
     
-    public function filter($value) {
+    public function filter($value) 
+    {
         if ( $value instanceof Core_Date ) {
             return $value->formatDbDate();
         }

@@ -21,14 +21,16 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsUpTrendFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isUpTrend($courses);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsUpTrendFalse() {
         return [
-            [[100,  105, 110.25, 115.76, 121.55, 127.62], 5],
-            [[100,  105, 175.00, 115.75, 121.55, 127.63], 5],
+            [[100,  104.99], 5],
+            [[100,  105, 109.99], 5],
+            [[100,  105, 110, 114.99], 5],
+            [[100,  105, 110, 115, 119.99], 5],
+            [[100,  105, 110, 115, 120, 124.99], 5],
         ];
     }
     
@@ -37,14 +39,26 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsUpTrendTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isUpTrend($courses);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);                
     }
     
     public function additionIsUpTrendTrue() {
         return [
-            [[100,  105, 110.25, 115.76, 121.55, 127.63], 5], // low border
-            [[100,  125, 110.25, 175, 121.55, 127.63], 5], // with peak 175
+            [[100,  105], 5], 
+            [[100,  105, 110], 5], 
+            [[100,  105, 110, 115], 5], 
+            [[100,  105, 110, 115, 120], 5], 
+            [[100,  105, 110, 115, 120, 125], 5], 
+            [[100,  105, 110, 115, 120, 125, 130], 5], 
+//            peak
+            [[100,  175, 110, 115, 120, 125, 130], 5], 
+            [[100,  105, 175, 115, 120, 125, 130], 5], 
+            [[100,  105, 110, 175, 120, 125, 130], 5], 
+            [[100,  105, 110, 115, 175, 125, 130], 5], 
+            [[100,  105, 110, 115, 120, 175, 130], 5], 
+            [[100,  105, 110, 115, 120, 125, 175], 5], 
+//            two peaks
+            [[100,  105, 175, 115, 120, 125, 175], 5],             
         ];
     }
     
@@ -55,14 +69,17 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDownTrendFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isDownTrend($courses, $percent);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);                
     }
     
     public function additionIsDownTrendFalse() {
         return [
-            [[100, 95.1, 90.25, 85.74, 81.45], 5],
-            [[100, 95.0, 70.25, 85.75, 81.45], 5],
+            [[100, 95.1], 5],
+            [[100, 95, 90.1], 5],
+            [[100, 95, 90, 85.1], 5],
+            [[100, 95, 90, 85, 80.1], 5],
+            [[100, 95, 90, 85, 80, 75.1], 5],
+            [[100, 95, 90, 85, 80, 75, 70.1], 5],
         ];
     }
     
@@ -71,14 +88,26 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDownTrendTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isDownTrend($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsDownTrendTrue() {
         return [
-            [[100, 95, 90.25, 85.74, 81.45], 5],
-            [[100, 95, 70, 85.74, 81.45], 5],
+            [[100, 95], 5],
+            [[100, 95, 90], 5],
+            [[100, 95, 90, 85], 5],
+            [[100, 95, 90, 85, 80], 5],
+            [[100, 95, 90, 85, 80, 75], 5],
+            [[100, 95, 90, 85, 80, 75, 70], 5],
+            // peak
+            [[100, 25, 90, 85, 80, 75, 70], 5],
+            [[100, 95, 25, 85, 80, 75, 70], 5],
+            [[100, 95, 90, 25, 80, 75, 70], 5],
+            [[100, 95, 90, 85, 25, 75, 70], 5],
+            [[100, 95, 90, 85, 80, 25, 70], 5],
+            [[100, 95, 90, 85, 80, 75, 25], 5],
+            // two peak
+            [[100, 25, 90, 85, 80, 25, 70], 5],
         ];
     }
     
@@ -89,8 +118,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsEqualChannelFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isEqualChannel($courses, $percent);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsEqualChannelFalse() {
@@ -106,7 +134,6 @@ class Service_GraphAnalysisTest extends TestCase {
     public function testIsEqualChannelTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isEqualChannel($courses, $percent);
         $this->assertTrue($actual);        
-        return true;
     }
     
     public function additionIsEqualChannelTrue() {
@@ -123,8 +150,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsUpChannelTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isUpChannel($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsUpChannelTrue() {
@@ -140,8 +166,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsUpChannelFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isUpChannel($courses, $percent);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsUpChannelFalse() {
@@ -163,8 +188,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDownChannelTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isDownChannel($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsDownChannelTrue() {
@@ -180,8 +204,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDownChannelFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isDownChannel($courses, $percent);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsDownChannelFalse() {
@@ -196,13 +219,25 @@ class Service_GraphAnalysisTest extends TestCase {
     }
     
     //===========================================================================
+    
+    
+    
+    public function testIsDobleTopTmp() {
+        $courses = [29.76, 31.31, 30.73, 31.79, 26.23];
+        $percent = 1.52;
+        $percentDiff = 1.87;
+        $actual = Service_GraphAnalysis::isDoubleTop($courses, $percent, $percentDiff);
+        $this->assertTrue($actual);
+    }
+    
+    
+    
     /**
      * @dataProvider additionIsDobleTopTrue
      */
     public function testIsDobleTopTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isDoubleTop($courses, $percent);
         $this->assertTrue($actual);        
-        return true;
     }
     
     public function additionIsDobleTopTrue() {
@@ -218,8 +253,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDobleTopFalse($courses, $percent, $percentDiff) {
         $actual = Service_GraphAnalysis::isDoubleTop($courses, $percent, $percentDiff);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsDobleTopFalse() {
@@ -235,6 +269,8 @@ class Service_GraphAnalysisTest extends TestCase {
             [[90, 150, 120, 145.4, 119], 3, 20], // по нижней границе
             
             [[97, 150, 119, 150, 119], 3, 20],
+            
+            [[29.76, 31.31, 30.73, 31.79, 26.23], 0.01, 0.01],
         ];
     }
   
@@ -246,8 +282,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDobleBottomTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isDoubleBottom($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsDobleBottomTrue() {
@@ -263,8 +298,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDobleBottomFalse($courses, $percent, $percentDiff) {
         $actual = Service_GraphAnalysis::isDoubleBottom($courses, $percent, $percentDiff);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsDobleBottomFalse() {
@@ -289,7 +323,6 @@ class Service_GraphAnalysisTest extends TestCase {
     public function testIsHeadShouldersTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isHeadShoulders($courses, $percent);
         $this->assertTrue($actual);        
-        return true;
     }
     
     public function additionIsHeadShouldersTrue() {
@@ -304,7 +337,6 @@ class Service_GraphAnalysisTest extends TestCase {
     public function testIsHeadShouldersFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isHeadShoulders($courses, $percent);
         $this->assertFalse($actual);
-        return true;
     }
     
     public function additionIsHeadShouldersFalse() {
@@ -368,8 +400,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsReverseHeadShouldersTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isReverseHeadShoulders($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsReverseHeadShouldersTrue() {
@@ -384,7 +415,6 @@ class Service_GraphAnalysisTest extends TestCase {
     public function testIsReverseHeadShouldersFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isReverseHeadShoulders($courses, $percent);
         $this->assertFalse($actual);
-        return true;
     }
     
     public function additionIsReverseHeadShouldersFalse() {
@@ -448,7 +478,6 @@ class Service_GraphAnalysisTest extends TestCase {
     public function testIsTripleTopTrue($courses, $percentBottom, $percentTop) {
         $actual = Service_GraphAnalysis::isTripleTop($courses,  $percentBottom, $percentTop);
         $this->assertTrue($actual);        
-        return true;
     }
     
     public function additionIsTripleTopTrue() {
@@ -462,8 +491,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsTripleTopFalse($courses, $percentBottom, $percentTop) {
         $actual = Service_GraphAnalysis::isTripleTop($courses, $percentBottom, $percentTop);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsTripleTopFalse() {
@@ -533,8 +561,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsTripleBottomTrue($courses, $percentBottom, $percentTop) {
         $actual = Service_GraphAnalysis::isTripleBottom($courses, $percentBottom, $percentTop);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsTripleBottomTrue() {
@@ -548,8 +575,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsTripleBottomFalse($courses, $percentBottom, $percentTop) {
         $actual = Service_GraphAnalysis::isTripleBottom($courses, $percentBottom, $percentTop);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsTripleBottomFalse() {
@@ -619,8 +645,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsAscendingTriangleTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isAscendingTriangle($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsAscendingTriangleTrue() {
@@ -635,8 +660,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsAscendingTriangleFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isAscendingTriangle($courses, $percent);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsAscendingTriangleFalse() {
@@ -671,8 +695,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDescendingTriangleTrue($courses, $percent) {
         $actual = Service_GraphAnalysis::isDescendingTriangle($courses, $percent);
-        $this->assertTrue($actual);        
-        return true;
+        $this->assertTrue($actual);
     }
     
     public function additionIsDescendingTriangleTrue() {
@@ -687,8 +710,7 @@ class Service_GraphAnalysisTest extends TestCase {
      */
     public function testIsDescendingTriangleFalse($courses, $percent) {
         $actual = Service_GraphAnalysis::isDescendingTriangle($courses, $percent);
-        $this->assertFalse($actual);        
-        return true;
+        $this->assertFalse($actual);
     }
     
     public function additionIsDescendingTriangleFalse() {

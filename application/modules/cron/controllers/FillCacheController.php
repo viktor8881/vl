@@ -15,10 +15,10 @@
 class Cron_FillCacheController extends Core_Controller_Action {
     
     
-    const INIT_DATE = '06.03.2001';
+    const INIT_DATE = '07.12.2016';
     const COUNT_RUN_AT_TIME = 100;
 
-    private $listPercents = [0.2, 0.4, 0.6, 0.8, 1, 1.35, 1.7, 2];
+    private $listPercents = [0.01, 0.06, 0.1];
     private $pathTmp;
     
 
@@ -27,7 +27,7 @@ class Cron_FillCacheController extends Core_Controller_Action {
         $this->pathTmp = $bootstrap->getOptions()['path']['temp'];
     }
     
-    public function tmpMetalAction() {
+    private function tmpMetalAction() {
         $dateNow = new Core_Date();
         $fileName = $this->pathTmp.'date-metal.tmp';
         if (!file_exists($fileName)) {
@@ -89,7 +89,7 @@ class Cron_FillCacheController extends Core_Controller_Action {
     }
     
     
-    public function tmpCurrencyAction() {
+    private function tmpCurrencyAction() {
         $dateNow = new Core_Date();
         $fileName = $this->pathTmp.'date-currency.tmp';
         if (!file_exists($fileName)) {
@@ -152,7 +152,7 @@ class Cron_FillCacheController extends Core_Controller_Action {
     }
     
     
-    public function tmpInitAction() {
+    private function tmpInitAction() {
         $date = new Core_Date(self::INIT_DATE);
         foreach($this->getManager('courseMetal')->fetchAllByDate($date) as $course) {
             foreach ($this->listPercents as $percent) {

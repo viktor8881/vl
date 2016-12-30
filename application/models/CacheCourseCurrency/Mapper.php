@@ -42,6 +42,9 @@ class CacheCourseCurrency_Mapper extends Core_Domen_Mapper_Abstract {
             case 'CacheCourseCurrency_Filter_Code':                
                 $select->where('code IN(?)', $values);
                 break;
+            case 'CacheCourseCurrency_Filter_Period':
+                $select->where('date_last BETWEEN '.$this->getConnect()->quote($values[0]).' AND '.$this->getConnect()->quote($values[1]));
+                break;
             case 'CacheCourseCurrency_Filter_Percent':
                 $select->where('percent IN(?)', $values);
                 break;
