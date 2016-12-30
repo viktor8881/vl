@@ -13,8 +13,7 @@
  */
 class Core_Queue extends Zend_Queue {
 
-    const TASK_ANALYSIS = 'task_analysis';
-    const TASK_SEND_MESSAGE = 'task_send_message';
+    
 
 
     public function __construct($name='default_queue', $timeout=null) {
@@ -31,31 +30,6 @@ class Core_Queue extends Zend_Queue {
                 )
             ); 
         parent::__construct('Db', $options);
-    }
-    
-    
-    public function hasRunAnalysis() {
-        return $this->getAdapter()->hasTasksMessage(self::TASK_ANALYSIS);
-    }
-    
-    public function sendRunAnalysis($checkExist=false) {
-        if ($checkExist && $this->hasRunAnalysis()) {
-            return false;
-        }
-        parent::send(self::TASK_ANALYSIS);
-        return true;
-    }
-    
-    public function hasTaskEmail() {
-        return $this->getAdapter()->hasTasksMessage(self::TASK_SEND_MESSAGE);
-    }
-    
-    public function sendTaskEmail($checkExist=false) {
-        if ($checkExist && $this->hasTaskEmail()) {
-            return false;
-        }
-        parent::send(self::TASK_SEND_MESSAGE);
-        return true;
     }
     
 }

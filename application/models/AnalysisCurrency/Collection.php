@@ -30,11 +30,20 @@ class AnalysisCurrency_Collection extends Core_Domen_CollectionAbstract {
         return Core_Container::getManager('currency')->createCollection();
     }
     
-    
     public function listPercentByCurrencyCode($currencyCode) {
         $list = array();
         foreach ($this->getIterator() as $analysis) {
             if ($analysis->isPercent() && $analysis->getCurrencyCode() == $currencyCode) {
+                $list[] = $analysis;
+            }
+        }
+        return $list;
+    }
+        
+    public function listFigureByCurrencyCode($currencyCode) {
+        $list = array();
+        foreach ($this->getIterator() as $analysis) {
+            if ($analysis->isFigure() && $analysis->getCurrencyCode() == $currencyCode) {
                 $list[] = $analysis;
             }
         }
@@ -48,6 +57,27 @@ class AnalysisCurrency_Collection extends Core_Domen_CollectionAbstract {
             }
         }
         return null;
+    }
+    
+    /**
+     * the longest figure
+     * @return AnalysisCurrency_Model_Figure
+     */
+    public function getFigureByLongest() {
+        $result = null;
+        foreach ($this->getIterator() as $item) {
+            if (!$item->isFigure()) {
+                continue;
+            }
+            if (is_null($result)) {
+                $result = $item;
+                continue;
+            }
+            if ($item->periodForming() > $result->periodForming()) {
+                $result = $item;
+            }
+        }
+        return $result;
     }
     
 }

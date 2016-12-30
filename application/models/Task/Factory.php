@@ -16,7 +16,7 @@ class Task_Factory implements Core_Domen_IFactory {
     
     public function create(array $values = null) {
         if (!array_key_exists('type', $values)) {
-            throw new RuntimeException('Not found "type" of task.');
+            throw new Exception('Not found "type" of task.');
         }
         switch ($values['type']) {
             case Task_Model_Abstract::TYPE_PERCENT:
@@ -26,7 +26,7 @@ class Task_Factory implements Core_Domen_IFactory {
                 return new Task_Model_OverTime($values);
                 break;
             default:
-                throw new RuntimeException('Unknown "type" of task.');
+                throw new Exception('Unknown "type" of task.');
                 break;
         }
     }

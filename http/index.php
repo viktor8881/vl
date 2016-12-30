@@ -2,6 +2,8 @@
 set_time_limit(0);
 define('APPLICATION_ENV', 'development');
 
+define ('PUBLIC_PATH', explode('html', __DIR__)[0].'/');
+
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
@@ -15,7 +17,6 @@ defined('APPLICATION_ENV')
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/../library'),
-    realpath(APPLICATION_PATH . '/../library'),
     get_include_path(),
 )));
 
@@ -27,8 +28,26 @@ $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
+
 $application->bootstrap()
             ->run();
+
+
+//==============================================================================
+if (!function_exists('_')) {
+    function _($text=null) {
+        if(!$text) {
+            return '';
+        }
+        $registry = Zend_Registry::getInstance();
+        if ($registry->offsetExists('Zend_Translate')) {
+            $translate = $registry->get('Zend_Translate');    
+            $str = $translate->translate($text);
+            return $str;
+        }
+        return $text;
+    }
+}
 
 function pr($value) {
     echo '<pre>';

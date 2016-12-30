@@ -13,6 +13,7 @@
  */
 class InvestmentMetal_Collection extends Core_Domen_CollectionAbstract {
     
+    
    public function getSumByBalance($balance) {
         $result = 0;
         foreach ($this->getIterator() as $invest) {
@@ -25,6 +26,10 @@ class InvestmentMetal_Collection extends Core_Domen_CollectionAbstract {
             }
         }
         return $result;
+    }
+    
+    public function listId() {
+        return array_keys($this->_values);
     }
     
 }

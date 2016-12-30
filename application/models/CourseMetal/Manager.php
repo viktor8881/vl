@@ -18,6 +18,12 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         $filters->addFilter(new CourseMetal_Filter_Period(array($dateStart, $dateEnd)));
         return parent::fetchAllByFilter($filters);
     }
+
+    public function fetchAllByDate(Core_Date $date) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseMetal_Filter_Date($date));
+        return parent::fetchAllByFilter($filters);
+    }
     
     public function fetchAllByPeriodByCode(Core_Date $dateStart, Core_Date $dateEnd, $code) {
         $filters = new Core_Domen_Filter_Collection();
@@ -26,8 +32,8 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters);
     }
     
-    public function fetchAllForAnalysisByCode($code) {
-        $result = $this->createCollection();
+    public function listValueForAnalysisByCodeToDate($code, Core_Date $date) {
+        $result = [];
         
         $paginator = Zend_Paginator::factory(20);
         Zend_Paginator::setDefaultItemCountPerPage(20);
@@ -35,14 +41,18 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         $orders = new Core_Domen_Order_Collection();
         $orders->addOrder(new CourseMetal_Order_Id('DESC'));
         
-        $rows = $this->fetchAllByCode($code, $paginator, $orders);
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseMetal_Filter_Code($code))
+                ->addFilter(new CourseMetal_Filter_LsEqDate($date));
+        $rows = parent::fetchAllByFilter($filters, $paginator, $orders);
+
         if ($rows->count() > 1) {
             $sign = null;
             $prev = $rows->first();
             $i=0;
             foreach ($rows as $row) {
                 if (++$i == 1) {
-                    $result->addModel($row);
+                    $result[$row->getDateFormatDMY()] = $row->getValue();
                     continue;
                 }
                 if (is_null($sign)) {
@@ -53,12 +63,12 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
                     }else{
                         break;
                     }
-                    $result->addModel($row);
+                    $result[$row->getDateFormatDMY()] = $row->getValue();
                     $prev = $row;
                     continue;
                 }
                 if ( $this->{$sign}($prev->getValue(), $row->getValue()) ) {
-                    $result->addModel($row);
+                    $result[$row->getDateFormatDMY()] = $row->getValue();
                     $prev = $row;
                     continue;
                 }else{
@@ -75,8 +85,27 @@ class CourseMetal_Manager extends Core_Domen_Manager_Abstract {
         return parent::fetchAllByFilter($filters, $paginator, $orders);
     }
 
+//    public function getSellCodeByDate($code, Core_Date $date) {
+//        $filters = new Core_Domen_Filter_Collection();
+//        $filters->addFilter(new CourseMetal_Filter_Date($date))
+//                ->addFilter(new CourseMetal_Filter_Code($code));
+//        $model = parent::getByFilter($filters);
+//        return ($model)?$model->getSell():0;
+//    }
     
-    public function getByDate(Core_Date $date) {
+    public function  getByCodeDate($code, Core_Date $date) {
+        $filters = new Core_Domen_Filter_Collection();
+        $filters->addFilter(new CourseMetal_Filter_Date($date))
+                ->addFilter(new CourseMetal_Filter_Code($code));
+        return $this->getByFilter($filters);
+    }
+
+    public function getValueCodeByDate($code, Core_Date $date) {
+        $model = $this->getByCodeDate($code, $date);
+        return ($model)?$model->getSell():0;
+    }
+        
+    public function hasByDate(Core_Date $date) {
         $filters = new Core_Domen_Filter_Collection();
         $filters->addFilter(new CourseMetal_Filter_Date($date));
         return parent::getByFilter($filters);

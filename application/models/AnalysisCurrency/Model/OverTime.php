@@ -56,6 +56,9 @@ class AnalysisCurrency_Model_OverTime extends AnalysisCurrency_Model_Abstract {
         return count($this->listData);
     }
 
+    public function getDiffPercent() {
+        return 100 - (abs(reset($this->listData)*100/end($this->listData)));
+    }
     
     // == abstract methods =
     
@@ -72,7 +75,7 @@ class AnalysisCurrency_Model_OverTime extends AnalysisCurrency_Model_Abstract {
     public function setBody($body) {
         $options = json_decode($body, true);
         if (is_null($options)) {
-            throw new RuntimeException('Body task can not be empty');
+            throw new Exception('Body task can not be empty');
         }
         return $this->setOptions($options);
     }

@@ -15,7 +15,7 @@ class AccountController extends Core_Controller_Action
                         $this->getManager('account')->addPay($form->getValueBalance());
                         $this->_redirect('/default/balance');
                     } catch (Exception $exc) {
-                        throw new RuntimeException(_('Ошибка добавления в основной счет.'));
+                        throw new Core_Domen_NotFoundException(_('Ошибка добавления в основной счет.'));
                     }
                 }else{
                     $this->view->warningMessage = 'С момента последнего обращения, значение основного счета было изменено. Для изменения счета повторите попытку.';
@@ -38,7 +38,7 @@ class AccountController extends Core_Controller_Action
                         $this->getManager('account')->subPay($form->getValueBalance());
                         $this->_redirect('/default/balance');
                     } catch (Exception $exc) {
-                        throw new RuntimeException(_('Ошибка списания в основной счет.'));
+                        throw new Core_Domen_NotFoundException(_('Ошибка списания в основной счет.'));
                     }
                 }else{
                     $this->view->warningMessage = 'С момента последнего обращения, значение основного счета было изменено. Для изменения счета повторите попытку.';

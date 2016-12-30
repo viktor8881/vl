@@ -13,8 +13,11 @@ class Core_Date extends DateTime {
 
     const DB = "Y-m-d H:i:s";
     const DB_DATE = 'Y-m-d';
+    const DM = 'd.m';
     const DMY = 'd.m.Y';
     const DMYHI = 'd.m.Y H:i';
+    const G_CHART = 'D M d Y';
+    
 
     protected static $_month = array(1=>'январь','февраль','март','апрель','май','июнь',
                         'июль','август','сентябрь','октябрь','ноябрь','декабрь');
@@ -156,32 +159,32 @@ class Core_Date extends DateTime {
     }
 
     /**
-     * вернуть формат в виде 'd.m.Y'
      * @return 'd.m.Y'
      */
-    public function formatDMY()
-    {
+    public function formatDMY() {
         return $this->format(self::DMY);
     }
 
-    /**
-     * вернуть формат в виде 'd.m.Y H:i'
+    /**     
      * @return 'd.m.Y H:i'
      */
-    public function formatDMYHI()
-    {
+    public function formatDMYHI() {
         return $this->format(self::DMYHI);
     }
 
-    public function formatDb()
-    {
+    public function formatDb() {
         return $this->format(self::DB);
     }
-    
-    public function formatDbDate()
-    {
+        
+    public function formatDbDate() {
         return $this->format(self::DB_DATE);
     }
+        
+    public function formatGDate() {
+        return $this->format(self::G_CHART);
+    }
+    
+    
     
     /**
      *  сравнение дат на равенство
@@ -191,8 +194,7 @@ class Core_Date extends DateTime {
      *      -1 - переданная дата младше (позднее)     <br />
      *      0  = даты равны
      */
-    public function compareDate(DateTime $date)
-    {
+    public function compareDate(DateTime $date) {
         if ($this->format('U') > $date->format('U')){
             return 1;
         }elseif($this->format('U') < $date->format('U')){
@@ -201,8 +203,30 @@ class Core_Date extends DateTime {
             return 0;
         }
     }
+
+    /**
+     * вернуть разницу в секундах между датами
+     * @param Core_Date $object
+     * @return int
+     */
+    public function diffSeconds($object) {
+        $interval = parent::diff($object, true);
+        return (int)$interval->format('%a')*24*60*60 + 
+                $interval->format('%h')*60*60 + 
+                $interval->format('%i')*60 + 
+                $interval->format('%s');
+    }
     
     
+    /**
+     * вернуть разницу в днях между датами
+     * @param Core_Date $object
+     * @return int
+     */
+    public function diffDays($object) {
+        $interval = parent::diff($object, true);
+        return (int)$interval->format('%a');
+    }
     
     
     public static function sort($a, $b)

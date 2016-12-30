@@ -17,7 +17,7 @@ class Core_Helper_FormatPercent extends Zend_View_Helper_Abstract
     {
         $formatSum = $this->view->formatNumber((float)$sum, Core_Container::getManager('setting')->getRoundPercent());
         if ($itemName) {
-            $formatSum.=' %';
+            $formatSum.='%';
         }
         return $formatSum;
     }

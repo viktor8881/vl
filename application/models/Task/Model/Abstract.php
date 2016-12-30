@@ -55,9 +55,13 @@ abstract class Task_Model_Abstract extends Core_Domen_Model_Abstract {
     }
         
     public function getMetals() {
-        $listCode = $this->getMetalsCode();
-        if (is_null($this->_metals) && count($listCode)) {
-            $this->_metals = $this->getManager('metal')->fetchAllByCodes($listCode);
+        if (is_null($this->_metals)){
+            $listCode = $this->getMetalsCode();
+            if (is_null($this->_metals) && count($listCode)) {
+                $this->_metals = $this->getManager('metal')->fetchAllByCodes($listCode);
+            }else{
+                $this->_metals = $this->getManager('metal')->createCollection();
+            }
         }
         return $this->_metals;
     }
@@ -73,9 +77,13 @@ abstract class Task_Model_Abstract extends Core_Domen_Model_Abstract {
     }
 
     public function getCurrencies() {
-        $listCode = $this->getCurrenciesCode();
-        if (is_null($this->_currencies) && count($listCode)) {
-            $this->_currencies = $this->getManager('currency')->fetchAllByCodes($listCode);
+        if (is_null($this->_currencies)){
+            $listCode = $this->getCurrenciesCode();
+            if (count($listCode)) {
+                $this->_currencies = $this->getManager('currency')->fetchAllByCodes($listCode);
+            }else{
+                $this->_currencies = $this->getManager('currency')->createCollection();
+            }
         }
         return $this->_currencies;
     }

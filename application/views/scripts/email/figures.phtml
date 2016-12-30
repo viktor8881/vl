@@ -1,0 +1,13 @@
+<?php
+    foreach ($this->figures as $figure) {
+        if ($figure instanceof AnalysisCurrency_Model_Figure) {
+            echo '<p class="text-strong">'._("Найдена фигура").' '.$this->analysisCurrency_Figure_Name($figure->getFigure()).'</p>';
+            echo '<p>'._('Период образования').' - '.$this->analysisCurrency_Figure_Period($figure).'</p>';
+        }elseif ($figure instanceof AnalysisMetal_Model_Figure) {
+            echo '<p class="text-strong">'._("Найдена фигура").' '.$this->analysisMetal_Figure_Name($figure->getFigure()).'</p>';
+            echo '<p>'._('Период образования').' - '.$this->analysisMetal_Figure_Period($figure).'</p>';
+        }
+        
+        echo '<p>'._('Процент').' - '.$this->formatPercent($figure->getPercentCacheCourses()).'</p>';
+        echo '====================================<br /><br />';
+    }

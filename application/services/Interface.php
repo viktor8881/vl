@@ -13,6 +13,6 @@
  */
 interface Service_Interface {
     
-    public function runByTask(Task_Model_Abstract $task);
+    public function runByTask(Task_Model_Abstract $task, Core_Date $date);
     
 }

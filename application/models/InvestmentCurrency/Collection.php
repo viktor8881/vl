@@ -27,4 +27,5 @@ class InvestmentCurrency_Collection extends Core_Domen_CollectionAbstract {
         return $result;
     }
     
+    
 }

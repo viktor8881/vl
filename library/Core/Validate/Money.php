@@ -10,7 +10,7 @@
  *  валидот денежных величин
  * @author Viktor Ivanov
  */
-class Core_Validate_Money extends Zend_Validate_Abstract {
+class Core_Validate_Money extends Core_Validate_Abstract {
     
     
     private $_zero = null;

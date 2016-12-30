@@ -12,9 +12,9 @@
  */
 class Core_Container {
     
-    protected static $_queue=null;
-    protected static $_managers=array();
-    protected static $_servises=array();
+    protected static $_queue    = [];
+    protected static $_managers = [];
+    protected static $_servises = [];
     
     
     /**
@@ -29,7 +29,7 @@ class Core_Container {
             if (method_exists('Core_Container', $methodName)){                
                 self::$_managers[$managerName] = self::$methodName();
             }else{
-                // попытка загрузить сервис по шаблону
+                // загрузка сервиса по шаблону
                 $valueName = ucfirst($managerName);
                 $classManager    = $valueName.'_Manager';
                 $classRepository = $valueName.'_Repository';
@@ -62,28 +62,13 @@ class Core_Container {
         return self::$_servises[$serviceName];
     }
     
-    /**
-     * create for template
-     * @param type $valueName
-     * @return \managerName
-     */
-//    private static function managerTemplate($valueName)
-//    {
-//        $valueName = ucfirst($valueName);
-//        $managerName    = $valueName.'_Manager';
-//        $repositoryName = $valueName.'_Repository';
-//        $mapperName     = $valueName.'_Mapper';
-//        $factoryName    = $valueName.'_Factory';
-//        $collectionName = $valueName.'_Collection';
-//        return new $managerName(new $repositoryName(new $mapperName(), new $factoryName(), new $collectionName()));
-//    }
     
-    
-    public static function getQueue($name='main') {
-        if (is_null(self::$_queue)) {
-            self::$_queue = new Core_Queue($name);
+    public static function getQueue($name='analysis') {
+        $classQueue = 'Core_Queue_'.ucfirst($name);
+        if (!isset(self::$_queue[$classQueue])){
+            self::$_queue[$classQueue] = new $classQueue($name);
         }
-        return self::$_queue;
+        return self::$_queue[$classQueue];
     }
     
 }

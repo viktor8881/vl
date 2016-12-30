@@ -1,0 +1,22 @@
+<?php
+    $revenue = 0;
+    if ($this->balanceCurrency->count()) {
+        echo '<h4>Баланс валют</h4>';
+        echo '<ul>';
+        foreach ($this->balanceCurrency as $balance) {
+            echo '<li>'.$this->escape($balance->getCurrencyName()).' - '.$this->formatMoney($balance->getBalance()).'</li>';
+            $revenue += $balance->getBalance() * $this->courseCurrency->getCourseByCode($balance->getCurrencyCode());
+        }
+        echo '</ul>';
+    }
+    if ($this->balanceMetal->count()) {
+        echo '<h4>Баланс металов</h4>';
+        echo '<ul>';
+        foreach ($this->balanceMetal as $balance) {
+            echo '<li>'.$this->escape($balance->getMetalName()).' - '.$this->formatMetal($balance->getBalance()).'</li>';
+            $revenue += $balance->getBalance() * $this->courseMetal->getCourseByCode($balance->getMetalCode());
+        }
+        echo '</ul>';
+    }    
+?>
+<p>Cумма основного счета при продаже всех инвестиций = <strong><?= $this->formatMoney( ($this->currentValue+$revenue), true) ?></strong></p>

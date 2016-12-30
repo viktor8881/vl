@@ -48,4 +48,35 @@ class AnalysisMetal_Collection extends Core_Domen_CollectionAbstract {
         return null;
     }
     
+    public function listFigureByMetalCode($code) {
+        $list = array();
+        foreach ($this->getIterator() as $analysis) {
+            if ($analysis->isFigure() && $analysis->getMetalCode() == $code) {
+                $list[] = $analysis;
+            }
+        }
+        return $list;
+    }
+    
+    /**
+     * the longest figure
+     * @return AnalysisMetal_Model_Figure
+     */
+    public function getFigureByLongest() {
+        $result = null;
+        foreach ($this->getIterator() as $item) {
+            if (!$item->isFigure()) {
+                continue;
+            }
+            if (is_null($result)) {
+                $result = $item;
+                continue;
+            }
+            if ($item->periodForming() > $result->periodForming()) {
+                $result = $item;
+            }
+        }
+        return $result;
+    }
+    
 }

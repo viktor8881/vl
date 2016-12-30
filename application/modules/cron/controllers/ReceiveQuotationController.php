@@ -3,14 +3,14 @@
 class Cron_ReceiveQuotationController extends Core_Controller_Action
 {
     
-    const URL_CURRENCY_COURCES = 'http://www.cbr.ru/scripts/XML_daily.asp?date_req=';
-    const URL_METAL_COURCES = 'http://www.cbr.ru/scripts/xml_metall.asp?date_req1=%date%&date_req2=%date%';    
+    const URL_CURRENCY_COURSES = 'http://www.cbr.ru/scripts/XML_daily.asp?date_req=';
+    const URL_METAL_COURSES = 'http://www.cbr.ru/scripts/xml_metall.asp?date_req1=%date%&date_req2=%date%';    
     
     
     public function currencyAction() {
         $date = new Core_Date();
-        if (!$this->getManager('courseCurrency')->getByDate($date)) {
-            $xmlstr = file_get_contents(self::URL_CURRENCY_COURCES.$date->format('d/m/Y'));
+        if (!$this->getManager('courseCurrency')->hasByDate($date)) {
+            $xmlstr = file_get_contents(self::URL_CURRENCY_COURSES.$date->format('d/m/Y'));
             $movies = new SimpleXMLElement($xmlstr);
             if (false !== strstr($xmlstr, $date->format('d.m.Y'))) {
                 $currencies = $this->getManager('currency')->fetchAll();
@@ -25,9 +25,9 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                                         ->setDate($date);
                         $this->getManager('courseCurrency')->insert($course);
                         // tasks to queue
-                        if ($this->getManager('courseMetal')->getByDate($date)) {
-                            $queue = Core_Container::getQueue();
-                            $queue->sendRunAnalysis(true);
+                        if ($this->getManager('courseMetal')->hasByDate($date)) {
+                            $queue = $this->getQueue('analysis');
+                            $queue->sendFillData(true);
                         }
                     }
                 }
@@ -40,8 +40,8 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
     
     public function metalAction() {
         $date = new Core_Date();
-        if (!$this->getManager('courseMetal')->getByDate($date)) {
-            $xmlstr = file_get_contents(str_replace('%date%', $date->format('d/m/Y'), self::URL_METAL_COURCES));
+        if (!$this->getManager('courseMetal')->hasByDate($date)) {
+            $xmlstr = file_get_contents(str_replace('%date%', $date->format('d/m/Y'), self::URL_METAL_COURSES));
             $movies = new SimpleXMLElement($xmlstr);        
             $metals = $this->getManager('metal')->fetchAll();
             foreach ($movies->Record as $item) {
@@ -54,9 +54,9 @@ class Cron_ReceiveQuotationController extends Core_Controller_Action
                                     ->setDate($date);
                     $this->getManager('courseMetal')->insert($course);
                     // tasks to queue
-                    if ($this->getManager('courseCurrency')->getByDate($date)) {
-                        $queue = Core_Container::getQueue();
-                        $queue->sendRunAnalysis(true);
+                    if ($this->getManager('courseCurrency')->hasByDate($date)) {
+                        $queue = $this->getQueue('analysis');
+                        $queue->sendFillData(true);
                     }
                 }
             }

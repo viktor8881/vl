@@ -22,7 +22,7 @@ class View_Helper_Task_DescriptionOptions extends Zend_View_Helper_Abstract
             $xhtml .= $this->htmlList('Металы', $model->getMetals());
             
         }elseif ($model instanceof Task_Model_OverTime) {
-            $xhtml .= 'в течении '.$this->view->PluralDaysGenitive($model->getPeriod(), true).'<br />';
+            $xhtml .= 'в течении '.$this->view->pluralDaysGenitive($model->getPeriod(), true).'<br />';
             $xhtml .= $this->htmlList('Валюты', $model->getCurrencies());            
             $xhtml .= $this->htmlList('Металы', $model->getMetals());
         }

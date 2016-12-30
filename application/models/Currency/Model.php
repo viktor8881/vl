@@ -18,8 +18,6 @@ class Currency_Model extends Core_Domen_Model_Abstract {
     private $name;
     
     
-
-    
     public function getOptions() {
         return array('id'=>$this->getId(),
             'code'=>$this->getCode(),

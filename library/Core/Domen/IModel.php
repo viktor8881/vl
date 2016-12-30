@@ -12,10 +12,11 @@
  */
 interface Core_Domen_IModel {
     
-    public function getId();
     
-    public function setId($id);
+    public function setOptions(array $options = array());
     
     public function getOptions();
+    
+    public function toArray();        
     
 }

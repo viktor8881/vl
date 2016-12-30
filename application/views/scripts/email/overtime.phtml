@@ -1,9 +1,9 @@
 <?php
     if ($this->overtime) {
         if ($this->overtime->isQuotesGrowth()) {
-            echo '<p>Повышение курса в течении '.$this->PluralDaysGenitive($this->overtime->countData(), true).'</p>';
+            echo '<p>Повышение курса в течении '.$this->pluralDaysGenitive($this->overtime->countData(), true).'</p>';
         }else{
-            echo '<p>Понижение курса в течении '.$this->PluralDaysGenitive($this->overtime->countData(), true).'</p>';
+            echo '<p>Понижение курса в течении '.$this->pluralDaysGenitive($this->overtime->countData(), true).'</p>';
         }
         echo '<ul>';
         foreach ($this->overtime->getListData() as $date=>$course) {

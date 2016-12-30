@@ -12,7 +12,6 @@
  */
 abstract class Core_Domen_Model_Abstract implements Core_Domen_IModel {
     
-    
     protected $_aliases = array();
     
     
@@ -22,9 +21,7 @@ abstract class Core_Domen_Model_Abstract implements Core_Domen_IModel {
         }
     }
     
-    
-    public function setOptions(array $options = array())
-    {
+    public function setOptions(array $options = array()) {
         $methods = get_class_methods($this);
         foreach ($options as $key => $value) {
             $method = $this->_getMethodName($key);
@@ -35,39 +32,24 @@ abstract class Core_Domen_Model_Abstract implements Core_Domen_IModel {
         return $this;
     }
     
-    /**
-     * получение сервиса
-     * @param string $managerName
-     * @return Core_Domen_Manager_Abstract
-     */
-    public function getManager($managerName)
-    {
-        return Core_Container::getManager($managerName);
-    }
-    
-    
-    public function toArray()
-    {
+    public function toArray() {
         return $this->getOptions();
     }
-    
-    
-    /**
-     * получить параметры в виде массива
-     * @return array
-     */
-    abstract public function getOptions();
-    
-    /**
-     * получение имени метода
-     * @param type $key
-     * @return type
-     */
-    protected function _getMethodName($key)
-    {
+            
+    protected function _getMethodName($key) {
         $key = (isset($this->_aliases[$key]))?$this->_aliases[$key]:$key;
         return 'set' . ucfirst($key);
     }
+            
+    public function getManager($managerName) {
+        return Core_Container::getManager($managerName);
+    }
+        
+    
+    
+    abstract public function getOptions();
+    abstract public function setId($id);
+    abstract public function getId();
     
 }
 

@@ -16,9 +16,12 @@ class AnalysisMetal_Factory implements Core_Domen_IFactory {
     
     public function create(array $values = null) {
         if (!array_key_exists('type', $values)) {
-            throw new RuntimeException('Not found "type" of analysis.');
+            throw new Exception('Not found "type" of analysis.');
         }
         switch ($values['type']) {
+            case AnalysisMetal_Model_Abstract::TYPE_FIGURE:
+                return new AnalysisMetal_Model_Figure($values);
+                break;
             case AnalysisMetal_Model_Abstract::TYPE_PERCENT:
                 return new AnalysisMetal_Model_Percent($values);
                 break;
@@ -26,7 +29,7 @@ class AnalysisMetal_Factory implements Core_Domen_IFactory {
                 return new AnalysisMetal_Model_OverTime($values);
                 break;
             default:
-                throw new RuntimeException('Unknown "type" of task.');
+                throw new Exception('Unknown "type" of task.');
                 break;
         }
     }

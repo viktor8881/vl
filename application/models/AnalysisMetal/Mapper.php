@@ -17,14 +17,26 @@ class AnalysisMetal_Mapper extends Core_Domen_Mapper_Abstract {
     protected $_primary='id';
     
     public function addOrder(\Core_Domen_Order_Abstract $order, \Zend_Db_Select $select) {
-        
+        switch (get_class($order)) {
+            case 'AnalysisMetal_Order_Id':
+                $select->order('id '.$order->getTypeOrder());
+                break;
+            case 'AnalysisMetal_Order_Created':
+                $select->order('created '.$order->getTypeOrder());
+                break;
+            default:
+                break;
+        }
     }
 
     public function addWhereByFilter(\Core_Domen_Filter_Abstract $filter, \Zend_Db_Select $select) {
         $values = $filter->getValue();
         switch (get_class($filter)) {
-            case 'AnalysisMetal_Filter_Date':
+            case 'AnalysisMetal_Filter_Created':
                 $select->where('created = ?',current($values));
+                break;
+            case 'AnalysisMetal_Filter_Type':
+                $select->where('type IN(?)', $values);
                 break;
             case 'AnalysisMetal_Filter_MetalCode':                
                 $select->where('metal_code IN(?)', $values);

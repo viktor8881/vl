@@ -10,7 +10,7 @@
  *
  * @author Viktor Ivanov
  */
-class Core_Validate_Equal extends Zend_Validate_Abstract {
+class Core_Validate_Equal extends Core_Validate_Abstract {
 
     const NOT_EQUAL = 'notEqual';
     

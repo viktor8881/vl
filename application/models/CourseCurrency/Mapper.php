@@ -32,6 +32,9 @@ class CourseCurrency_Mapper extends Core_Domen_Mapper_Abstract {
             case 'CourseCurrency_Filter_Date':
                 $select->where('date = ?',current($values));
                 break;
+            case 'CourseCurrency_Filter_LsEqDate':
+                $select->where('date <= ?',current($values));
+                break;
             case 'CourseCurrency_Filter_Period':
                 $select->where('date BETWEEN '.$this->getConnect()->quote($values[0]).' AND '.$this->getConnect()->quote($values[1]));
                 break;

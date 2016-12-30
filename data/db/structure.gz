@@ -2,10 +2,10 @@
 -- version 3.5.8.1
 -- http://www.phpmyadmin.net
 --
--- Host: mysql90.1gb.ru
--- Generation Time: Aug 29, 2016 at 03:14 PM
--- Server version: 5.5.35-rel33.0-log
--- PHP Version: 5.3.28
+-- Хост: mysql90.1gb.ru
+-- Время создания: Сен 03 2016 г., 16:52
+-- Версия сервера: 5.5.35-rel33.0-log
+-- Версия PHP: 5.3.28
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
@@ -20,15 +20,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `gb_dev_valuta`
+-- База данных: `gb_dev_valuta`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `account`
+-- Структура таблицы `account`
 --
 
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `balance` decimal(20,6) NOT NULL,
@@ -38,9 +39,10 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `analysis_currency`
+-- Структура таблицы `analysis_currency`
 --
 
+DROP TABLE IF EXISTS `analysis_currency`;
 CREATE TABLE IF NOT EXISTS `analysis_currency` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) unsigned NOT NULL,
@@ -49,14 +51,15 @@ CREATE TABLE IF NOT EXISTS `analysis_currency` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `currency_code` (`currency_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=72 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `analysis_metal`
+-- Структура таблицы `analysis_metal`
 --
 
+DROP TABLE IF EXISTS `analysis_metal`;
 CREATE TABLE IF NOT EXISTS `analysis_metal` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) unsigned NOT NULL,
@@ -65,14 +68,15 @@ CREATE TABLE IF NOT EXISTS `analysis_metal` (
   `created` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `metal_code` (`metal_code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `balance_currency`
+-- Структура таблицы `balance_currency`
 --
 
+DROP TABLE IF EXISTS `balance_currency`;
 CREATE TABLE IF NOT EXISTS `balance_currency` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `currency_code` varchar(10) NOT NULL,
@@ -84,9 +88,10 @@ CREATE TABLE IF NOT EXISTS `balance_currency` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `balance_metal`
+-- Структура таблицы `balance_metal`
 --
 
+DROP TABLE IF EXISTS `balance_metal`;
 CREATE TABLE IF NOT EXISTS `balance_metal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `metal_code` varchar(20) NOT NULL,
@@ -98,9 +103,10 @@ CREATE TABLE IF NOT EXISTS `balance_metal` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course_currency`
+-- Структура таблицы `course_currency`
 --
 
+DROP TABLE IF EXISTS `course_currency`;
 CREATE TABLE IF NOT EXISTS `course_currency` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `code` varchar(10) NOT NULL,
@@ -109,14 +115,15 @@ CREATE TABLE IF NOT EXISTS `course_currency` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_currency` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4534 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26979 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `course_metal`
+-- Структура таблицы `course_metal`
 --
 
+DROP TABLE IF EXISTS `course_metal`;
 CREATE TABLE IF NOT EXISTS `course_metal` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `code` tinyint(1) NOT NULL,
@@ -125,14 +132,15 @@ CREATE TABLE IF NOT EXISTS `course_metal` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `code` (`code`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15401 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15421 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `currency`
+-- Структура таблицы `currency`
 --
 
+DROP TABLE IF EXISTS `currency`;
 CREATE TABLE IF NOT EXISTS `currency` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `code` varchar(20) NOT NULL,
@@ -144,9 +152,10 @@ CREATE TABLE IF NOT EXISTS `currency` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `investment_currency`
+-- Структура таблицы `investment_currency`
 --
 
+DROP TABLE IF EXISTS `investment_currency`;
 CREATE TABLE IF NOT EXISTS `investment_currency` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) NOT NULL,
@@ -156,14 +165,15 @@ CREATE TABLE IF NOT EXISTS `investment_currency` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `currency_code` (`currency_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `investment_metal`
+-- Структура таблицы `investment_metal`
 --
 
+DROP TABLE IF EXISTS `investment_metal`;
 CREATE TABLE IF NOT EXISTS `investment_metal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) NOT NULL,
@@ -173,14 +183,15 @@ CREATE TABLE IF NOT EXISTS `investment_metal` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `metal_code` (`metal_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `message`
+-- Структура таблицы `message`
 --
 
+DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `queue_id` int(10) unsigned NOT NULL,
@@ -197,9 +208,10 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `metal`
+-- Структура таблицы `metal`
 --
 
+DROP TABLE IF EXISTS `metal`;
 CREATE TABLE IF NOT EXISTS `metal` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `code` varchar(20) NOT NULL,
@@ -211,9 +223,10 @@ CREATE TABLE IF NOT EXISTS `metal` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `queue`
+-- Структура таблицы `queue`
 --
 
+DROP TABLE IF EXISTS `queue`;
 CREATE TABLE IF NOT EXISTS `queue` (
   `queue_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `queue_name` varchar(100) NOT NULL,
@@ -224,22 +237,96 @@ CREATE TABLE IF NOT EXISTS `queue` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `task`
+-- Структура таблицы `task`
 --
 
+DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) NOT NULL,
+  `mode` tinyint(1) NOT NULL DEFAULT '3',
   `body` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+
+
+-- --------------------------------------------------------
 
 --
--- Constraints for dumped tables
+-- Структура таблицы `cache_course_currency`
+--
+
+DROP TABLE IF EXISTS `cache_course_currency`;
+CREATE TABLE IF NOT EXISTS `cache_course_currency` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `value_last` decimal(20,6) NOT NULL,
+  `type_trend` tinyint(1) NOT NULL COMMENT '1-повыш. 0-пониж.',
+  `data_value` text NOT NULL,
+  `date_last` date NOT NULL,
+  `percent` decimal(4,2) NOT NULL,
+  `operation` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `cache_course_metal`
+--
+
+DROP TABLE IF EXISTS `cache_course_metal`;
+CREATE TABLE IF NOT EXISTS `cache_course_metal` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `value_last` decimal(20,6) NOT NULL,
+  `type_trend` tinyint(1) NOT NULL COMMENT '1-повыш. 0-пониж.',
+  `data_value` text NOT NULL,
+  `date_last` date NOT NULL,
+  `percent` decimal(4,2) NOT NULL,
+  `operation` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+--
+-- Структура таблицы `figure_currency`
+--
+
+DROP TABLE IF EXISTS `figure_currency`;
+CREATE TABLE IF NOT EXISTS `figure_currency` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `investment_id` int(11) DEFAULT NULL,
+  `figure` tinyint(1) NOT NULL,
+  `cache_courses_list_id` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `figure_metal`
+--
+
+DROP TABLE IF EXISTS `figure_metal`;
+CREATE TABLE IF NOT EXISTS `figure_metal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(20) NOT NULL,
+  `investment_id` int(11) DEFAULT NULL,
+  `figure` tinyint(1) NOT NULL,
+  `cache_courses_list_id` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `message`
+-- Ограничения внешнего ключа таблицы `message`
 --
 ALTER TABLE `message`
   ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`queue_id`) REFERENCES `queue` (`queue_id`) ON DELETE CASCADE ON UPDATE CASCADE;

@@ -4,6 +4,7 @@ vendor/
 
 # IDE
 /nbproject/
+/.idea/
 
 # Binary gettext files
 *.mo

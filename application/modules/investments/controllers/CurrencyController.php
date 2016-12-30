@@ -4,12 +4,20 @@ class Investments_CurrencyController extends Core_Controller_Action
 {
 
     public function listAction() {
+        $filters = new Core_Domen_Filter_Collection();
+        if ($this->hasParam('id')) {
+            $currency = $this->getManager('currency')->get((int)$this->getParam('id'));
+            if (!$currency) {
+                throw new Core_Domen_NotFoundException('Валюты нет в системе!');
+            }
+            $filters->addFilter(new InvestmentCurrency_Filter_Code($currency->getCode()));
+        }
         $orders = new Core_Domen_Order_Collection();
         $orders->addOrder(new InvestmentMetal_Order_Id('DESC'));
         $page = $this->getParam('page', 1);
-        $paginator = $this->_helper->paginator($this->getManager('investmentCurrency')->count(), $page);
+        $paginator = $this->_helper->paginator($this->getManager('investmentCurrency')->countByFilter($filters), $page);
         $this->view->paginator = $paginator;
-        $this->view->investments = $this->getManager('investmentCurrency')->fetchAll($paginator, $orders);
+        $this->view->investments = $this->getManager('investmentCurrency')->fetchAllByFilter($filters, $paginator, $orders);
     }
     
     public function addAction() {
@@ -21,10 +29,10 @@ class Investments_CurrencyController extends Core_Controller_Action
                 $invest = $this->getManager('investmentCurrency')->createModel($form->getValuesForModel());
                 $invest->setType(InvestmentCurrency_Model::TYPE_BUY);
                 try {
-                    $this->getManager('investmentCurrency')->insertPay($invest);
+                    $this->getManager('investmentCurrency')->insertBuy($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -43,7 +51,7 @@ class Investments_CurrencyController extends Core_Controller_Action
                     $this->getManager('investmentCurrency')->insertSell($invest);
                     $this->_redirect('/investments/currency/list');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка добавления инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка добавления инвестиции.'));
                 }
             }
         }
@@ -54,7 +62,7 @@ class Investments_CurrencyController extends Core_Controller_Action
         $this->view->pageHeader('Редактировать');
         $invest = $this->getManager('investmentCurrency')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException(_('Инвестиция не найдена.'));
+            throw new Core_Domen_NotFoundException(_('Инвестиция не найдена.'));
         }
         $form = new Form_Currency();
         $form->setCurrency($this->getManager('currency')->fetchAllToArray());
@@ -73,7 +81,7 @@ class Investments_CurrencyController extends Core_Controller_Action
                     }
                     $this->_redirect('/investments/');
                 } catch (Exception $exc) {
-                    throw new RuntimeException(_('Ошибка редактирования инвестиции.'));
+                    throw new Core_Domen_NotFoundException(_('Ошибка редактирования инвестиции.'));
                 }
             }
         }else{
@@ -85,14 +93,13 @@ class Investments_CurrencyController extends Core_Controller_Action
     public function deleteAction() {
         $invest = $this->getManager('investmentCurrency')->get((int)$this->getParam('id'));
         if (!$invest) {
-            throw new RuntimeException(_('Инвестиция не найдена.'));
+            throw new Core_Domen_NotFoundException(_('Инвестиция не найдена.'));
         }
         try {
             $this->getManager('investmentCurrency')->delete($invest);
-            $this->getManager('balanceCurrency')->updateBalanceByInvest($invest);
             $this->_redirect('/investments/');
         } catch (Exception $exc) {
-            throw new RuntimeException(_('Ошибка удаления инвестиции.'));
+            throw new Core_Domen_NotFoundException(_('Ошибка удаления инвестиции.'));
         }
     }
 

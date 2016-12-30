@@ -27,7 +27,6 @@ class CourseCurrency_Model extends Core_Domen_Model_Abstract {
             'value'=>$this->getValue(),
             'date'=>$this->getDateToDb());
     }
-
     
     public function getId() {
         return $this->id;
@@ -92,6 +91,10 @@ class CourseCurrency_Model extends Core_Domen_Model_Abstract {
     
     public function getDateFormatDMY() {
         return $this->getDate()->format(Core_Date::DMY);
+    }
+    
+    public function getDateFormatDM() {
+        return $this->getDate()->format(Core_Date::DM);
     }
 
 }

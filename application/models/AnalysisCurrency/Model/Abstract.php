@@ -13,8 +13,9 @@
  */
 abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract {
     
-    const TYPE_PERCENT = 1;
-    const TYPE_OVER_TIME = 2;
+    const TYPE_PERCENT  = 1;
+    const TYPE_OVER_TIME= 2;
+    const TYPE_FIGURE   = 3;
     
     private $id;
     private $currencyCode;
@@ -57,17 +58,28 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
         return $this->getType()==self::TYPE_OVER_TIME;
     }
     
+    public function isFigure() {
+        return $this->getType()==self::TYPE_FIGURE;
+    }
+    
     public function getCurrencyCode() {
         return $this->currencyCode;
     }
     
+    /**
+     * @return Currency_Model
+     */
     public function getCurrency() {
         if (is_null($this->_currency)) {
             $this->_currency = $this->getManager('currency')->getByCode($this->getCurrencyCode());
         }
         return $this->_currency;
     }
-
+    
+    public function getCurrencyName() {
+        return $this->getCurrency()->getName();
+    }
+    
     public function getCreated() {
         return $this->created;
     }
@@ -100,7 +112,5 @@ abstract class AnalysisCurrency_Model_Abstract extends Core_Domen_Model_Abstract
     abstract public function getBody();
     
     abstract public function setBody($body);
-
-
 
 }

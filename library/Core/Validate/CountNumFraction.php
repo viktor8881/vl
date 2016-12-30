@@ -3,7 +3,7 @@
  *  сколько знаков допустимо в дробной части
  */
 
-class Core_Validate_CountNumFraction extends Zend_Validate_Abstract
+class Core_Validate_CountNumFraction extends Core_Validate_Abstract
 {
 
     const INVALID = 'countInvalid';

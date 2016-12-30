@@ -1,0 +1,41 @@
+<h3>Инвестиции в металы</h3>
+<a href="/investments/metal/sub" class="btn btn-default pull-right" role="button"><?=$this->iconSub('sell')?> sell</a>
+<a href="/investments/metal/add" class="btn btn-default pull-right" role="button"><?=$this->iconAdd('pay')?> pay</a>
+
+<?php
+    echo 
+        '<table class="table table-bordered">
+        <tr>
+            <th>'._('Операция').'</th>
+            <th>'._('Дата').'</th>
+            <th>'._('Кол-во').'</th>
+            <th>'._('Метал').'</th>
+            <th>'._('Курс покупки').'</th>
+            <th>'._('Сумма инвестиций (руб.)').'</th>
+            <th>'._('Фигура').'</th>
+            <th>'._('Действия').'</th>
+        </tr>
+        <tbody>';
+        if ($this->investments->count()) {
+            foreach ($this->investments as $invest) {
+//                pr($this->figures);
+                $class = ($invest->isBuy())?'success':'warning';
+                echo '<tr class="'.$class.'">';
+                    echo '<td>'.$this->investmentMetal_TypeName($invest->getType()).'</td>';
+                    echo '<td>'.$this->escape($invest->getDateFormatDMY()).'</td>';
+                    echo '<td>'.$this->escape($invest->getCount()).'</td>';
+                    echo '<td>'.$this->escape($invest->getMetalName()).'</td>';
+                    echo '<td>'.$this->escape($invest->getCourse()).'</td>';
+                    echo '<td>'.$this->escape($invest->getSum()).'</td>';
+//                    var_dump($this->figures->getByInvestId($invest->getId()));
+                    echo '<td>'.$this->figureMetal_FigureName($this->figures->getFigureByInvestId($invest->getId())).' ('.$this->figures->getPercentByInvestId($invest->getId()).')</td>';
+                    echo '<td><a href="/investments/metal/edit/id/'.$invest->getId().'">'.$this->iconEdit('edit').'</a> '
+                            . '<a href="/investments/metal/delete/id/'.$invest->getId().'">'.$this->iconDelete('del').'</a></td>';
+                echo '</tr>';
+            }
+        }else{
+            echo '<tr><td colspan="7"><p class="text-center text-muted">'._('Нет инвестиций').'</p></td></tr>';
+        }
+        echo '</tbody></table>';
+        echo $this->pagination($this->paginator);
+?>

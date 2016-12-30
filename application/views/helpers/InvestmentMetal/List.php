@@ -30,15 +30,16 @@ class View_Helper_InvestmentMetal_List extends Zend_View_Helper_Abstract
         <tbody>';
         if ($coll->count()) {
             foreach ($coll as $invest) {
-                $html .= '<tr>';
+                $class = ($invest->isBuy())?'success':'warning';
+                $html .= '<tr class="'.$class.'">';
                     $html .= '<td>'.$this->view->investmentMetal_TypeName($invest->getType()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getDateFormatDMY()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getCount()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getMetalName()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getCourse()).'</td>';
                     $html .= '<td>'.$this->view->escape($invest->getSum()).'</td>';
-                    $html .= '<td><a href="/investments/metal/edit/id/'.$invest->getId().'">'.$this->view->iconEdit('edit')._('ред.').'</a> '
-                            . '<a href="/investments/metal/delete/id/'.$invest->getId().'">'.$this->view->iconDelete('del')._('уд.').'</a></td>';
+                    $html .= '<td><a href="/investments/metal/edit/id/'.$invest->getId().'">'.$this->view->iconEdit('edit').'</a> '
+                            . '<a href="/investments/metal/delete/id/'.$invest->getId().'">'.$this->view->iconDelete('del').'</a></td>';
                 $html .= '</tr>';
             }
         }else{
